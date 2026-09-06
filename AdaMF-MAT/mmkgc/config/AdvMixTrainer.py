@@ -29,7 +29,9 @@ class AdvMixTrainer(object):
                  checkpoint_dir=None,
                  generator=None,
                  lrg=None,
-                 mu=None):
+                 mu=None,
+                 resume=None,
+                 resume_out=None):
 
         self.work_threads = 8
         self.train_times = train_times
@@ -58,6 +60,9 @@ class AdvMixTrainer(object):
         self.device = get_device(use_gpu)
         self.generator.to(self.device)
         self.mu = mu
+        self.resume = resume
+        self.resume_out = resume_out
+        self.epochs_done = 0
 
     def train_one_step(self, data):
         # training D
@@ -150,6 +155,15 @@ class AdvMixTrainer(object):
             )
         else:
             raise NotImplementedError
+        if self.resume and os.path.exists(self.resume):
+            state = torch.load(self.resume, map_location=self.device, weights_only=False)
+            self.model.model.load_state_dict(state["model"])
+            self.generator.load_state_dict(state["generator"])
+            self.optimizer.load_state_dict(state["optimizer"])
+            self.optimizer_g.load_state_dict(state["optimizer_g"])
+            self.epochs_done = state["epochs_done"]
+            torch.set_rng_state(state["torch_rng"].cpu())   # ByteTensor, must stay on CPU
+            print("Resumed from %s at epoch %d" % (self.resume, self.epochs_done))
         print("Finish initializing...")
 
         training_range = tqdm(range(self.train_times))
@@ -162,9 +176,26 @@ class AdvMixTrainer(object):
                 res_g += loss_g
             training_range.set_description("Epoch %d | D loss: %f, G loss %f" % (epoch, res, res_g))
 
+            self.epochs_done += 1
+
             if self.save_steps and self.checkpoint_dir and (epoch + 1) % self.save_steps == 0:
                 print("Epoch %d has finished, saving..." % (epoch))
                 self.model.save_checkpoint(os.path.join(self.checkpoint_dir + "-" + str(epoch) + ".ckpt"))
+
+        if self.resume_out:
+            torch.save({
+                "model": self.model.model.state_dict(),
+                "generator": self.generator.state_dict(),
+                "optimizer": self.optimizer.state_dict(),
+                "optimizer_g": self.optimizer_g.state_dict(),
+                "epochs_done": self.epochs_done,
+                # The C++ sampler's per-thread RNG state lives in Base.so and has no
+                # accessor, so it restarts each session. Negatives are i.i.d. draws from
+                # a stationary distribution, so that costs nothing systematic; losing the
+                # Adam moments would, which is why they are saved here.
+                "torch_rng": torch.get_rng_state(),
+            }, self.resume_out)
+            print("Saved resume state (%d epochs done) to %s" % (self.epochs_done, self.resume_out))
 
     def set_model(self, model):
         self.model = model

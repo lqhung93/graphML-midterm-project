@@ -65,13 +65,22 @@ if __name__ == "__main__":
         opt_method='Adam',
         generator=adv_generator,
         lrg=args.lrg,
-        mu=args.mu
+        mu=args.mu,
+        resume=args.resume,
+        resume_out=args.resume_out
     )
 
     trainer.run()
     kge_score.save_checkpoint(args.save)
 
-    # test the model
-    kge_score.load_checkpoint(args.save)
-    tester = Tester(model=kge_score, data_loader=test_dataloader, use_gpu=True)
-    tester.run_link_prediction(type_constrain=False)
+    # With chunked training the run is only finished once the full budget is spent;
+    # evaluating a partial run wastes ~10 min on DB15K and reports a meaningless number.
+    total = args.total_epoch or args.epoch
+    if trainer.epochs_done < total:
+        print("Session done: %d/%d epochs. Skipping evaluation until the budget is spent."
+              % (trainer.epochs_done, total))
+    else:
+        # test the model
+        kge_score.load_checkpoint(args.save)
+        tester = Tester(model=kge_score, data_loader=test_dataloader, use_gpu=True)
+        tester.run_link_prediction(type_constrain=False)

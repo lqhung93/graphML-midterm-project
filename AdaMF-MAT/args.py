@@ -22,6 +22,11 @@ def get_args():
     arg.add_argument('-lamda', type=float, default=0)
     arg.add_argument('-mu', type=float, required=True)
     arg.add_argument('-adv_num', type=int, default=1)
+    # chunked training: run -epoch epochs this session, out of -total_epoch overall.
+    # -resume loads model+generator+both optimizers so a split run matches a continuous one.
+    arg.add_argument('-total_epoch', type=int, default=None)
+    arg.add_argument('-resume', type=str, default=None)
+    arg.add_argument('-resume_out', type=str, default=None)
     return arg.parse_args()
 
 
