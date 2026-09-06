@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# dữ liệu và artefact huấn luyện (tải hoặc sinh lại theo README)
+AdaMF-MAT/benchmarks/
+AdaMF-MAT/embeddings/
+AdaMF-MAT/checkpoint/
+AdaMF-MAT/mmkgc/release/
+*.pt
+MKG-FENN/dataset/
+MKG-FENN/result/*.csv
+wandb/
+
+# file sinh khi biên dịch LaTeX
+report/*.aux
+report/*.log
+report/*.out
+report/main.pdf
