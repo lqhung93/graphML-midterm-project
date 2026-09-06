@@ -20,7 +20,7 @@ class BaseGenerator(nn.Module):
 
 
     def forward(self, batch_ent_emb):
-        random_noise = torch.randn((batch_ent_emb.shape[0], self.noise_dim)).cuda()
+        random_noise = torch.randn((batch_ent_emb.shape[0], self.noise_dim), device=batch_ent_emb.device)
         batch_data = torch.cat((random_noise, batch_ent_emb), dim=-1)
         out = self.generator_model(batch_data)
         return out
@@ -43,7 +43,7 @@ class RandomGenerator(nn.Module):
 
 
     def forward(self, batch_ent_emb):
-        random_noise = torch.randn((batch_ent_emb.shape[0], self.noise_dim)).cuda()
+        random_noise = torch.randn((batch_ent_emb.shape[0], self.noise_dim), device=batch_ent_emb.device)
         out = self.generator_model(random_noise)
         return out
 

@@ -13,6 +13,7 @@ import json
 import numpy as np
 import copy
 from tqdm import tqdm
+from ..device import get_device
 
 
 class AdvMixTrainer(object):
@@ -54,7 +55,8 @@ class AdvMixTrainer(object):
         self.optimizer_g = None
         self.generator = generator
         self.batch_size = self.model.batch_size
-        self.generator.cuda()
+        self.device = get_device(use_gpu)
+        self.generator.to(self.device)
         self.mu = mu
 
     def train_one_step(self, data):
@@ -127,7 +129,7 @@ class AdvMixTrainer(object):
 
     def run(self):
         if self.use_gpu:
-            self.model.cuda()
+            self.model.to(self.device)
 
         if self.optimizer is not None:
             pass
@@ -169,7 +171,7 @@ class AdvMixTrainer(object):
 
     def to_var(self, x, use_gpu):
         if use_gpu:
-            return Variable(torch.from_numpy(x).cuda())
+            return Variable(torch.from_numpy(x).to(self.device))
         else:
             return Variable(torch.from_numpy(x))
 

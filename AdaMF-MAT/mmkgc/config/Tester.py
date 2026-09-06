@@ -14,6 +14,7 @@ import numpy as np
 from sklearn.metrics import roc_auc_score
 import copy
 from tqdm import tqdm
+from ..device import get_device
 
 class Tester(object):
 
@@ -39,12 +40,13 @@ class Tester(object):
         self.model = model
         self.data_loader = data_loader
         self.use_gpu = use_gpu
+        self.device = get_device(use_gpu)
         self.other_model = other_model
         self.norm = norm
         self.mu = mu
 
         if self.use_gpu:
-            self.model.cuda()
+            self.model.to(self.device)
 
     def set_model(self, model):
         self.model = model
@@ -54,12 +56,13 @@ class Tester(object):
 
     def set_use_gpu(self, use_gpu):
         self.use_gpu = use_gpu
+        self.device = get_device(use_gpu)
         if self.use_gpu and self.model != None:
-            self.model.cuda()
+            self.model.to(self.device)
 
     def to_var(self, x, use_gpu):
         if use_gpu:
-            return Variable(torch.from_numpy(x).cuda())
+            return Variable(torch.from_numpy(x).to(self.device))
         else:
             return Variable(torch.from_numpy(x))
 
