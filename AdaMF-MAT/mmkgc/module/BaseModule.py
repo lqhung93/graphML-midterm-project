@@ -14,7 +14,10 @@ class BaseModule(nn.Module):
 		self.pi_const.requires_grad = False
 
 	def load_checkpoint(self, path):
-		self.load_state_dict(torch.load(os.path.join(path)))
+		# Checkpoints are written on GPU; without map_location they refuse to load on a
+		# CPU-only host. Land them on whatever device this module already lives on.
+		device = next(self.parameters()).device
+		self.load_state_dict(torch.load(os.path.join(path), map_location=device))
 		self.eval()
 
 	def save_checkpoint(self, path):
