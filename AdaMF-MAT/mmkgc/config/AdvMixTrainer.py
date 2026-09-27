@@ -31,7 +31,8 @@ class AdvMixTrainer(object):
                  lrg=None,
                  mu=None,
                  resume=None,
-                 resume_out=None):
+                 resume_out=None,
+                 use_wandb=False):
 
         self.work_threads = 8
         self.train_times = train_times
@@ -63,6 +64,7 @@ class AdvMixTrainer(object):
         self.resume = resume
         self.resume_out = resume_out
         self.epochs_done = 0
+        self.use_wandb = use_wandb
 
     def train_one_step(self, data):
         # training D
@@ -175,6 +177,10 @@ class AdvMixTrainer(object):
                 res += loss
                 res_g += loss_g
             training_range.set_description("Epoch %d | D loss: %f, G loss %f" % (epoch, res, res_g))
+
+            if self.use_wandb:
+                import wandb
+                wandb.log({"epoch": self.epochs_done, "d_loss": res, "g_loss": res_g})
 
             self.epochs_done += 1
 

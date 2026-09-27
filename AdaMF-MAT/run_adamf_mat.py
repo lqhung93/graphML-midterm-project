@@ -13,6 +13,15 @@ from args import get_args
 if __name__ == "__main__":
     args = get_args()
     print(args)
+    # optional Weights & Biases logging (off unless -use_wandb 1)
+    use_wandb = bool(args.use_wandb)
+    if use_wandb:
+        import wandb
+        wandb.init(
+            project=args.wandb_project,
+            name=(args.wandb_name or ("%s_mu%s_seed%d" % (args.dataset, args.mu, args.seed))),
+            config=vars(args),
+        )
     # set the seed
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed_all(args.seed)
@@ -67,7 +76,8 @@ if __name__ == "__main__":
         lrg=args.lrg,
         mu=args.mu,
         resume=args.resume,
-        resume_out=args.resume_out
+        resume_out=args.resume_out,
+        use_wandb=use_wandb
     )
 
     trainer.run()
@@ -83,4 +93,9 @@ if __name__ == "__main__":
         # test the model
         kge_score.load_checkpoint(args.save)
         tester = Tester(model=kge_score, data_loader=test_dataloader, use_gpu=True)
-        tester.run_link_prediction(type_constrain=False)
+        mrr, mr, hit10, hit3, hit1 = tester.run_link_prediction(type_constrain=False)
+        if use_wandb:
+            metrics = {"MRR": mrr, "MR": mr, "hit@10": hit10, "hit@3": hit3, "hit@1": hit1}
+            wandb.log(metrics)
+            wandb.summary.update(metrics)
+            wandb.finish()

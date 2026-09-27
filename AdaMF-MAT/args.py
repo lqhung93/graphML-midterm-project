@@ -27,6 +27,10 @@ def get_args():
     arg.add_argument('-total_epoch', type=int, default=None)
     arg.add_argument('-resume', type=str, default=None)
     arg.add_argument('-resume_out', type=str, default=None)
+    # Weights & Biases (optional, off by default so existing runs are unchanged)
+    arg.add_argument('-use_wandb', type=int, default=0)
+    arg.add_argument('-wandb_project', type=str, default='gml-adamf-mat')
+    arg.add_argument('-wandb_name', type=str, default='')
     return arg.parse_args()
 
 
