@@ -42,7 +42,15 @@ parser.add_argument("--n_drug",type=int,default=572)
 parser.add_argument("--seed",type=int,default=0)
 parser.add_argument("--dropout",type=float,default=0.3)
 parser.add_argument("--embedding_num",type=int,choices=[128,64,256,32],default=128)
+# Weights & Biases (optional, off by default so existing runs are unchanged)
+parser.add_argument("--use_wandb",type=int,default=0)
+parser.add_argument("--wandb_project",type=str,default="gml-mkg-fenn")
+parser.add_argument("--wandb_name",type=str,default="")
 args = parser.parse_args()
+
+_METRIC_NAMES = ["accuracy","aupr_micro","aupr_macro","auc_micro","auc_macro",
+                 "f1_micro","f1_macro","precision_micro","precision_macro",
+                 "recall_micro","recall_macro"]
 
 
 def setup_seed():
@@ -221,6 +229,11 @@ def train(train_x,train_y,test_x,test_y,net):
 
 
 def main():
+    if args.use_wandb:
+        import wandb
+        wandb.init(project=args.wandb_project,
+                   name=(args.wandb_name or ("task1_seed%d" % args.seed)),
+                   config=vars(args))
     conn = sqlite3.connect("../dataset/event.db")
     df_drug = pd.read_sql('select * from drug;', conn)
     extraction = pd.read_sql('select * from extraction;', conn)
@@ -277,10 +290,22 @@ def main():
         y_true = np.hstack((y_true, test_y))
         print('fold %d, test_loss %f, test_acc %f, train_loss %f, train_acc %f' % (
             i, test_loss, test_acc, train_loss, train_acc))
+        if args.use_wandb:
+            # NB: theo code gốc, biến 'test_acc' trả về từ train() thực ra là best macro-F1 của fold
+            wandb.log({"fold": i, "fold_best_f1_macro": test_acc,
+                       "fold_train_acc": train_acc, "fold_test_loss": test_loss,
+                       "fold_train_loss": train_loss})
     result_all, result_eve = evaluate(y_pred, y_score, y_true, args.event_num)
     save_result("../result/", "all", result_all)
     save_result("../result/", "each", result_eve)
     print('%d-fold validation: avg train acc  %f, avg test acc %f' % (i, train_sum / 5, test_sum / 5))
+    if args.use_wandb:
+        final = {_METRIC_NAMES[k]: float(result_all[k][0]) for k in range(len(_METRIC_NAMES))}
+        final["avg_train_acc"] = train_sum / 5
+        final["avg_test_acc"] = test_sum / 5
+        wandb.log(final)
+        wandb.summary.update(final)
+        wandb.finish()
     return
 
 if __name__ == '__main__':
