@@ -30,7 +30,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='GNN based on the whole datas')
-parser.add_argument("--epoches",type=int,choices=[100,500,1000,2000],default=120)
+parser.add_argument("--epoches",type=int,default=120)
 parser.add_argument("--batch_size",type=int,choices=[2048,1024,512,256,128],default=1024)
 parser.add_argument("--weigh_decay",type=float,choices=[1e-1,1e-2,1e-3,1e-4,1e-8],default=1e-8)
 parser.add_argument("--lr",type=float,choices=[1e-3,1e-4,1e-5,4*1e-3],default=1*1e-2) #4*1e-3
