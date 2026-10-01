@@ -33,9 +33,10 @@ class GNN1(nn.Module):
         kg,dict1,args,drug_name = self.kg,self.dict1,self.args,self.drug_name
         adj_tail,adj_relation=self.arrge(kg,dict1,args.neighbor_sample_size)
 
-        drug_name=torch.LongTensor(drug_name)
-        adj_tail=torch.LongTensor(adj_tail)
-        adj_relation=torch.LongTensor(adj_relation)
+        dev = self.drug_embed.weight.device
+        drug_name=torch.LongTensor(drug_name).to(dev)
+        adj_tail=torch.LongTensor(adj_tail).to(dev)
+        adj_relation=torch.LongTensor(adj_relation).to(dev)
 
 
         drug_embedding = self.drug_embed(drug_name)
@@ -100,9 +101,10 @@ class GNN2(nn.Module):
         gnn1_embedding, idx = arguments
         adj_tail,adj_relation=self.arrge(kg,dict1,args.neighbor_sample_size)
 
-        drug_name=torch.LongTensor(drug_name)
-        adj_tail=torch.LongTensor(adj_tail)
-        adj_relation=torch.LongTensor(adj_relation)
+        dev = self.drug_embed.weight.device
+        drug_name=torch.LongTensor(drug_name).to(dev)
+        adj_tail=torch.LongTensor(adj_tail).to(dev)
+        adj_relation=torch.LongTensor(adj_relation).to(dev)
 
         drug_embedding = self.drug_embed(drug_name)
         rela_embedding = self.rela_embed(adj_relation)
@@ -165,9 +167,10 @@ class GNN3(nn.Module):
         gnn2_embedding,gnn1_embedding,idx=arguments
         adj_tail,adj_relation=self.arrge(kg,dict1,args.neighbor_sample_size)
 
-        drug_name=torch.LongTensor(drug_name)
-        adj_tail=torch.LongTensor(adj_tail)
-        adj_relation=torch.LongTensor(adj_relation)
+        dev = self.drug_embed.weight.device
+        drug_name=torch.LongTensor(drug_name).to(dev)
+        adj_tail=torch.LongTensor(adj_tail).to(dev)
+        adj_relation=torch.LongTensor(adj_relation).to(dev)
 
 
         drug_embedding = self.drug_embed(drug_name)
@@ -241,9 +244,10 @@ class GNN4(nn.Module):
 
         adj_tail,adj_relation=self.arrge(kg,dict1,args.neighbor_sample_size)
 
-        drug_name=torch.LongTensor(drug_name)
-        adj_tail=torch.LongTensor(adj_tail)
-        adj_relation=torch.LongTensor(adj_relation)
+        dev = self.drug_embed.weight.device
+        drug_name=torch.LongTensor(drug_name).to(dev)
+        adj_tail=torch.LongTensor(adj_tail).to(dev)
+        adj_relation=torch.LongTensor(adj_relation).to(dev)
 
 
         drug_embedding = self.drug_embed(drug_name)
@@ -300,7 +304,7 @@ class FusionLayer(nn.Module):
     def forward(self, arguments):
         gnn4_embedding, gnn3_embedding, gnn2_embedding, gnn1_embedding, idx = arguments
 
-        idx = idx.numpy().tolist()
+        idx = idx.cpu().numpy().tolist()
         drugA = []
         drugB = []
         for i in idx:

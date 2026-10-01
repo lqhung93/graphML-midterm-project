@@ -52,6 +52,9 @@ _METRIC_NAMES = ["accuracy","aupr_micro","aupr_macro","auc_micro","auc_macro",
                  "f1_micro","f1_macro","precision_micro","precision_macro",
                  "recall_micro","recall_macro"]
 
+# GPU neu co (code goc chi CPU; them .to(_DEVICE) de chay GPU nhanh hon ~nhieu)
+_DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 def setup_seed():
     random.seed(args.seed)
@@ -199,27 +202,29 @@ def train(train_x,train_y,test_x,test_y,net):
         for x, y in train_iter:
             opti.zero_grad()
             train_acc = 0
-            train_label = torch.LongTensor(y)
-            x = torch.LongTensor(x)
+            train_label = torch.LongTensor(y).to(_DEVICE)
+            x = torch.LongTensor(x).to(_DEVICE)
             output = net(x)
             l = loss_function(output, train_label)
             l.backward()
             opti.step()
             train_l += l.item()
-            train_acc = accuracy_score(torch.argmax(output,dim=1), train_label)
+            train_acc = accuracy_score(torch.argmax(output,dim=1).cpu(), train_label.cpu())
             train_a.append(train_acc)
         net.eval()
         with torch.no_grad():
-            test_x = torch.LongTensor(test_x)
-            test_output = F.softmax(net(test_x),dim=1)
-            test_label = torch.LongTensor(test_y)
+            test_x_t = torch.LongTensor(test_x).to(_DEVICE)
+            test_output = F.softmax(net(test_x_t),dim=1)
+            test_label = torch.LongTensor(test_y).to(_DEVICE)
             loss = loss_function(test_output, test_label)
             test_loss = loss.item()
-            test_score = f1_score(torch.argmax(test_output,dim=1), test_label, average='macro')
-            test_acc = accuracy_score(torch.argmax(test_output,dim=1), test_label)
+            _pred = torch.argmax(test_output,dim=1).cpu()
+            _yl = test_label.cpu()
+            test_score = f1_score(_pred, _yl, average='macro')
+            test_acc = accuracy_score(_pred, _yl)
             test_list.append(test_score)
             if test_score==max(test_list):
-                max_test_output = test_output
+                max_test_output = test_output.cpu()
             print("test_acc:", test_acc, "train_acc:", sum(train_a) / len(train_a),"test_score:", test_score)
         print('epoch [%d] train_loss: %.6f testing_loss: %.6f ' % (
                 epoch + 1, train_l / len(train_y), test_loss / len(test_y)))
@@ -277,6 +282,7 @@ def main():
                             GNN3(dataset, tail_len, relation_len, args, dict1, drug_name),
                             GNN4(dataset, tail_len, relation_len, args, dict1, drug_name),
                             FusionLayer(args))
+        net = net.to(_DEVICE)
         train_x = x_datasets[train_idx]
         train_y = new_label[train_idx]
         test_x = x_datasets[test_idx]
