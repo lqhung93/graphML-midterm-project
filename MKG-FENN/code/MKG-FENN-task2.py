@@ -245,7 +245,7 @@ def find_dif(raw_matrix):
     return sim_matrix4
 
 def Jaccard(matrix):
-    matrix = np.mat(matrix)
+    matrix = np.asmatrix(matrix)  # np.mat bị xóa ở NumPy 2.0
     numerator = matrix * matrix.T
     denominator = np.ones(np.shape(matrix)) * matrix.T + matrix * np.ones(np.shape(matrix.T)) - matrix * matrix.T
     return numerator / denominator
