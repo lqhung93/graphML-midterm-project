@@ -49,7 +49,8 @@ if __name__ == "__main__":
         margin=args.margin,
         epsilon=2.0,
         img_emb=img_emb,
-        text_emb=text_emb
+        text_emb=text_emb,
+        ablation=(args.ablation or None)
     )
     print(kge_score)
     # define the loss function

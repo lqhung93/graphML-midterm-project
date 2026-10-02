@@ -14,12 +14,14 @@ class AdvMixRotatE(Model):
         margin=6.0,
         epsilon=2.0,
         img_emb=None,
-        text_emb=None
+        text_emb=None,
+        ablation=None
     ):
 
         super(AdvMixRotatE, self).__init__(ent_tot, rel_tot)
         assert img_emb is not None
         assert text_emb is not None
+        self.ablation = ablation   # None | 'no_s' | 'no_v' | 'no_t' (bo 1 mo thuc khoi fusion)
         self.margin = margin
         self.epsilon = epsilon
         self.dim_e = dim * 2
@@ -58,7 +60,16 @@ class AdvMixRotatE(Model):
 
     def get_joint_embeddings(self, es, ev, et):
         # es, ev, et: [num_ent, emb_dim]
-        e = torch.stack((es, ev, et), dim=1)
+        abl = getattr(self, 'ablation', None)
+        if abl == 'no_s':
+            mods = (ev, et)
+        elif abl == 'no_v':
+            mods = (es, et)
+        elif abl == 'no_t':
+            mods = (es, ev)
+        else:
+            mods = (es, ev, et)
+        e = torch.stack(mods, dim=1)
         u = torch.tanh(e)
         scores = self.ent_attn(u).squeeze(-1)
         attention_weights = torch.softmax(scores, dim=-1)

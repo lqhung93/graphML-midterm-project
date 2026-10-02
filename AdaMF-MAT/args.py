@@ -27,6 +27,8 @@ def get_args():
     arg.add_argument('-total_epoch', type=int, default=None)
     arg.add_argument('-resume', type=str, default=None)
     arg.add_argument('-resume_out', type=str, default=None)
+    # Ablation: bo 1 mo thuc khoi fusion ('no_s'|'no_v'|'no_t'); rong = day du
+    arg.add_argument('-ablation', type=str, default='')
     # Weights & Biases (optional, off by default so existing runs are unchanged)
     arg.add_argument('-use_wandb', type=int, default=0)
     arg.add_argument('-wandb_project', type=str, default='gml-adamf-mat')
