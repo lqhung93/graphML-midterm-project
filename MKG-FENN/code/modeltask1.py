@@ -283,6 +283,7 @@ class GNN4(nn.Module):
 class FusionLayer(nn.Module):
     def __init__(self, args):
         super().__init__()
+        self.drop_kg = getattr(args, 'drop_kg', 0)   # 0=đủ; 1..4 = bỏ KG Gi khỏi fusion (ablation)
         self.fullConnectionLayer = nn.Sequential(
             nn.Linear(args.embedding_num * 4 * 2, args.embedding_num * 4),
             nn.ReLU(),
@@ -312,6 +313,10 @@ class FusionLayer(nn.Module):
             drugB.append(i[1])
 
 
+        if self.drop_kg == 1: gnn1_embedding = torch.zeros_like(gnn1_embedding)
+        elif self.drop_kg == 2: gnn2_embedding = torch.zeros_like(gnn2_embedding)
+        elif self.drop_kg == 3: gnn3_embedding = torch.zeros_like(gnn3_embedding)
+        elif self.drop_kg == 4: gnn4_embedding = torch.zeros_like(gnn4_embedding)
         Embedding = torch.cat([gnn1_embedding[drugA],gnn2_embedding[drugA],gnn3_embedding[drugA],gnn4_embedding[drugA],\
                                gnn1_embedding[drugB],gnn2_embedding[drugB],gnn3_embedding[drugB],gnn4_embedding[drugB]], 1).float()
 
