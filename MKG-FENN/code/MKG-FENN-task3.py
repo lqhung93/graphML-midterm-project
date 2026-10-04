@@ -25,11 +25,13 @@ from sklearn.preprocessing import label_binarize
 from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import precision_score
 import warnings
+import torch as _torch
+_DEVICE = _torch.device("cuda" if _torch.cuda.is_available() else "cpu")
 
 warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='GNN based on the whole datas')
-parser.add_argument("--epoches",type=int,choices=[100,500,1000,2000],default=120)
+parser.add_argument("--epoches",type=int,default=120)
 parser.add_argument("--batch_size",type=int,choices=[2048,1024,512,256,128],default=1024)
 parser.add_argument("--weigh_decay",type=float,choices=[1e-1,1e-2,1e-3,1e-4,1e-8],default=1e-8)
 parser.add_argument("--lr",type=float,choices=[1e-3,1e-4,1e-5,4*1e-3],default=5*1e-3) #4*1e-3
@@ -192,8 +194,8 @@ def train(train_x,train_y,test_x,test_y,net,test_adj):
         for x, y in train_iter:
             opti.zero_grad()
             train_acc = 0
-            train_label = torch.LongTensor(y)
-            x = torch.LongTensor(x)
+            train_label = torch.LongTensor(y).to(_DEVICE)
+            x = torch.LongTensor(x).to(_DEVICE)
             f_input = list()
             f_input.append(x)
             f_input.append(0)
@@ -203,24 +205,25 @@ def train(train_x,train_y,test_x,test_y,net,test_adj):
             l.backward()
             opti.step()
             train_l += l.item()
-            train_acc = accuracy_score(torch.argmax(output,dim=1), train_label)
+            train_acc = accuracy_score(torch.argmax(output,dim=1).cpu(), train_label.cpu())
             train_a.append(train_acc)
         net.eval()
         with torch.no_grad():
-            test_x = torch.LongTensor(test_x)
+            test_x_t = torch.LongTensor(test_x).to(_DEVICE)
             f_input = list()
-            f_input.append(test_x)
+            f_input.append(test_x_t)
             f_input.append(1)
             f_input.append(test_adj)
             test_output = F.softmax(net(f_input),dim=1)
-            test_label = torch.LongTensor(test_y)
+            test_label = torch.LongTensor(test_y).to(_DEVICE)
             loss = loss_function(test_output, test_label)
             test_loss = loss.item()
-            test_score = f1_score(torch.argmax(test_output,dim=1), test_label,average='macro')
-            test_acc = accuracy_score(torch.argmax(test_output,dim=1), test_label)
+            _pred = torch.argmax(test_output,dim=1).cpu(); _yl = test_label.cpu()
+            test_score = f1_score(_pred, _yl, average='macro')
+            test_acc = accuracy_score(_pred, _yl)
             test_list.append(test_score)
             if test_score == max(test_list):
-                max_test_output = test_output
+                max_test_output = test_output.cpu()
             print("test_acc:", test_acc, "train_acc:", sum(train_a) / len(train_a),"test_score:",test_score)
         print('epoch [%d] train_loss: %.6f testing_loss: %.6f ' % (
                 epoch + 1, train_l / len(train_y), test_loss / len(test_y)))
@@ -245,7 +248,7 @@ def find_dif(raw_matrix):
     return sim_matrix4
 
 def Jaccard(matrix):
-    matrix = np.mat(matrix)
+    matrix = np.asmatrix(matrix)
     numerator = matrix * matrix.T
     denominator = np.ones(np.shape(matrix)) * matrix.T + matrix * np.ones(np.shape(matrix.T)) - matrix * matrix.T
     return numerator / denominator
@@ -401,6 +404,7 @@ def main():
                             GNN2(dataset, tail_len, relation_len, args, dict1,drug_name),
                             GNN3(dataset, tail_len, relation_len, args, dict1,drug_name),
                             FusionLayer(args))
+        net = net.to(_DEVICE)
         X_train = []
         X_test = []
         y_train = []
