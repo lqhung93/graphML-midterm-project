@@ -60,7 +60,7 @@ pip install -r requirements.txt
 - Trình biên dịch C++ (g++ hoặc clang) để build thư viện lấy mẫu của AdaMF-MAT.
 
 Thời gian tham khảo trên một GPU T4: AdaMF-MAT MKG-W 1000 epoch khoảng 4 giờ, MKG-Y khoảng 2 giờ,
-DB15K khoảng 32 giờ; MKG-FENN mỗi lần chạy (5-fold, 120 epoch) khoảng 1 giờ.
+DB15K khoảng 32 giờ; MKG-FENN mỗi lần chạy (5-fold, 100 đến 120 epoch) khoảng 1 giờ.
 
 ## Dữ liệu
 
@@ -133,8 +133,8 @@ python MKG-FENN-task1.py --epoches 120 --drop_kg 3
 python MKG-FENN-task1.py --epoches 120 --neighbor_sample_size 10   # thuộc {4, 6, 10, 16}
 python MKG-FENN-task1.py --epoches 120 --embedding_num 256         # thuộc {32, 64, 128, 256}
 
-# Cold-start: Task 2 (một thuốc mới, chạy 3 lần) và Task 3 (hai thuốc mới, --seed thuộc {1, 2, 3})
-python MKG-FENN-task2.py --epoches 120
+# Cold-start: Task 2 (một thuốc mới) và Task 3 (hai thuốc mới), mỗi task 3 seed {1, 2, 3}
+python MKG-FENN-task2.py --epoches 100 --seed 1   # mặc định của mã; lặp với --seed 2, 3
 python MKG-FENN-task3.py --epoches 120 --seed 1
 ```
 
