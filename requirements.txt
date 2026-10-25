@@ -1,0 +1,7 @@
+torch==2.10.0
+numpy
+scikit-learn
+pandas
+matplotlib
+tqdm
+wandb
