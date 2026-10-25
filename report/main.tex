@@ -31,7 +31,7 @@
 
 % Biểu tượng ORCID iD (vòng tròn xanh, chữ iD trắng) có gắn liên kết
 \definecolor{orcidgreen}{HTML}{A6CE39}
-\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\raisebox{0.35ex}{\tikz[baseline=-0.6ex]{\fill[orcidgreen] (0,0) circle (0.48em);\node[white,font=\sffamily\bfseries\fontsize{4.6}{4.6}\selectfont,inner sep=0pt] at (0,0) {iD};}}}}
+\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\raisebox{0.45ex}{\tikz[baseline=-0.6ex]{\fill[orcidgreen] (0,0) circle (0.42em);\node[white,font=\sffamily\bfseries\fontsize{4}{4}\selectfont,inner sep=0pt] at (0,0) {iD};}}}}
 
 \begin{document}
 
@@ -39,17 +39,12 @@
 Nghiên cứu và tái lập AdaMF-MAT và MKG-FENN cho dự đoán tương tác thuốc}
 
 \author{
-\IEEEauthorblockN{Lê Quốc Hưng~\orcid{0009-0007-7977-2116}}
-\IEEEauthorblockA{\textit{Học máy với dữ liệu đồ thị (K35)} \\
-\textit{Trường ĐH Khoa học Tự nhiên, ĐHQG-HCM} \\
-TP.HCM, Việt Nam \\
-MSHV: 25C11005}
-\and
-\IEEEauthorblockN{Nguyễn Thị Hoàng Nhi~\orcid{0009-0000-3448-7855}}
-\IEEEauthorblockA{\textit{Học máy với dữ liệu đồ thị (K35)} \\
-\textit{Trường ĐH Khoa học Tự nhiên, ĐHQG-HCM} \\
-TP.HCM, Việt Nam \\
-MSHV: 25C01015}
+\IEEEauthorblockN{Lê Quốc Hưng\,\orcid{0009-0007-7977-2116}\textsuperscript{1,2}
+và
+Nguyễn Thị Hoàng Nhi\,\orcid{0009-0000-3448-7855}\textsuperscript{1,2}}
+\IEEEauthorblockA{\textsuperscript{1}\,Trường Đại học Khoa học tự nhiên, ĐHQG-HCM, Việt Nam\\
+\textsuperscript{2}\,Đại học Quốc gia Thành phố Hồ Chí Minh, Việt Nam\\
+MSHV: 25C11005, 25C01015}
 }
 
 \maketitle
@@ -331,15 +326,15 @@ group (\texttt{adamf/main}, \texttt{adamf/mu}, \texttt{adamf/db15k},
 \texttt{mkgfenn/sensitivity}). Xem Phụ lục~\ref{app:wandb} cho bảng ánh xạ đầy đủ
 run~$\to$~liên kết.
 \begin{itemize}
-  \item Kết quả chính MKG-W (3 seed): \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3Mw==}
-  \item Lưới hệ số MAT trên MKG-W và MKG-Y: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3NA==}
-  \item DB15K 1000 epoch: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3NQ==}
-  \item Ablation mô thức và trọng số attention (Figure~5): \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3Ng==}
-  \item Thiếu mô thức (Figure~3): \url{https://wandb.ai/K35/gml-adamf-mat/runs/91r5gpjc}
+  \item Kết quả chính MKG-W (3 seed): \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-k-t-qu-ch-nh-MKG-W-3-seed---VmlldzoxODE3OTk3Mw}
+  \item Lưới hệ số MAT trên MKG-W và MKG-Y: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-l-i-h-s-MAT-tr-n-MKG-W-v-MKG-Y--VmlldzoxODE3OTk3NA}
+  \item DB15K 1000 epoch: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-DB15K-1000-epoch--VmlldzoxODE3OTk3NQ}
+  \item Ablation mô thức và trọng số attention (Figure~5): \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-ablation-m-th-c-v-tr-ng-s-attention--VmlldzoxODE3OTk3Ng}
+  \item Thiếu mô thức (Figure~3): \url{https://wandb.ai/K35/gml-adamf-mat/runs/ipdub3kv}
 \end{itemize}
 
 \subsection{Kết quả chính: MKG-W, quét trọn lưới $\lambda$}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3Mw==}.
+\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-k-t-qu-ch-nh-MKG-W-3-seed---VmlldzoxODE3OTk3Mw}.
 
 Bảng~\ref{tab:mkgw} đối chiếu số nhóm đo được với số bài báo. Một seed (42), chưa
 lặp nhiều seed nên các chênh lệch nhỏ cần đọc dè dặt.
@@ -389,7 +384,7 @@ Tập DB15K, nơi bài báo báo cáo MAT mạnh nhất ($+2{,}63$), được ch
 cùng kết luận (mục~\ref{sec:db15k}).
 
 \subsection{Mở rộng sang MKG-Y: cùng kết luận}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3NA==}.
+\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-l-i-h-s-MAT-tr-n-MKG-W-v-MKG-Y--VmlldzoxODE3OTk3NA}.
 
 Nhóm quét trọn lưới $\lambda$ trên tập thứ hai MKG-Y (seed 42, Bảng~\ref{tab:mkgy}).
 Kết quả lặp lại MKG-W: đường cơ sở $\mu=0$ (39,10 MRR) vượt cả số AdaMF (38,06) lẫn
@@ -417,7 +412,7 @@ Paper AdaMF-MAT & 38,57 & 34,34 & 40,59 & 45,76 & $+0{,}51$ \\
 \end{table}
 
 \subsection{DB15K: tập "khó nhất" cho MAT cũng không tái lập}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3NQ==}.
+\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-DB15K-1000-epoch--VmlldzoxODE3OTk3NQ}.
 
 \label{sec:db15k}
 DB15K là tập bài báo công bố đóng góp MAT lớn nhất ($+2{,}63$ MRR). Mã gốc không có cơ chế
@@ -465,7 +460,7 @@ hình nhóm đã thử, xuyên ba tập dữ liệu, MAT không tái lập đư�
 %==============================================================================
 
 \subsection{Trọng số mô thức: hợp nhất thích nghi học cách bỏ ảnh}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3Ng==}.
+\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-ablation-m-th-c-v-tr-ng-s-attention--VmlldzoxODE3OTk3Ng}.
 
 Nhóm nạp checkpoint MKG-W ($\mu=0$) của ba seed (42, 1, 2) và gọi thẳng hàm
 \texttt{get\_attention} của model (không xấp xỉ lại). Bảng~\ref{tab:attn} là trung bình
@@ -529,7 +524,7 @@ không nói Figure~5 vẽ trên tập nào; nhóm đo trên MKG-W nên phát bi�
 MKG-W thứ tự $s>v>t$ không đúng ở bất kỳ quan hệ nào".)
 
 \subsection{Độ bền khi thiếu mô thức (tái lập Figure 3)}
-\noindent Run W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/runs/91r5gpjc}.
+\noindent Run W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/runs/ipdub3kv}.
 
 Figure~3 của bài báo khảo sát độ bền khi một phần thực thể bị thiếu mô thức. Mã nguồn
 \emph{không} kèm thí nghiệm này, nên nhóm tự viết: nạp checkpoint MKG-W ($\mu=0$), rồi tại
@@ -738,7 +733,7 @@ epoch, lr $=0{,}01$, batch $1024$: các giá trị này khớp mã (dù nằm ng
 khai trong argparse, nên đây là lỗi khai báo chứ không phải lệch paper$\leftrightarrow$mã).
 
 \subsection{Nhóm tái lập (GPU T4, 3 seed)}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3Nw==}.
+\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-Task-1-3-seed---VmlldzoxODE3OTk3Nw}.
 Mã nguồn tái lập: \url{https://github.com/lqhung93/graphML-midterm-project}.
 
 Nhóm GPU-hóa mã (thêm \texttt{.to(device)}, mã gốc chỉ chạy CPU) và chạy lại Task~1 (120 epoch,
@@ -771,12 +766,12 @@ bài báo} khi con số công bố nằm trong một độ lệch chuẩn mẫu 
 lập. Đây là kiểm tra khoảng tin cậy, không phải kiểm định giả thuyết hình thức, nên phát
 biểu đúng là "không phân biệt được với số công bố ở mức nhiễu ba seed", chứ không khẳng
 định bằng chứng mạnh hơn thế. Theo tiêu chí này, số bài báo nằm trong khoảng ở cả 6 chỉ
-số. Link W\&B (3 seed): \url{https://wandb.ai/K35/gml-adamf-mat/runs/bblj2qcv},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/jfcaxbp1},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/t4yt0kks}.
+số. Link W\&B (3 seed): \url{https://wandb.ai/K35/gml-adamf-mat/runs/r628r0ym},
+\url{https://wandb.ai/K35/gml-adamf-mat/runs/o01zi2q5},
+\url{https://wandb.ai/K35/gml-adamf-mat/runs/3x8y37ey}.
 
 \subsection{Nhóm tái lập cold-start (Task 2 và Task 3)}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3OA==}.
+\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-cold-start-Task-2-v-Task-3--VmlldzoxODE3OTk3OA}.
 
 Nhóm chạy lại luôn kịch bản khó Task~2 (cold-start, một thuốc mới) với \textbf{3 lần}
 độc lập (GPU T4, 120 epoch, mỗi lần $\sim$1 giờ). ACC trung bình $0{,}6772 \pm 0{,}0039$,
@@ -806,9 +801,9 @@ Recall (macro) & $0{,}5045 \pm 0{,}0071$ & -- \\
 \end{tabular}
 \end{table}
 
-Link W\&B (3 lần): \url{https://wandb.ai/K35/gml-adamf-mat/runs/jytx7d9z},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/7dqjvbo0},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/zh74tvnv}.
+Link W\&B (3 lần): \url{https://wandb.ai/K35/gml-adamf-mat/runs/7xspj9x8},
+\url{https://wandb.ai/K35/gml-adamf-mat/runs/hloy7vw3},
+\url{https://wandb.ai/K35/gml-adamf-mat/runs/86w5hqon}.
 
 Nhóm chạy tiếp \textbf{Task~3} (cold-start, \emph{cả hai} thuốc mới: khó nhất), cũng 3 lần
 (Bảng~\ref{tab:fenn-t3}). ACC trung bình $0{,}4598 \pm 0{,}0175$, \textbf{số bài báo $0{,}4552$
@@ -834,16 +829,16 @@ Recall (macro) & $0{,}2097 \pm 0{,}0107$ & -- \\
 \end{tabular}
 \end{table}
 
-Link W\&B (3 lần): \url{https://wandb.ai/K35/gml-adamf-mat/runs/h8npelov},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/p4n9in0o},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/19sj3za2}. Cả ba kịch bản cold-start đều tái lập
+Link W\&B (3 lần): \url{https://wandb.ai/K35/gml-adamf-mat/runs/6n59pyvb},
+\url{https://wandb.ai/K35/gml-adamf-mat/runs/swvbyr32},
+\url{https://wandb.ai/K35/gml-adamf-mat/runs/wqablhkc}. Cả ba kịch bản cold-start đều tái lập
 được (số bài báo nằm trong 1 độ lệch chuẩn), nghĩa là các con số chính của MKG-FENN
 \emph{đáng tin}, tương phản với MAT của AdaMF-MAT (Phần~A). Đây là nhận định về
 \emph{tính tái lập}, không phải về giá trị kiến trúc: ngược lại, ablation ở dưới cho thấy
 tiền đề "cần đủ bốn đồ thị" của chính bài không tái lập được ở Task~1.
 
 \subsection{Ablation KG: bỏ một đồ thị không làm giảm ACC Task 1}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3OQ==}.
+\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-ablation-th-v-nh-y-si-u-tham-s---VmlldzoxODE3OTk3OQ}.
 
 Nhóm bỏ từng đồ thị khỏi FusionLayer (Task~1, seed 0, Bảng~\ref{tab:fenn-abl}) bằng cách
 gán embedding của nhánh đó bằng $0$. Kích thước đầu vào MLP giữ nguyên, nhưng các trọng số
@@ -907,7 +902,7 @@ Siêu tham số & Giá trị & ACC & F1 (macro) \\
 \end{tabular}
 \end{table}
 
-Sáu run này nằm cùng báo cáo W\&B với ablation đồ thị: \url{https://wandb.ai/K35/gml-adamf-mat/reports/VmlldzoxODE3OTk3OQ==}.
+Sáu run này nằm cùng báo cáo W\&B với ablation đồ thị: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-ablation-th-v-nh-y-si-u-tham-s---VmlldzoxODE3OTk3OQ}.
 
 \subsection{Bẫy tái lập của MKG-FENN}
 Ngoài số tái lập trên, đọc mã còn lộ vài điểm cần lưu
