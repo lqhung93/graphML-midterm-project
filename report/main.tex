@@ -22,6 +22,8 @@
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{url}
+% cho phép ngắt dòng URL dài ở mọi ký tự (link W&B Report rất dài)
+\makeatletter\g@addto@macro{\UrlBreaks}{\UrlOrds}\makeatother
 \usepackage{xcolor}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue}
@@ -345,6 +347,7 @@ $\mu=0$ của nhóm.}
 \label{tab:mkgw}
 \centering
 \footnotesize
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}
 \toprule
 Cấu hình & MRR & H@1 & H@3 & H@10 & $\Delta$MRR \\
@@ -357,7 +360,7 @@ Paper AdaMF-MAT           & 35,85 & 29,04 & 39,01 & 48,42 & $+1{,}58$ \\
 \textbf{Nhóm} $\lambda{=}0{,}01$  & 35,04 & 28,17 & 38,08 & 47,40 & $-0{,}64$ \\
 \textbf{Nhóm} $\lambda{=}0{,}1$   & 32,03 & 25,39 & 34,91 & 44,05 & $-3{,}65$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 Bảng cho thấy mấy điều đáng chú ý. Trước hết, đường cơ sở của nhóm đã vượt đường cơ
@@ -396,6 +399,7 @@ dữ liệu độc lập cho cùng một kết luận: \textbf{đóng góp MAT k
 \caption{Tái lập MKG-Y, trọn lưới $\lambda$ (seed 42; dòng \emph{Paper} trích từ~\cite{adamfmat}). $\Delta$ so với $\mu=0$ của nhóm.}
 \label{tab:mkgy}
 \centering\footnotesize
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrr}
 \toprule
 Cấu hình & MRR & H@1 & H@3 & H@10 & $\Delta$MRR \\
@@ -408,7 +412,7 @@ Paper AdaMF-MAT & 38,57 & 34,34 & 40,59 & 45,76 & $+0{,}51$ \\
 \textbf{Nhóm} $\lambda{=}0{,}01$ & 39,13 & 34,64 & 41,25 & 46,58 & $+0{,}03$ \\
 \textbf{Nhóm} $\lambda{=}0{,}1$ & 38,43 & 33,85 & 40,67 & 45,96 & $-0{,}67$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \subsection{DB15K: tập "khó nhất" cho MAT cũng không tái lập}
@@ -708,6 +712,7 @@ trực tiếp từ Table~2 của bài báo); tổng thắng $64/66$ so sánh ch�
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lrrrrrr}
 \toprule
 Mô hình & ACC & AUPR & AUC & F1 & Pre & Rec \\
@@ -718,7 +723,7 @@ MDF-SA-DDI   & 0,9301 & 0,9737 & 0,9989 & 0,8878 & 0,9085 & 0,8760 \\
 MDNN         & 0,9175 & 0,9668 & 0,9984 & 0,8301 & 0,8622 & 0,8202 \\
 DDIMDL       & 0,8852 & 0,9208 & 0,9976 & 0,7585 & 0,8471 & 0,7182 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 Một điều lộ rõ qua ba kịch bản là cold-start rất khó. Cùng một mô hình, ACC tụt mạnh
