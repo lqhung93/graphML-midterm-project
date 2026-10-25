@@ -29,19 +29,23 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
 
+% Biểu tượng ORCID iD (vòng tròn xanh, chữ iD trắng) có gắn liên kết
+\definecolor{orcidgreen}{HTML}{A6CE39}
+\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\raisebox{0.35ex}{\tikz[baseline=-0.6ex]{\fill[orcidgreen] (0,0) circle (0.48em);\node[white,font=\sffamily\bfseries\fontsize{4.6}{4.6}\selectfont,inner sep=0pt] at (0,0) {iD};}}}}
+
 \begin{document}
 
 \title{Hợp nhất đa mô thức trên đồ thị tri thức:\\
 Nghiên cứu và tái lập AdaMF-MAT và MKG-FENN cho dự đoán tương tác thuốc}
 
 \author{
-\IEEEauthorblockN{Lê Quốc Hưng}
+\IEEEauthorblockN{Lê Quốc Hưng~\orcid{0009-0007-7977-2116}}
 \IEEEauthorblockA{\textit{Học máy với dữ liệu đồ thị (K35)} \\
 \textit{Trường ĐH Khoa học Tự nhiên, ĐHQG-HCM} \\
 TP.HCM, Việt Nam \\
 MSHV: 25C11005}
 \and
-\IEEEauthorblockN{Nguyễn Thị Hoàng Nhi}
+\IEEEauthorblockN{Nguyễn Thị Hoàng Nhi~\orcid{0009-0000-3448-7855}}
 \IEEEauthorblockA{\textit{Học máy với dữ liệu đồ thị (K35)} \\
 \textit{Trường ĐH Khoa học Tự nhiên, ĐHQG-HCM} \\
 TP.HCM, Việt Nam \\
