@@ -9,7 +9,7 @@ Nhóm chạy lại thực nghiệm của hai bài báo về hợp nhất đa mô
 
 - **AdaMF-MAT** (LREC-COLING 2024): hoàn thiện đồ thị tri thức đa mô thức (dự đoán liên kết) trên
   ba tập MKG-W, MKG-Y, DB15K. Mã gốc: https://github.com/zjukg/AdaMF-MAT
-- **MKG-FENN** (AAAI 2024): dự đoán loại sự kiện tương tác thuốc--thuốc từ bốn đồ thị tri thức,
+- **MKG-FENN** (AAAI 2024): dự đoán loại sự kiện tương tác thuốc từ bốn đồ thị tri thức,
   gồm Task 1 (thuốc đã biết) và hai kịch bản cold-start Task 2, Task 3. Mã và dữ liệu kèm bài báo.
 
 ## Mã nguồn trong repo
@@ -43,7 +43,7 @@ AdaMF-MAT/        mã AdaMF-MAT (thư viện mmkgc + script chạy)
 MKG-FENN/
   code/                 MKG-FENN-task{1,2,3}.py, modeltask{1,2,3}.py
   result/               nơi mã ghi all/each task*.csv
-results/                file CSV kết quả mà báo cáo sử dụng
+results/                file CSV xuất từ các run W&B và số liệu thiếu mô thức mà báo cáo sử dụng
 report/                 mã LaTeX và bản PDF của báo cáo
 requirements.txt
 ```
@@ -126,12 +126,12 @@ Chạy trong thư mục `MKG-FENN/code/`; kết quả ghi vào `../result/`.
 # Task 1, ba seed
 python MKG-FENN-task1.py --epoches 120 --seed 0      # tương tự --seed 1, --seed 2
 
-# Bỏ một đồ thị tri thức (--drop_kg thuộc {1, 2, 3, 4})
-python MKG-FENN-task1.py --epoches 120 --drop_kg 3
+# Bỏ một đồ thị tri thức (--drop_kg thuộc {1, 2, 3, 4}), mỗi cấu hình 3 seed {0, 1, 2}
+python MKG-FENN-task1.py --epoches 120 --drop_kg 3 --seed 0
 
-# Độ nhạy siêu tham số
-python MKG-FENN-task1.py --epoches 120 --neighbor_sample_size 10   # thuộc {4, 6, 10, 16}
-python MKG-FENN-task1.py --epoches 120 --embedding_num 256         # thuộc {32, 64, 128, 256}
+# Độ nhạy siêu tham số, mỗi giá trị 3 seed {0, 1, 2}
+python MKG-FENN-task1.py --epoches 120 --neighbor_sample_size 10 --seed 0   # thuộc {4, 6, 10, 16}
+python MKG-FENN-task1.py --epoches 120 --embedding_num 256 --seed 0         # thuộc {32, 64, 128, 256}
 
 # Cold-start: Task 2 (một thuốc mới) và Task 3 (hai thuốc mới), mỗi task 3 seed {1, 2, 3}
 python MKG-FENN-task2.py --epoches 100 --seed 1   # mặc định của mã; lặp với --seed 2, 3
@@ -147,6 +147,11 @@ python MKG-FENN-task3.py --epoches 120 --seed 1
 python run_adamf_mat.py ... -use_wandb=1 -wandb_project=<project> -wandb_name=<tên run>
 python MKG-FENN-task1.py ... --use_wandb 1 --wandb_project <project> --wandb_name <tên run>
 ```
+
+Cờ tùy chọn `wandb_entity`, `wandb_group`, `wandb_notes` (cùng tiền tố `-` hoặc `--` như trên) đặt
+entity, nhóm run và ghi chú. Mỗi run ghi loss và chỉ số theo epoch trong lúc huấn luyện; MKG-FENN
+ghi thêm epoch được chọn và macro-F1 ở epoch cuối của từng fold. Thông tin máy chạy (tên máy, đường
+dẫn, danh sách thư viện) không được gửi lên W&B.
 
 ## Biên dịch báo cáo
 
