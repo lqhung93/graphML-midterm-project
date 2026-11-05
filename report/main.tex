@@ -42,12 +42,15 @@
 \gml@nodash\IEEEkeywords
 \makeatother
 \renewcommand{\IEEEkeywordsname}{Từ khóa}
+\newcommand{\NRUNS}{67}
+\addto\captionsvietnamese{\renewcommand{\refname}{Tài liệu tham khảo}}
 \newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\raisebox{0.45ex}{\tikz[baseline=-0.6ex]{\fill[orcidgreen] (0,0) circle (0.42em);\node[white,font=\sffamily\bfseries\fontsize{4}{4}\selectfont,inner sep=0pt] at (0,0) {iD};}}}}
 
 \begin{document}
 
-\title{Hợp nhất đa mô thức trên đồ thị tri thức:\\
-Nghiên cứu và tái lập AdaMF-MAT và MKG-FENN cho dự đoán tương tác thuốc}
+\title{Hợp nhất thông tin trên đồ thị tri thức:\\
+Nghiên cứu và tái lập AdaMF-MAT cho hoàn thiện đồ thị
+và MKG-FENN cho dự đoán tương tác thuốc}
 
 \author{
 \IEEEauthorblockN{Lê Quốc Hưng\,\orcid{0009-0007-7977-2116}\textsuperscript{1,2}
@@ -61,28 +64,26 @@ MSHV: 25C11005, 25C01015}
 \maketitle
 
 \begin{abstract}
-Báo cáo nghiên cứu và tái lập hai công trình về \textbf{đồ thị tri thức đa mô
-thức}, loại đồ thị mà mỗi thực thể vừa có quan hệ cấu trúc, vừa kèm mô thức bổ trợ
-như ảnh và văn bản.
-\textit{Thách thức.} Các mô thức thường \emph{mất cân bằng và thiếu hụt}, khiến việc
-hợp nhất chúng để hoàn thiện đồ thị, tức dự đoán liên kết còn thiếu, hay để dự đoán
-tương tác thuốc--thuốc với nhiều lớp sự kiện, dễ bị mô thức nhiễu chi phối.
-\textit{Giải pháp.} Hai bài đưa ra hai hướng. AdaMF-MAT công bố tại LREC-COLING 2024
-hợp nhất đặc trưng \emph{thích nghi} rồi \emph{huấn luyện đối kháng theo mô thức},
-viết tắt là MAT, để cân bằng đóng góp các mô thức; MKG-FENN công bố tại AAAI 2024
-hợp nhất \emph{bốn} đồ thị tri thức bằng mạng đầu-cuối cho dự đoán tương tác thuốc.
-\textit{Cơ chế.} AdaMF-MAT dùng attention gán trọng số cho ba mô thức rồi sinh mẫu
-đối kháng để tăng cường mô thức yếu; MKG-FENN dùng bốn nhánh GNN kiểu KGNN và một
-tầng hợp nhất để phân loại 65 loại sự kiện tương tác.
-\textit{Kết quả của nhóm.} Chúng tôi chạy \textbf{40 thí nghiệm công khai trên
-Weights \& Biases} và rút ra ba điều. Thứ nhất, đóng góp của MAT \emph{không tái lập
-được} trên cả ba tập dữ liệu MKG-W, MKG-Y và DB15K, đường cơ sở không MAT của nhóm
-còn vượt chính số AdaMF-MAT mà bài báo công bố, kể cả ở DB15K nơi bài báo khai MAT
-mạnh nhất tới $+2{,}63$ MRR. Thứ hai, hợp nhất thích nghi trên thực tế gần như loại
-bỏ mô thức ảnh. Thứ ba, MKG-FENN \emph{tái lập được} cả ba kịch bản gồm biết thuốc
-và hai mức cold-start, trong khi bỏ một trong bốn đồ thị không làm giảm độ chính xác ở kịch bản dễ. Đọc
-mã còn cho thấy MKG-FENN chọn epoch theo tập test, làm F1 lạc quan khoảng 3 đến 4 điểm, cùng nhiều
-điểm lệch giữa mô tả và mã nguồn ở cả hai công trình.
+\textit{Tiêu đề bài báo:} báo cáo nghiên cứu và tái lập hai công trình: ``Unleashing the Power of
+Imbalanced Modality Information for Multi-modal Knowledge Graph Completion'' (AdaMF-MAT,
+LREC-COLING 2024) và ``MKG-FENN: A Multimodal Knowledge Graph Fused End-to-end Neural Network for
+Accurate Drug--Drug Interaction Prediction'' (MKG-FENN, AAAI 2024).
+\textit{Khái niệm:} \textbf{đồ thị tri thức đa mô thức}, nơi mỗi thực thể có quan hệ cấu trúc kèm
+mô thức bổ trợ như ảnh, văn bản, dùng cho hoàn thiện đồ thị và dự đoán sự kiện tương tác thuốc.
+\textit{Thách thức hiện tại:} các mô thức \emph{mất cân bằng và thiếu hụt}, nên phép hợp nhất dễ
+bị mô thức nhiễu chi phối.
+\textit{Giải pháp đề xuất:} AdaMF-MAT hợp nhất \emph{thích nghi} rồi \emph{huấn luyện đối kháng theo
+mô thức} (MAT); MKG-FENN hợp nhất \emph{bốn} đồ thị tri thức trong một mạng end-to-end.
+\textit{Cơ chế hoạt động:} AdaMF-MAT dùng attention gán trọng số cho ba mô thức và sinh mẫu đối
+kháng; MKG-FENN dùng bốn nhánh GNN kiểu KGNN và một tầng hợp nhất phân loại 65 loại sự kiện.
+\textit{Kết quả đạt được:} nhóm chạy lại bằng chính mã và script tác giả công bố, ghi nhận
+\textbf{\NRUNS{} run công khai trên Weights \& Biases}. Đường cơ sở AdaMF (không MAT) chạy lại đạt
+hoặc vượt số AdaMF-MAT đã công bố, xác nhận quy trình chạy đúng; trên nền đó, trong phạm vi các cấu
+hình đã thử, MAT \emph{chưa tái hiện} được mức cải thiện công bố (đo được $+0{,}06$ trên MKG-W và
+$-0{,}01$ trên MKG-Y qua 3 seed, so với $+1{,}58$ và $+0{,}51$). Trên MKG-W, ảnh chỉ nhận 1,7\% trọng
+số hợp nhất. MKG-FENN tái lập được ở Task~1 trên cả sáu chỉ số; ở cold-start, ACC khớp còn một số
+chỉ số macro thấp hơn nhẹ; bỏ một đồ thị không làm giảm ACC qua 3 seed, khác mức giảm bài báo công bố. Đọc mã còn cho thấy MKG-FENN chọn epoch theo macro-F1 trên tập test,
+cùng một số điểm lệch giữa mô tả và mã ở cả hai công trình.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -109,16 +110,20 @@ báo nhóm đã đăng ký:
   bài toán \emph{hoàn thiện} MMKG (multi-modal KG completion): suy ra các bộ ba
   còn thiếu. Đề xuất hai thành phần: hợp nhất thích nghi có trọng số học được
   cho từng mô thức, và một pha đối kháng (MAT) sinh mô thức giả để tăng cường.
-  Với công trình này nhóm \emph{chạy lại thực nghiệm} của tác giả để lấy điểm
-  cộng, nên báo cáo đi sâu vào kết quả tái lập và phân tích phê phán.
+  Nhóm cố gắng \emph{chạy lại thực nghiệm} của tác giả để kiểm tra mức độ tái lập
+  của các con số công bố, từ đó hiểu rõ hơn công trình; vì vậy báo cáo đi sâu vào kết
+  quả tái lập và đối chiếu bài báo với mã nguồn.
 
   \item \textbf{Phần B: MKG-FENN}~\cite{mkgfenn} (bài được phân công báo cáo). Giải
-  bài toán \emph{dự đoán sự kiện tương tác thuốc--thuốc} (drug--drug interaction, DDI
+  bài toán \emph{dự đoán sự kiện tương tác thuốc} (drug--drug interaction, DDI
   event prediction): với một cặp thuốc, phân loại chúng vào 1 trong 65 loại sự
   kiện tương tác. Đề xuất xây bốn đồ thị tri thức từ bốn nguồn quan hệ khác nhau
-  của thuốc và hợp nhất chúng đầu-cuối (end-to-end). Dù chỉ được yêu cầu báo cáo,
-  nhóm cũng \emph{chạy lại} cả ba kịch bản (biết thuốc và hai mức cold-start) cùng
-  ablation và phân tích độ nhạy để lấy điểm cộng.
+  của thuốc và hợp nhất chúng theo kiểu end-to-end, tức huấn luyện mọi thành phần cùng lúc trong một mạng. Dù chỉ được yêu cầu báo cáo,
+  nhóm cũng cố gắng \emph{chạy lại} cả ba kịch bản (biết thuốc và hai mức cold-start)
+  cùng ablation và phân tích độ nhạy, để kiểm chứng kết quả bài báo công bố và hiểu
+  rõ hơn mô hình hoạt động tốt ở đâu, kém ở đâu. Phần B là bài chỉ yêu cầu báo cáo; nhóm vẫn đối chiếu bài
+  báo với mã và nêu mọi điểm lệch tìm được như ở Phần A, nhưng không tự thiết kế thêm thí nghiệm
+  ngoài các thí nghiệm của bài.
 \end{itemize}
 
 Điểm chung của hai bài là cùng dựa trên ý tưởng ``nhiều nguồn tri thức, hợp nhất
@@ -127,13 +132,28 @@ có học''. Điểm khác biệt then chốt: AdaMF-MAT hợp nhất các \emph
 quan hệ} (hóa học/cấu trúc con/DDI/thuộc tính phân tử) của cùng một thuốc. Đặt
 cạnh nhau, chúng cho một góc nhìn đối chiếu tốt về ``hợp nhất trên đồ thị''.
 
-Về phần đóng góp, nhóm trình bày lại cơ chế của cả hai mô hình theo cách hiểu của
-mình, làm rõ từng thành phần công thức thay vì dán công thức trần; tái lập AdaMF-MAT
-trên MKG-W bằng chính mã và siêu tham số của tác giả, quét trọn lưới $\lambda$ rồi
-báo cáo số đo thật; và chỉ ra các điểm không nhất quán giữa bài báo với mã nguồn ở
-cả hai công trình, dựa trên việc đọc mã từng dòng và kiểm chứng bằng probe. Toàn bộ
-log thực nghiệm được ghi nhận công khai, liên kết đặt tại Mục~\ref{sec:repro-setup}
-và Phụ lục~\ref{app:wandb}.
+Việc kiểm chứng này chỉ làm được nhờ cả hai nhóm tác giả đã công bố mã, dữ liệu và script
+chạy; nhóm coi đó là điểm cộng lớn của hai công trình. Đóng góp của báo cáo, mỗi mục kèm nơi đặt
+bằng chứng:
+\begin{enumerate}
+  \item Trình bày lại cơ chế hai mô hình theo cách hiểu của nhóm, giải thích từng thành phần công
+  thức (Mục~\ref{sec:adamf-method}, \ref{sec:fenn-arch}).
+  \item Tái lập AdaMF-MAT trên ba tập: trọn lưới hệ số MAT trên MKG-W và MKG-Y (cấu hình chính lặp 3 seed), DB15K
+  1.000 epoch (Bảng~\ref{tab:mkgw} đến~\ref{tab:db15k}, Hình~\ref{fig:mat-summary}).
+  \item Phân tích trọng số mô thức, ablation mô thức và độ bền khi thiếu mô thức
+  (Bảng~\ref{tab:attn}, \ref{tab:abl}, Hình~\ref{fig:missing}).
+  \item Tái lập MKG-FENN ở ba kịch bản (3 lần chạy mỗi kịch bản), ablation đồ thị và độ nhạy siêu
+  tham số (Bảng~\ref{tab:fenn-repro} đến~\ref{tab:fenn-sens}).
+  \item Chỉ ra giao thức chọn epoch theo tập test của MKG-FENN và đo mức chênh từ log
+  (Bảng~\ref{tab:fenn-sel}).
+  \item Danh mục điểm lệch giữa bài báo và mã, kèm vị trí mã (Mục~\ref{sec:adamf-critique}, Phụ
+  lục~\ref{app:code}).
+\end{enumerate}
+Toàn bộ log thực nghiệm được ghi nhận công khai, liên kết đặt ở đầu mỗi mục thực nghiệm và ở Phụ
+lục~\ref{app:wandb}. Quy ước: bảng, hình, phương trình của \emph{bài báo gốc} luôn ghi kèm trích dẫn, ví dụ Bảng~2~\cite{adamfmat},
+Hình~3~\cite{adamfmat}, phương trình~4~\cite{adamfmat}; bảng của báo cáo này đánh số La Mã (Bảng~I, II,\dots), hình và
+phương trình của báo cáo không kèm trích dẫn, phương trình ghi số trong ngoặc như (5). Hệ số cân bằng MAT mà bài
+gọi là $\lambda$ được ký hiệu $\mu$ theo tên biến trong mã, thống nhất trong mọi bảng và hình.
 
 %##############################################################################
 \section*{PHẦN A: AdaMF-MAT}
@@ -147,27 +167,28 @@ vào chi tiết và bằng chứng cho từng dòng.
 \label{tab:frame-adamf}
 \centering\footnotesize
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.55cm} >{\raggedright\arraybackslash}p{6.35cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.95cm} >{\raggedright\arraybackslash}p{5.95cm}}
 \toprule
 Tóm tắt & Hoàn thiện đồ thị tri thức đa mô thức: hợp nhất cấu trúc, ảnh, văn bản bằng trọng số học
 theo thực thể (AdaMF), thêm bộ sinh embedding mô thức giả làm âm khó (MAT), chấm điểm bằng RotatE
-(Mục~\ref{sec:adamf-method}). \\
-Research gap & Cách hợp nhất cũ như nhau cho mọi thực thể dù lượng thông tin mô thức chênh lệch;
+(Mục~\ref{sec:adamf-method}). \\ \addlinespace[2pt]
+Khoảng trống nghiên cứu & Cách hợp nhất cũ như nhau cho mọi thực thể dù lượng thông tin mô thức chênh lệch;
 ảnh và văn bản ít, khó trích, hay thiếu; lấy mẫu âm cũ chỉ \emph{chọn} âm có sẵn
-(Mục~\ref{sec:adamf-problem}). \\
+(Mục~\ref{sec:adamf-problem}). \\ \addlinespace[2pt]
 Giải pháp & Softmax trên ba mô thức cho mỗi thực thể; bộ sinh hai lớp từ embedding cấu trúc cộng
-nhiễu tạo ba bộ ba giả; tối ưu min-max với hệ số $\lambda$ (Mục~\ref{sec:adamf-method}). \\
+nhiễu tạo ba bộ ba giả; tối ưu min-max với hệ số $\mu$ (bài ký hiệu $\lambda$) (Mục~\ref{sec:adamf-method}). \\ \addlinespace[2pt]
 Kết quả (bài báo) & DB15K, MKG-W, MKG-Y; MRR và Hit@1/3/10 lọc; vượt 19 baseline ở cả ba tập,
-MRR DB15K 35,14 so với 32,68 của MMRNS (Mục~\ref{sec:adamf-paper}). \\
-Work / không work & AdaMF với RotatE là đường cơ sở mạnh: nhóm chạy ra số vượt cả số AdaMF-MAT công
-bố. MAT không tái lập trên ba tập, ảnh gần như bị bỏ; nguyên nhân khả dĩ: đường cơ sở trong bài yếu,
-bộ sinh thiếu thông tin, $\lambda$ nhạy mà không công bố (Mục~\ref{sec:repro-setup},
-\ref{sec:adamf-critique}). \\
-Takeaway & Ablation ``tắt thành phần'' chỉ có nghĩa khi đường cơ sở tinh chỉnh ngang bằng; công
-thức trên giấy lệch mã ở chỗ then chốt nên phải đọc mã (Mục~\ref{sec:adamf-eval}). \\
+MRR DB15K 35,14 so với 32,68 của MMRNS (Mục~\ref{sec:adamf-paper}). \\ \addlinespace[2pt]
+Điểm hiệu quả và hạn chế & Đường cơ sở AdaMF chạy bằng script tác giả rất mạnh (vượt AdaMF-MAT công bố trên
+MKG-Y, DB15K). MAT chưa tái hiện mức công bố (trọn lưới trên MKG-W, MKG-Y; một giá trị $\mu$ trên
+DB15K); trên MKG-W ảnh nhận trọng số rất thấp. Giả thuyết chưa kiểm định: khác cấu hình giữa bài và
+mã phát hành, bộ sinh thiếu thông tin, $\mu$ nhạy mà không công bố (Mục~\ref{sec:repro-setup},
+\ref{sec:adamf-critique}). \\ \addlinespace[2pt]
+Bài học rút ra & Ablation ``tắt thành phần'' chỉ có nghĩa khi đường cơ sở tinh chỉnh ngang bằng; công
+thức trên giấy lệch mã ở chỗ then chốt nên phải đọc mã (Mục~\ref{sec:adamf-eval}). \\ \addlinespace[2pt]
 Hướng mở & Tác giả: kết hợp LLM với đồ thị đa mô thức, kịch bản thiếu mô thức sát thực tế hơn.
 Nhóm: bộ sinh dùng cả mô thức đang có, attention theo quan hệ, báo cáo nhiều seed
-(Mục~\ref{sec:adamf-eval}). \\
+(Mục~\ref{sec:adamf-eval}). \\ \addlinespace[2pt]
 \bottomrule
 \end{tabular}
 \end{table}
@@ -201,12 +222,13 @@ AdaMF-MAT nhắm đúng hai điểm này: hợp nhất thích nghi xử lý cái
 luyện đối kháng theo mô thức xử lý cái thứ hai.
 
 \subsection{Công trình liên quan (chọn lọc)}
-Các hướng hợp nhất đa mô thức cho KGC khác nhau ở \emph{cách} gộp mô thức và \emph{gap}
-chúng vá. IKRL/TBKGC nối hoặc cộng đặc trưng các mô thức: đơn giản nhưng bỏ qua chênh lệch
-phân phối giữa những không gian mô thức không đồng nhất. RSME thêm cổng (gate) lọc ảnh nhiễu.
-\textbf{OTKGE} coi hợp nhất như bài toán \emph{vận tải tối ưu} (optimal transport) để căn
-phân phối các mô thức thay vì gộp thô. Nhánh đối kháng (KBGAN, MMRNS) sinh negative khó nhằm
-tăng chất lượng embedding. AdaMF-MAT đứng ở giao của hai nhánh cuối: hợp nhất bằng
+Các hướng hợp nhất đa mô thức cho KGC khác nhau ở \emph{cách} gộp mô thức và \emph{khoảng
+trống} chúng vá. IKRL~\cite{ikrl} và TBKGC~\cite{tbkgc} nối hoặc cộng đặc trưng các mô thức: đơn giản
+nhưng bỏ qua chênh lệch phân phối giữa những không gian mô thức không đồng nhất. RSME~\cite{rsme} thêm
+cổng (gate) lọc ảnh nhiễu. \textbf{OTKGE}~\cite{otkge} coi hợp nhất như bài toán \emph{vận tải tối ưu}
+(optimal transport) để căn phân phối các mô thức thay vì gộp thô. Nhánh lấy mẫu âm có học
+(KBGAN~\cite{kbgan}, MMRNS~\cite{mmrns}, MANS~\cite{mans}) tìm mẫu âm khó nhằm tăng chất lượng
+embedding. AdaMF-MAT đứng ở giao của hai nhánh cuối: hợp nhất bằng
 \emph{trọng số học được} (thay cổng cứng hay OT) cộng một pha \emph{đối kháng theo mô thức}
 (thay đối kháng ở mức negative). Đây là bối cảnh để đọc hai đóng góp ở phần sau.
 
@@ -227,15 +249,15 @@ với $\circ$ là nhân phức phần tử, $\gamma$ là biên (margin, $\gamma=
 Vì sao lại là RotatE mà không phải một KGE khác? Khi coi mỗi quan hệ là phép quay
 trên vòng tròn đơn vị phức, RotatE suy luận được đồng thời cả bốn mẫu quan hệ: đối
 xứng, phản đối xứng, nghịch đảo và hợp thành. Các lựa chọn phổ biến đều thiếu một
-mảnh nào đó, TransE không biểu diễn được đối xứng, DistMult không biểu diễn được
-phản đối xứng, ComplEx yếu ở hợp thành, nên RotatE biểu đạt quan hệ mạnh hơn cả.
+mảnh nào đó, TransE~\cite{transe} không biểu diễn được đối xứng, DistMult~\cite{distmult} không
+biểu diễn được phản đối xứng, ComplEx~\cite{complex} yếu ở hợp thành, nên RotatE biểu đạt quan hệ mạnh hơn cả.
 Điều này quan trọng vì một khi phần hợp nhất đa mô thức đã tạo xong embedding thực
 thể chung, chính scorer quan hệ là chỗ dễ thành nút thắt; RotatE lại sẵn đi kèm cơ
 chế self-adversarial nói ở dưới. Cần nói thêm cho công bằng: bài báo chọn RotatE
-làm xương sống nhưng không ablate với KGE nào khác, nên đây là lý do lý thuyết chứ
+làm xương sống nhưng không thử thay bằng KGE nào khác, nên đây là lý do lý thuyết chứ
 không phải bằng chứng thực nghiệm của chính bài.
 
-Một chi tiết của xương sống đáng dừng lại là self-adversarial negative sampling.
+Một chi tiết của xương sống đáng dừng lại là lấy mẫu âm tự đối kháng (self-adversarial negative sampling).
 Hàm loss không cho mọi bộ ba âm trọng số bằng nhau, mà đánh trọng số theo độ khó
 dưới dạng logit chuẩn hoá bằng softmax:
 \begin{equation}
@@ -245,16 +267,16 @@ bộ ba âm điểm cao, tức đang trông giống thật, nhận trọng số 
 đóng vai nhiệt độ: cho $\beta\to 0$ thì trọng số trải đều, $\beta$ lớn thì dồn vào
 âm khó nhất (bài dùng $\beta=2$). Lý do cần nó khá trực tiếp: càng về sau, đa số âm
 ngẫu nhiên trở nên quá dễ và gradient gần như bằng 0, nên dồn sức vào âm khó mới giữ
-được gradient hữu ích và hội tụ tốt hơn. Probe tái lập xác nhận đúng chiều, âm khó
-nhận trọng số 1.0 còn âm dễ 0.0. Điều đáng chú ý là chính bài báo viết ngược dấu: Eq.~6 định
-nghĩa $\mathcal{F}$ là \emph{khoảng cách} $\lVert\mathbf{h}\circ\mathbf{r}-\mathbf{t}\rVert$, rồi Eq.~8
+được gradient hữu ích và hội tụ tốt hơn. Một thí nghiệm kiểm tra nhỏ của nhóm xác nhận mã chạy đúng
+chiều: âm khó nhận trọng số 1,0 còn âm dễ 0,0. Điều đáng chú ý là công thức trên giấy dường như lệch dấu (nhiều khả năng
+là lỗi in): phương trình~6~\cite{adamfmat} định nghĩa $\mathcal{F}$ là \emph{khoảng cách} $\lVert\mathbf{h}\circ\mathbf{r}-\mathbf{t}\rVert$, rồi phương trình~8~\cite{adamfmat}
 đặt trọng số $\propto\exp(\beta\mathcal{F})$, tức âm càng xa (càng dễ) càng được ưu tiên. Mã dùng
 điểm $\gamma-\lVert\cdot\rVert$ nên đúng chiều; ai cài lại theo công thức trên giấy sẽ được cơ chế
 ngược hẳn.
 
 \subsection{Hợp nhất thích nghi (AdaMF)}
 Mỗi thực thể có ba biểu diễn: cấu trúc $\mathbf{e}_s$ (học trực tiếp), ảnh
-$\mathbf{e}_v$ và văn bản $\mathbf{e}_t$, chiếu tuyến tính từ đặc trưng tiền huấn luyện về cùng số chiều: ảnh dùng VGG (DB15K) hoặc BEiT (MKG-W, MKG-Y), lấy trung bình nhiều ảnh của một thực thể; văn bản dùng vector [CLS] của Sentence-BERT. Mạng trích đặc trưng đóng băng, nhưng bảng đặc trưng ảnh và văn bản vẫn được tinh chỉnh trong lúc huấn luyện. Trọng số hợp nhất
+$\mathbf{e}_v$ và văn bản $\mathbf{e}_t$, chiếu tuyến tính từ đặc trưng tiền huấn luyện về cùng số chiều: ảnh dùng VGG~\cite{vgg} (DB15K) hoặc BEiT~\cite{beit} (MKG-W, MKG-Y), lấy trung bình nhiều ảnh của một thực thể; văn bản dùng vector [CLS] của Sentence-BERT~\cite{sbert}. Mạng trích đặc trưng đóng băng, nhưng bảng đặc trưng ảnh và văn bản vẫn được tinh chỉnh trong lúc huấn luyện. Trọng số hợp nhất
 được \emph{học} thay vì cố định:
 \begin{align}
   \alpha_m &= \mathrm{softmax}\big(\mathbf{w}^\top \tanh(\mathbf{e}_m)\big),
@@ -266,10 +288,10 @@ $\alpha_m$ lớn. Đây là ``adaptive'' trong tên mô hình. Lưu ý trọng s
 của \emph{thực thể}, không phụ thuộc quan hệ đang hỏi: cùng một thực thể nhận cùng bộ $\alpha$
 dù truy vấn là \texttt{locatedIn} hay \texttt{hasColor}.
 
-\textbf{Điểm lệch \#1 (mã vs bài báo).} Bài báo (Eq.~4) viết mỗi mô thức có một
+\textbf{Điểm lệch \#1 (mã so với bài báo):} Bài báo (phương trình~4~\cite{adamfmat}) viết mỗi mô thức có một
 vector trọng số $\mathbf{w}_m$ \emph{riêng}. Đọc mã (\texttt{ent\_attn =
 Linear(2d,1)}) cho thấy chỉ có \emph{một} vector $\mathbf{w}$ dùng chung cho cả
-ba mô thức, và ký hiệu $\oplus$ trong bài thực chất là tích vô hướng. Bản thân Eq.~4 cũng
+ba mô thức, và ký hiệu $\oplus$ trong bài thực chất là tích vô hướng. Bản thân phương trình~4~\cite{adamfmat} cũng
 viết chưa đúng kiểu: lấy $\exp$ của một tích từng phần tử cho ra vector chứ không ra trọng số
 vô hướng; phải đọc mã mới biết ý định là điểm vô hướng $\mathbf{w}^\top\tanh(\mathbf{e}_m)$.
 Nói cách khác, cơ chế attention model học được đơn giản hơn mô tả trong bài.
@@ -285,24 +307,24 @@ thể bộ ba giả được tạo: $(h^*,r,t)$, $(h,r,t^*)$, $(h^*,r,t^*)$. Mô
      + \mu \sum_{s\in S} \mathrm{SigmoidLoss}(s), \label{eq:ld}\\
   \mathcal{L}_G &= \sum_{s\in S} \mathrm{SigmoidLoss}(s^{+}, s),
 \end{align}
-với $S$ là ba bộ ba giả và $\mu$ (ký hiệu $\lambda$ trong bài) là hệ số cân bằng
-phần đối kháng. Cách ly gradient được xử lý bằng hai optimizer riêng cho $D$ và
+với $S$ là ba bộ ba giả và $\mu$ (ký hiệu $\lambda$ trong bài; từ đây báo cáo dùng $\mu$) là hệ số
+cân bằng phần đối kháng. Cách ly gradient được xử lý bằng hai optimizer riêng cho $D$ và
 $G$: dù $\mathcal{L}_G$ có lan gradient vào tham số $D$, chỉ \texttt{optimizer\_g
 .step()} được gọi rồi \texttt{zero\_grad()} ở bước $D$ kế tiếp xóa sạch, nên không
 rò rỉ. Ý tưởng: $G$ ép $D$ học biểu diễn mô thức bền vững hơn trước nhiễu.
 
 Đọc mã còn thấy ba chi tiết bài không nói rõ. Thực thể giả $h^*$ thay \emph{đồng thời} cả ảnh
 lẫn văn bản và giữ nguyên cấu trúc, nên bộ ba giả chỉ khác bộ ba thật ở hai mô thức bổ trợ. Mã
-chỉ sinh một nhóm ($L=1$, tức ba bộ ba giả cho mỗi bộ ba dương), dù Figure~4 của chính bài cho
+chỉ sinh một nhóm ($L=1$, tức ba bộ ba giả cho mỗi bộ ba dương), dù Hình~4~\cite{adamfmat} của chính bài cho
 thấy $L=8$ tốt nhất. Và khi $\mu=0$, bộ sinh \emph{vẫn} được cập nhật ở mỗi bước, chỉ là loss
 đối kháng của $D$ bị nhân với 0 nên mô hình chính học y như AdaMF thuần: chi phí tính toán của
 MAT vẫn phải trả dù MAT không có tác dụng.
 
-\textbf{Điểm lệch \#2 (nghiêm trọng).} Cả ba script chính thức
+\textbf{Điểm lệch \#2 (ảnh hưởng lớn nhất tới tái lập):} Cả ba script chính thức
 (\texttt{run\_db15k/mkgw/mkgy.sh}) đều đặt \texttt{-mu=0}. Theo
 \eqref{eq:ld}, $\mu=0$ tắt hoàn toàn phần MAT. Vậy \emph{chạy nguyên bản chỉ tái
-tạo AdaMF (ablation), không phải AdaMF-MAT}. Bài báo khai đã tìm $\lambda \in
-\{0{,}1, 0{,}01, 0{,}001\}$ nhưng \emph{không công bố giá trị thắng}. Đây là rào
+tạo AdaMF (ablation), không phải AdaMF-MAT}. Bài báo cho biết đã tìm $\mu \in
+\{0{,}1, 0{,}01, 0{,}001\}$ nhưng \emph{không công bố giá trị được chọn}. Đây là rào
 cản tái lập lớn nhất, và là trọng tâm thực nghiệm của nhóm.
 
 \subsection{Minh họa luồng dữ liệu}
@@ -315,53 +337,57 @@ Hình~\ref{fig:adamf} tóm tắt luồng một bộ ba đi qua mô hình.
   box/.style={draw,rounded corners,minimum height=6mm,inner sep=3pt,align=center},
   >=Latex, node distance=3.2mm and 5mm]
   \node[box] (s) {Cấu trúc $\mathbf{e}_s$};
-  \node[box,below=of s] (v) {Ảnh (VGG)\\$\to \mathbf{e}_v$};
+  \node[box,below=of s] (v) {Ảnh (VGG/BEiT)\\$\to \mathbf{e}_v$};
   \node[box,below=of v] (t) {Văn bản (SBERT)\\$\to \mathbf{e}_t$};
-  \node[box,right=of v,fill=blue!8] (fuse) {Hợp nhất\\thích nghi\\$\alpha_m$};
-  \node[box,right=of fuse,fill=green!8] (rot) {RotatE\\$\gamma-\lVert h\!\circ\! r\!-\!t\rVert$};
+  \node[box,right=of v,fill=gray!8] (fuse) {Hợp nhất\\thích nghi\\$\alpha_m$};
+  \node[box,right=of fuse,fill=gray!8] (rot) {RotatE\\$\gamma-\lVert \mathbf{h}\!\circ\!\mathbf{r}\!-\!\mathbf{t}\rVert$};
   \node[box,right=of rot] (out) {điểm số\\bộ ba};
-  \node[box,below=6mm of fuse,fill=red!8] (g) {Generator $G$\\(mô thức giả)};
+  \node[box,fill=orange!15,dashed,anchor=north] (g) at ([yshift=-5mm]fuse.south|-t.south) {Bộ sinh $G$\\(ảnh, văn bản giả)};
   \draw[->] (s) -- (fuse); \draw[->] (v) -- (fuse); \draw[->] (t) -- (fuse);
   \draw[->] (fuse) -- (rot); \draw[->] (rot) -- (out);
-  \draw[->,dashed] (g) -- node[below,sloped]{$\mu$} (rot);
-  \draw[->,dashed] (s.south) |- (g);
+  \draw[->,dashed] (g.north) -- node[right,align=left]{ảnh, văn bản giả\\(bộ ba giả, loss nhân $\mu$)} (fuse.south);
+  \coordinate (lx) at ([xshift=-3mm]v.west);
+  \draw[->,dashed] (s.west) -- (s.west -| lx) |- node[pos=0.75,below]{$\mathbf{e}_s{+}$nhiễu $z$} (g.west);
 \end{tikzpicture}
 \caption{Luồng AdaMF-MAT. Ba mô thức được chiếu về cùng không gian, hợp nhất theo
 trọng số học được $\alpha_m$, chấm điểm bằng RotatE. Nhánh nét đứt là pha đối
-kháng MAT, chỉ hoạt động khi $\mu>0$.}
+kháng MAT: bộ sinh nhận embedding cấu trúc cộng nhiễu, tạo ảnh và văn bản giả; chúng đi qua cùng tầng hợp nhất để
+tạo bộ ba giả làm mẫu âm khó (hàm \texttt{get\_fake\_score} trong mã). Loss của nhánh này nhân $\mu$, nên chỉ tác động
+khi $\mu>0$.}
 \label{fig:adamf}
 \end{figure}
 
 \subsection{Kết quả bài báo công bố}
 \label{sec:adamf-paper}
-\textit{Dữ liệu và chỉ số.} Ba tập DB15K (từ DBpedia), MKG-W (Wikidata), MKG-Y (YAGO), thống kê ở
+\textit{Dữ liệu và chỉ số:} Ba tập DB15K (từ DBpedia), MKG-W (Wikidata), MKG-Y (YAGO), thống kê ở
 Bảng~\ref{tab:data}. Đánh giá bằng dự đoán liên kết cả đầu và đuôi, xếp hạng có lọc, đo MRR và
-Hit@$\{1,3,10\}$. \textit{So sánh.} 19 baseline chia ba nhóm: 7 mô hình đơn mô thức (TransE đến
+Hit@$\{1,3,10\}$. \textit{So sánh:} 19 baseline chia ba nhóm: 7 mô hình đơn mô thức (TransE đến
 GC-OTE), 7 mô hình đa mô thức (IKRL đến OTKGE) và 5 dòng lấy mẫu âm (KBGAN hai biến thể, MANS, MMRNS
 hai dòng). Một phần số baseline trích từ bài MMRNS, phần còn lại tác giả tự chạy lại.
-\textit{Kết quả.} AdaMF-MAT đứng đầu cả ba tập (Bảng~\ref{tab:adamf-paper}), cải thiện trung bình so
-với 19 baseline $+6{,}0\%$ MRR, $+8{,}0\%$ Hit@1, $+5{,}5\%$ Hit@3, $+2{,}1\%$ Hit@10. Ngoài kết quả
+\textit{Kết quả:} AdaMF-MAT đứng đầu cả ba tập (Bảng~\ref{tab:adamf-paper}), cải thiện trung bình so
+với 19 baseline (theo cách tính của bài) $+6{,}0\%$ MRR, $+8{,}0\%$ Hit@1, $+5{,}5\%$ Hit@3, $+2{,}1\%$ Hit@10. Ngoài kết quả
 chính, bài trả lời thêm ba câu hỏi: thiếu mô thức 20--80\% trên DB15K thì MAT thêm khoảng 2 MRR ở
-mọi tỉ lệ (Figure~3); bỏ trọng số thích nghi, bỏ từng mô thức hay từng loại bộ ba giả đều làm giảm
-MRR (Table~3); và trọng số mô thức khác nhau theo quan hệ (Figure~5).
+mọi tỉ lệ (Hình~3~\cite{adamfmat}); bỏ trọng số thích nghi, bỏ từng mô thức hay từng loại bộ ba giả đều làm giảm
+MRR (Bảng~3~\cite{adamfmat}); và trọng số mô thức khác nhau theo quan hệ (Hình~5~\cite{adamfmat}).
 
 \begin{table}[t]
-\caption{MRR theo bài báo (trích Table~2 của~\cite{adamfmat}): baseline tốt nhất, AdaMF (không MAT) và AdaMF-MAT.}
+\caption{MRR theo bài báo (trích Bảng~2~\cite{adamfmat}): mô hình so sánh tốt nhất, AdaMF (không MAT) và AdaMF-MAT. Số in đậm: cao nhất trong hàng. Trên MKG-W và DB15K, AdaMF chưa có MAT còn thấp hơn mô hình so sánh tốt nhất.}
 \label{tab:adamf-paper}
 \centering\footnotesize
-\begin{tabular}{lrrr}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrr}
 \toprule
-Tập & Baseline tốt nhất & AdaMF & AdaMF-MAT \\
+Tập & So sánh tốt nhất & MRR & AdaMF & AdaMF-MAT \\
 \midrule
-DB15K & 32,68 (MMRNS) & 32,51 & \textbf{35,14} \\
-MKG-W & 35,03 (MMRNS) & 34,27 & \textbf{35,85} \\
-MKG-Y & 37,04 (VBKGC) & 38,06 & \textbf{38,57} \\
+MKG-W & MMRNS & 35,03 & 34,27 & \textbf{35,85} \\
+MKG-Y & VBKGC & 37,04 & 38,06 & \textbf{38,57} \\
+DB15K & MMRNS & 32,68 & 32,51 & \textbf{35,14} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Đọc bảng này trước khi xem phần tái lập sẽ thấy vì sao MAT là trọng tâm kiểm chứng: theo bài báo,
-trên DB15K và MKG-W, AdaMF \emph{chưa có} MAT còn thua baseline tốt nhất, và chỉ nhờ MAT mới vượt.
+trên DB15K và MKG-W, AdaMF \emph{chưa có} MAT còn thua mô hình so sánh tốt nhất, và chỉ nhờ MAT mới vượt.
 Toàn bộ vị trí dẫn đầu ở hai tập này dựa vào đóng góp của MAT.
 
 %==============================================================================
@@ -373,217 +399,255 @@ Toàn bộ vị trí dẫn đầu ở hai tập này dựa vào đóng góp củ
 Mã nguồn: repo chính thức \texttt{zjukg/AdaMF-MAT}. Đặc trưng ảnh/văn bản tiền
 huấn luyện (thiếu trong repo) được tải riêng, kiểm tra khớp chính xác số thực thể
 trong \texttt{entity2id.txt} (Bảng~\ref{tab:data}). Chạy trên GPU NVIDIA Tesla T4 (16GB).
-Mã nguồn tái lập của nhóm và hướng dẫn chạy lại: \url{https://github.com/lqhung93/graphML-midterm-project}.
+Mã nguồn tái lập của nhóm và hướng dẫn chạy lại được công khai trên GitHub\footnote{\url{https://github.com/lqhung93/graphML-midterm-project}}.
 
 \begin{table}[t]
-\caption{Thống kê ba tập dữ liệu (đã kiểm chứng từ file thật).}
+\caption{Thống kê ba tập dữ liệu, đếm từ file thật. \dag: hai số này đảo so với Bảng~1~\cite{adamfmat} (bài ghi kiểm định 9.902, kiểm thử 9.904).}
 \label{tab:data}
-\centering
-\footnotesize
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lrrrrr}
 \toprule
-Tập & \#thực thể & \#quan hệ & train & valid & test \\
+& & & \multicolumn{3}{c}{Số bộ ba} \\
+\cmidrule(lr){4-6}
+Tập & Thực thể & Quan hệ & huấn luyện & kiểm định & kiểm thử\\
 \midrule
-DB15K & 12842 & 279 & 79222 & 9904 & 9902 \\
-MKG-W & 15000 & 169 & 34196 & 4276 & 4274 \\
-MKG-Y & 15000 & 28  & 21310 & 2665 & 2663 \\
+MKG-W & 15.000 & 169 & 34.196 & 4.276 & 4.274 \\
+MKG-Y & 15.000 & 28 & 21.310 & 2.665 & 2.663 \\
+DB15K & 12.842 & 279 & 79.222 & 9.904\textsuperscript{\dag} & 9.902\textsuperscript{\dag} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textbf{Bẫy tái lập đã gặp.}
-(1) Phải \emph{build lại} \texttt{Base.so} (loader C++ của OpenKE) bằng
+\textbf{Bẫy tái lập đã gặp:}
+(1) Phải \emph{build lại} \texttt{Base.so} (loader C++ của OpenKE~\cite{openke}) bằng
 \texttt{bash mmkgc/make.sh}; bản dựng sẵn dùng \texttt{-march=native} trên máy
 tác giả có thể ném \emph{Illegal instruction} trên CPU khác kiến trúc.
-(2) MKG-W/MKG-Y phải truyền \texttt{-img\_dim=383} (mặc định 4096 cho DB15K), quên
-sẽ lỗi lệch shape, dùng sẵn script \texttt{run\_mkgw.sh}.
-(3) Mã gốc \emph{không có} cơ chế resume; DB15K một run 1000 epoch tốn $\sim$35 giờ GPU
+(2) Cờ \texttt{-img\_dim} (mặc định 4096) khai trong \texttt{args.py} nhưng mô hình không
+dùng: số chiều đặc trưng ảnh được đọc thẳng từ file embedding (383 với MKG-W, MKG-Y; 4096 với
+DB15K), nên không cần truyền cờ này; dùng sẵn các script \texttt{run\_*.sh} của tác giả.
+(3) Mã gốc \emph{không có} cơ chế resume; DB15K một run 1000 epoch tốn khoảng 31 đến 35 giờ GPU
 (đo thật: $112$--$126$ s/epoch trên T4), vượt giới hạn $12$ giờ mỗi phiên GPU của nhóm. Nhóm tự
 thêm cờ \texttt{-resume} và cắt thành bốn phiên $250$ epoch nối tiếp để chạy đủ (mục~\ref{sec:db15k}).
 
-\textbf{Siêu tham số} (đọc từ script tác giả, MKG-W): \texttt{dim=200,
+\textbf{Siêu tham số (đọc từ script tác giả, MKG-W):} \texttt{dim=200,
 margin=12, batch=1024, neg\_num=128, lr=2e-5, epoch=1000}. Lưu ý \texttt{lr=2e-5}
-nằm \emph{ngoài} lưới $\{1\text{e-}3, 1\text{e-}4, 1\text{e-}5\}$ bài báo khai, và
+nằm \emph{ngoài} lưới $\{1\text{e-}3, 1\text{e-}4, 1\text{e-}5\}$ bài báo công bố, và
 DB15K dùng \texttt{dim=250} dù bài báo nói ``set to 200''.
 
 \subsection{Ghi nhận thực nghiệm (Weights \& Biases)}
-Theo yêu cầu đề bài, mỗi thí nghiệm reproduce được ghi nhận công khai. Toàn bộ huấn
+Theo yêu cầu đề bài, mỗi thí nghiệm tái lập được ghi nhận công khai trên W\&B~\cite{wandb}. Toàn bộ huấn
 luyện chạy trên GPU NVIDIA T4; nhóm lưu lại log huấn luyện gốc (loss theo epoch, kết quả
-từng fold, lệnh chạy đầy đủ). Lúc chạy, môi trường huấn luyện
-chưa kết nối được W\&B, nên các run W\&B được nhóm tạo lại sau khi huấn luyện xong, từ
-kết quả cuối trong log. Vì vậy mỗi run chỉ có một dòng kết quả, không có đường loss,
-và thời gian chạy cùng máy hiển thị trên W\&B là của bước tổng hợp chứ không phải của
-bước huấn luyện. Config của mỗi run ghi đủ siêu tham số thật; các run được xếp theo
+từng fold, lệnh chạy đầy đủ). Các run W\&B gồm hai loại, ghi rõ trong phần ghi chú của từng
+run. (1) Đợt chạy đầu: lúc chạy, môi trường huấn luyện chưa kết nối được W\&B, nên run được
+tạo sau khi huấn luyện xong; kết quả cuối và \emph{lịch sử theo epoch} (loss của bộ phân biệt
+và bộ sinh với AdaMF-MAT; loss, độ chính xác và macro-F1 trên test theo từng epoch và từng fold
+với MKG-FENN) được \emph{nhập lại từ log gốc}, không phải ghi trực tiếp lúc huấn luyện; log gốc
+đã làm sạch đính kèm trong mục Files của run. Với DB15K, lịch sử nối bốn phiên 250 epoch theo
+epoch toàn cục, trạng thái mô hình và optimizer được lưu ở cuối mỗi phiên và nạp lại ở phiên sau.
+(2) Đợt chạy bổ sung các seed còn thiếu: mã huấn luyện gọi \texttt{wandb.log} sau mỗi epoch, nên
+đường loss và chỉ số được ghi \emph{trực tiếp} trong lúc huấn luyện. Thời gian chạy và thông tin
+máy trên W\&B không phản ánh bước huấn luyện của đợt (1). Config của mỗi run ghi đủ siêu tham số thật; các run được xếp theo
 group (\texttt{adamf/main}, \texttt{adamf/mu}, \texttt{adamf/db15k},
 \texttt{adamf/ablation}, \texttt{adamf/attention}, \texttt{mkgfenn/task1\_main},
 \texttt{mkgfenn/task2}, \texttt{mkgfenn/task3}, \texttt{mkgfenn/ablation},
 \texttt{mkgfenn/sensitivity}). Xem Phụ lục~\ref{app:wandb} cho bảng ánh xạ đầy đủ
-run~$\to$~liên kết.
-\begin{itemize}
-  \item Kết quả chính MKG-W (3 seed): \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-k-t-qu-ch-nh-MKG-W-3-seed---VmlldzoxODE3OTk3Mw}
-  \item Lưới hệ số MAT trên MKG-W và MKG-Y: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-l-i-h-s-MAT-tr-n-MKG-W-v-MKG-Y--VmlldzoxODE3OTk3NA}
-  \item DB15K 1000 epoch: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-DB15K-1000-epoch--VmlldzoxODE3OTk3NQ}
-  \item Ablation mô thức và trọng số attention (Figure~5): \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-ablation-m-th-c-v-tr-ng-s-attention--VmlldzoxODE3OTk3Ng}
-  \item Thiếu mô thức (Figure~3): \url{https://wandb.ai/K35/gml-adamf-mat/runs/ipdub3kv}
-\end{itemize}
+run~$\to$~liên kết; mỗi mục thực nghiệm dưới đây mở đầu bằng liên kết W\&B của mục đó, đặt ở chú thích chân trang dưới dạng URL đầy đủ (bấm được trên bản PDF và vẫn đọc được trên bản in), giống cách hai bài báo gốc dẫn mã nguồn.
 
-\subsection{Kết quả chính: MKG-W, quét trọn lưới $\lambda$}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-k-t-qu-ch-nh-MKG-W-3-seed---VmlldzoxODE3OTk3Mw}.
+\subsection{Kết quả chính: MKG-W, quét trọn lưới $\mu$}
+\noindent Log và biểu đồ của phần này nằm trong báo cáo W\&B công khai\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-k-t-qu-ch-nh-MKG-W-3-seed---VmlldzoxODE3OTk3Mw}}.
 
-Bảng~\ref{tab:mkgw} đối chiếu số nhóm đo được với số bài báo. Một seed (42), chưa
-lặp nhiều seed nên các chênh lệch nhỏ cần đọc dè dặt.
+Bảng~\ref{tab:mkgw} đối chiếu số nhóm đo được với số bài báo: lưới đầy đủ ở seed 42 và hai cấu hình
+chính lặp 3 seed (hai dòng cuối).
 
 \begin{table}[t]
-\caption{Kết quả tái lập trên MKG-W (số in đậm là số đo của nhóm; dòng \emph{Paper} trích từ~\cite{adamfmat}). $\Delta$ so với
-$\mu=0$ của nhóm.}
+\caption{Tái lập trên MKG-W. $\Delta$MRR của dòng bài báo so với AdaMF của bài báo; của nhóm so với $\mu=0$ cùng seed
+(seed 42 tính từ số chưa làm tròn 35,6786 và 35,7347), với 3 seed là trung bình chênh lệch ghép cặp; Hit@$k$ của 3 seed
+là trung bình. Số in đậm: cao nhất trong cột giữa các dòng một lần chạy. Độ lệch chuẩn MRR giữa seed khoảng 0,06, nên
+chênh lệch nhỏ hơn mức này không phân biệt được với nhiễu.}
 \label{tab:mkgw}
-\centering
-\footnotesize
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrrrrr}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lr@{}lrrrr}
 \toprule
-Cấu hình & MRR & H@1 & H@3 & H@10 & $\Delta$MRR \\
+Cấu hình & \multicolumn{2}{c}{MRR} & Hit@1 & Hit@3 & Hit@10 & $\Delta$MRR \\
 \midrule
-Paper AdaMF ($\mu{=}0$)   & 34,27 & 27,21 & 37,86 & 47,21 & \\
-Paper AdaMF-MAT           & 35,85 & 29,04 & 39,01 & 48,42 & $+1{,}58$ \\
+\multicolumn{7}{l}{\emph{Bài báo~\cite{adamfmat}}} \\
+AdaMF ($\mu{=}0$) & 34,27 & & 27,21 & 37,86 & 47,21 & \\
+AdaMF-MAT & \textbf{35,85} & & 29,04 & \textbf{39,01} & \textbf{48,42} & $+1{,}58$ \\
 \midrule
-\textbf{Nhóm} $\mu{=}0$   & 35,68 & 28,98 & 38,68 & 48,13 & \\
-\textbf{Nhóm} $\lambda{=}0{,}001$ & 35,73 & 29,11 & 38,58 & 47,99 & $+0{,}06$ \\
-\textbf{Nhóm} $\lambda{=}0{,}01$  & 35,04 & 28,17 & 38,08 & 47,40 & $-0{,}64$ \\
-\textbf{Nhóm} $\lambda{=}0{,}1$   & 32,03 & 25,39 & 34,91 & 44,05 & $-3{,}65$ \\
+\multicolumn{7}{l}{\emph{Nhóm, seed 42}} \\
+$\mu{=}0$ & 35,68 & & 28,98 & 38,68 & 48,13 & \\
+$\mu{=}0{,}001$ & 35,73 & & \textbf{29,11} & 38,58 & 47,99 & $+0{,}06$ \\
+$\mu{=}0{,}01$ & 35,04 & & 28,17 & 38,08 & 47,40 & $-0{,}64$ \\
+$\mu{=}0{,}1$ & 32,03 & & 25,39 & 34,91 & 44,05 & $-3{,}65$ \\
+\midrule
+\multicolumn{7}{l}{\emph{Nhóm, trung bình 3 seed (42, 1, 2)}} \\
+$\mu{=}0$ & 35,74 & ${\pm}0{,}06$ & 28,86 & 39,00 & 48,12 & \\
+$\mu{=}0{,}001$ & 35,80 & ${\pm}0{,}07$ & 28,98 & 38,98 & 48,17 & $+0{,}06$ \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 Bảng cho thấy mấy điều đáng chú ý. Trước hết, đường cơ sở của nhóm đã vượt đường cơ
 sở bài báo: AdaMF với $\mu=0$ đạt 35,68 MRR, cao hơn số AdaMF mà bài báo công bố
-(34,27) tận $+1{,}41$ và chỉ kém hàng AdaMF-MAT của họ (35,85) vỏn vẹn 0,17. Nói
+(34,27) là 1,41 và chỉ thấp hơn hàng AdaMF-MAT của họ (35,85) 0,17. Nói
 cách khác, chỉ riêng AdaMF chạy bằng chính script tác giả với MAT tắt đã gần chạm
 con số mà bài báo gán cho ``AdaMF~$+$~MAT''.
 
 Trên chính con số đó, MAT không tái lập được đóng góp đã công bố. Quét trọn lưới
-$\lambda \in \{0{,}1, 0{,}01, 0{,}001\}$ như bài báo nêu, giá trị tốt nhất
-($\lambda=0{,}001$) chỉ thêm $+0{,}06$ MRR, nằm trong khoảng nhiễu, trong khi bài
-báo khai $+1{,}58$; hai giá trị còn lại đều làm tệ đi, riêng $\lambda=0{,}1$ sụt tới
-$-3{,}65$. Đáng nói là $\lambda$ cực nhạy mà giá trị thắng lại không được công bố:
-chênh giữa $\lambda=0{,}001$ và $\lambda=0{,}1$ lên tới 3,71 MRR, nên người tái lập
-chọn lệch một bậc là mất nhiều hơn toàn bộ đóng góp bài báo khai.
+$\mu \in \{0{,}1, 0{,}01, 0{,}001\}$ như bài báo nêu, giá trị tốt nhất ($\mu=0{,}001$) chỉ thêm
+$+0{,}06$ MRR, cùng cỡ độ lệch chuẩn giữa seed ($0{,}06$), trong khi bài báo công bố $+1{,}58$; hai
+giá trị còn lại đều làm tệ đi. Kết quả nhạy với $\mu$ mà giá trị được chọn lại không được công bố:
+lệch một bậc ($\mu=0{,}01$) đã mất $0{,}70$ MRR so với $\mu=0{,}001$, gần nửa mức đóng góp công bố;
+lệch hai bậc ($\mu=0{,}1$) mất tới $3{,}71$ MRR.
 
 Để kết luận không chỉ dựa trên một lần chạy, nhóm lặp lại với ba seed (42, 1, 2).
-Trung bình $\pm$ độ lệch chuẩn trên MKG-W là $35{,}74 \pm 0{,}06$ cho AdaMF ($\mu=0$)
-và $35{,}80 \pm 0{,}07$ cho AdaMF-MAT ($\lambda=0{,}001$); đóng góp MAT $+0{,}06$ MRR
-nhỏ hơn hoặc ngang độ lệch chuẩn, tức không phân biệt được với 0. Kết luận ``MAT không
-tái lập đóng góp đã công bố'' vì vậy có cơ sở thống kê, không còn là quan sát một lần.
+Trung bình $\pm$ độ lệch chuẩn của điểm MRR trên MKG-W là $35{,}74 \pm 0{,}06$ cho AdaMF ($\mu=0$)
+và $35{,}80 \pm 0{,}07$ cho AdaMF-MAT ($\mu=0{,}001$). Ghép cặp theo seed, chênh lệch MAT là
+$+0{,}06$, $+0{,}01$ và $+0{,}11$ MRR, trung bình $+0{,}06 \pm 0{,}05$ (độ lệch chuẩn của chênh lệch
+ghép cặp). Cả ba chênh lệch đều dương, nên công bằng mà nói MAT \emph{có thể} có tác dụng dương rất nhỏ
+trên MKG-W; nhưng mức này thấp hơn mức $+1{,}58$ công bố khoảng 25 lần. Như vậy kết quả chưa tái hiện
+mức cải thiện được công bố; với ba seed, nhóm không thực hiện kiểm định để kết luận mức cải thiện khác
+0 hay không.
 
 Tập DB15K, nơi bài báo báo cáo MAT mạnh nhất ($+2{,}63$), được chạy riêng và cũng cho
 cùng kết luận (mục~\ref{sec:db15k}).
 
 \subsection{Mở rộng sang MKG-Y: cùng kết luận}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-l-i-h-s-MAT-tr-n-MKG-W-v-MKG-Y--VmlldzoxODE3OTk3NA}.
+\noindent Log và biểu đồ của phần này nằm trong báo cáo W\&B công khai\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-l-i-h-s-MAT-tr-n-MKG-W-v-MKG-Y--VmlldzoxODE3OTk3NA}}.
 
-Nhóm quét trọn lưới $\lambda$ trên tập thứ hai MKG-Y (seed 42, Bảng~\ref{tab:mkgy}).
+Nhóm quét trọn lưới $\mu$ trên tập thứ hai MKG-Y (seed 42, Bảng~\ref{tab:mkgy}).
 Kết quả lặp lại MKG-W: đường cơ sở $\mu=0$ (39,10 MRR) vượt cả số AdaMF (38,06) lẫn
-AdaMF-MAT (38,57) mà bài báo công bố; MAT tốt nhất ($\lambda=0{,}01$) chỉ thêm $+0{,}03$
-MRR (bài báo khai $+0{,}51$), nằm trong nhiễu, còn $\lambda=0{,}1$ tụt $-0{,}67$. Hai tập
-dữ liệu độc lập cho cùng một kết luận: \textbf{đóng góp MAT không tái lập được}.
+AdaMF-MAT (38,57) mà bài báo công bố; MAT tốt nhất ($\mu=0{,}01$) chỉ thêm $+0{,}03$
+MRR (bài báo công bố $+0{,}51$), nhỏ hơn độ lệch chuẩn giữa seed đo trên MKG-W, còn $\mu=0{,}1$ tụt
+$-0{,}67$. Hai cấu hình $\mu=0$ và $\mu=0{,}01$ được lặp thêm seed 1 và 2 (hai dòng cuối của
+Bảng~\ref{tab:mkgy}): trung bình 3 seed là $39{,}14 \pm 0{,}07$ và $39{,}13 \pm 0{,}06$. Ghép cặp theo
+seed, chênh lệch MAT là $+0{,}03$, $-0{,}15$ và $+0{,}09$, trung bình $-0{,}01 \pm 0{,}12$: trên MKG-Y,
+MAT gần như không có tác dụng và dấu thay đổi giữa các seed, trong khi bài báo công bố $+0{,}51$.
+Đường cơ sở 3 seed ($39{,}14$) vẫn cao hơn hàng AdaMF-MAT của bài báo ($38{,}57$). Hai tập
+dữ liệu độc lập cho cùng một kết luận: \textbf{mức đóng góp MAT công bố không tái hiện được}. Cả đường
+cơ sở lẫn cấu hình MAT đều chạy từ \emph{cùng một script của tác giả}, chỉ khác giá trị $\mu$ (và seed),
+nên chênh lệch đến từ chính $\mu$, không phải do nhóm đổi cấu hình.
 
 \begin{table}[t]
-\caption{Tái lập MKG-Y, trọn lưới $\lambda$ (seed 42; dòng \emph{Paper} trích từ~\cite{adamfmat}). $\Delta$ so với $\mu=0$ của nhóm.}
+\caption{Tái lập trên MKG-Y; quy ước như Bảng~\ref{tab:mkgw}. Mức tăng do MAT của nhóm không vượt 0,03 ở mọi cấu hình,
+so với $+0{,}51$ bài báo công bố.}
 \label{tab:mkgy}
 \centering\footnotesize
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrrrrr}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lr@{}lrrrr}
 \toprule
-Cấu hình & MRR & H@1 & H@3 & H@10 & $\Delta$MRR \\
+Cấu hình & \multicolumn{2}{c}{MRR} & Hit@1 & Hit@3 & Hit@10 & $\Delta$MRR \\
 \midrule
-Paper AdaMF ($\mu{=}0$) & 38,06 & 33,49 & 40,44 & 45,48 & \\
-Paper AdaMF-MAT & 38,57 & 34,34 & 40,59 & 45,76 & $+0{,}51$ \\
+\multicolumn{7}{l}{\emph{Bài báo~\cite{adamfmat}}} \\
+AdaMF ($\mu{=}0$) & 38,06 & & 33,49 & 40,44 & 45,48 & \\
+AdaMF-MAT & 38,57 & & 34,34 & 40,59 & 45,76 & $+0{,}51$ \\
 \midrule
-\textbf{Nhóm} $\mu{=}0$ & 39,10 & 34,59 & 41,23 & 46,68 & \\
-\textbf{Nhóm} $\lambda{=}0{,}001$ & 39,10 & 34,59 & 41,19 & 46,60 & $\approx 0$ \\
-\textbf{Nhóm} $\lambda{=}0{,}01$ & 39,13 & 34,64 & 41,25 & 46,58 & $+0{,}03$ \\
-\textbf{Nhóm} $\lambda{=}0{,}1$ & 38,43 & 33,85 & 40,67 & 45,96 & $-0{,}67$ \\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-\subsection{DB15K: tập ``khó nhất'' cho MAT cũng không tái lập}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-DB15K-1000-epoch--VmlldzoxODE3OTk3NQ}.
-
-\label{sec:db15k}
-DB15K là tập bài báo công bố đóng góp MAT lớn nhất ($+2{,}63$ MRR). Mã gốc không có cơ chế
-resume mà một run $1000$ epoch tốn $\sim$35 giờ, vượt giới hạn $12$ giờ mỗi phiên GPU. Nhóm
-thêm cờ \texttt{-resume}/\texttt{-resume\_out}/\texttt{-total\_epoch}, cắt thành bốn phiên
-$250$ epoch nối tiếp (chuyền trạng thái qua file resume), chạy đủ $1000$ epoch cho
-cả $\mu=0$ (không MAT) và $\mu=0{,}01$ (MAT). Ở đây $\mu$ chính là hệ số cân bằng MAT mà các
-mục trên ký hiệu $\lambda$ theo bài báo (mã gọi là \texttt{mu}); ta dùng lại tên biến của mã
-cho khớp với log. Kết quả (Bảng~\ref{tab:db15k}) \textbf{lặp lại đúng mẫu của MKG-W/MKG-Y}:
-đường cơ sở không MAT của nhóm ($35{,}84$) vượt \emph{cả} hàng AdaMF-MAT của bài báo
-($35{,}14$), còn bật MAT ($\mu=0{,}01$) lại \emph{tụt} $-0{,}41$ thay vì $+2{,}63$ như công bố. Chênh giữa đường cơ sở bài báo ($32{,}51$) và của nhóm ($35{,}84$) là
-$+3{,}33$: phần bài báo quy cho MAT phần lớn là do đường cơ sở của họ bị tinh chỉnh dưới mức.
-
-\begin{table}[t]
-\caption{Tái lập DB15K, 1000 epoch (seed 42; dòng \emph{Paper} trích từ~\cite{adamfmat}). $\mu$ là trọng số MAT.}
-\label{tab:db15k}
-\centering\footnotesize
-\begin{tabular}{lrrrr}
-\toprule
-Cấu hình & MRR & H@1 & H@3 & H@10 \\
+\multicolumn{7}{l}{\emph{Nhóm, seed 42}} \\
+$\mu{=}0$ & 39,10 & & 34,59 & 41,23 & \textbf{46,68} & \\
+$\mu{=}0{,}001$ & 39,10 & & 34,59 & 41,19 & 46,60 & $-0{,}01$ \\
+$\mu{=}0{,}01$ & \textbf{39,13} & & \textbf{34,64} & \textbf{41,25} & 46,58 & $+0{,}03$ \\
+$\mu{=}0{,}1$ & 38,43 & & 33,85 & 40,67 & 45,96 & $-0{,}67$ \\
 \midrule
-Paper AdaMF ($\mu{=}0$) & 32,51 & 21,31 & 39,67 & 51,68 \\
-Paper AdaMF-MAT & 35,14 & 25,30 & 41,11 & 52,92 \\
-\midrule
-\textbf{Nhóm} $\mu{=}0$ (không MAT) & \textbf{35,84} & 25,97 & 41,81 & 53,63 \\
-\textbf{Nhóm} $\mu{=}0{,}01$ (MAT) & 35,43 & 25,34 & 41,50 & 53,38 \\
+\multicolumn{7}{l}{\emph{Nhóm, trung bình 3 seed (42, 1, 2)}} \\
+$\mu{=}0$ & 39,14 & ${\pm}0{,}07$ & 34,72 & 41,05 & 46,66 & \\
+$\mu{=}0{,}01$ & 39,13 & ${\pm}0{,}06$ & 34,65 & 41,11 & 46,61 & $-0{,}01$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\emph{Phạm vi và giới hạn.} Cần nói rõ phạm vi của kết luận này. Trên MKG-W và MKG-Y
-nhóm đã quét \emph{trọn} lưới $\mu$ mà bài báo công bố, bao gồm cả giá trị tốt nhất
-$\mu=0{,}001$, và đóng góp MAT cao nhất chỉ đạt $+0{,}06$. Riêng DB15K, do một run
-$1000$ epoch tốn $\sim$32 giờ chia bốn phiên, nhóm mới thử được $\mu=0{,}01$. Vì vậy
-nhóm \emph{không} tuyên bố đã bác bỏ MAT trên DB15K ở mọi $\mu$; điều quan sát được
-là mẫu hành vi của ba tập dữ liệu nhất quán với nhau. Để $\mu=0{,}001$ trên DB15K đạt
-$+2{,}63$ như công bố thì nó phải tốt hơn hẳn chính $\mu=0{,}001$ trên hai tập nhóm đã
-quét kỹ (nơi nó gần như không giúp gì), đồng thời phải cải thiện trên một đường cơ sở
-mà bản thân đã vượt hàng AdaMF-MAT của bài báo. Đây là khả năng chưa thể loại trừ bằng
-thực nghiệm, nhưng không được dữ liệu hiện có ủng hộ. Nói gọn, \textbf{trên mọi cấu
-hình nhóm đã thử, xuyên ba tập dữ liệu, MAT không tái lập được mức đóng góp đã công bố}.
+\subsection{DB15K: hai cấu hình đã thử chưa tái hiện mức công bố}
+\noindent Log và biểu đồ của phần này nằm trong báo cáo W\&B công khai\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-DB15K-1000-epoch--VmlldzoxODE3OTk3NQ}}.
+
+\label{sec:db15k}
+DB15K là tập bài báo công bố đóng góp MAT lớn nhất ($+2{,}63$ MRR). Mã gốc không có cơ chế
+resume mà một run $1000$ epoch vượt giới hạn mỗi phiên GPU (Mục~\ref{sec:repro-setup}). Nhóm
+thêm cờ \texttt{-resume}/\texttt{-resume\_out}/\texttt{-total\_epoch}, cắt thành bốn phiên
+$250$ epoch nối tiếp (chuyền trạng thái qua file resume), chạy đủ $1000$ epoch cho
+cả $\mu=0$ (không MAT) và $\mu=0{,}01$ (MAT). Kết quả (Bảng~\ref{tab:db15k}) \textbf{lặp lại đúng mẫu của MKG-W/MKG-Y}:
+đường cơ sở không MAT của nhóm ($35{,}84$) vượt \emph{cả} hàng AdaMF-MAT của bài báo
+($35{,}14$), còn bật MAT ($\mu=0{,}01$) lại \emph{tụt} $-0{,}41$ thay vì $+2{,}63$ như công bố. Chênh giữa đường cơ sở bài báo ($32{,}51$) và của nhóm ($35{,}84$) là
+$+3{,}33$. Ít nhất ba khả năng có thể giải thích khoảng chênh của đường cơ sở: (i) mã và script
+phát hành là một phiên bản sau, khác cấu hình dùng cho bài báo (\texttt{lr=2e-5} nằm ngoài lưới công
+bố gợi ý điều này); (ii) khác phần cứng, phiên bản thư viện; (iii) hàng AdaMF trong bài được huấn
+luyện với cấu hình khác. Nhóm không phân biệt được ba khả năng này.
+
+\begin{table}[t]
+\caption{Tái lập trên DB15K; quy ước như Bảng~\ref{tab:mkgw}. Đường cơ sở không MAT của nhóm cao hơn cả hàng AdaMF-MAT
+của bài báo, và bật MAT làm MRR giảm.}
+\label{tab:db15k}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lr@{}lrrrr}
+\toprule
+Cấu hình & \multicolumn{2}{c}{MRR} & Hit@1 & Hit@3 & Hit@10 & $\Delta$MRR \\
+\midrule
+\multicolumn{7}{l}{\emph{Bài báo~\cite{adamfmat}}} \\
+AdaMF ($\mu{=}0$) & 32,51 & & 21,31 & 39,67 & 51,68 & \\
+AdaMF-MAT & 35,14 & & 25,30 & 41,11 & 52,92 & $+2{,}63$ \\
+\midrule
+\multicolumn{7}{l}{\emph{Nhóm, seed 42, 1.000 epoch}} \\
+$\mu{=}0$ & \textbf{35,84} & & \textbf{25,97} & \textbf{41,81} & \textbf{53,63} & \\
+$\mu{=}0{,}01$ & 35,43 & & 25,34 & 41,50 & 53,38 & $-0{,}41$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Phạm vi và giới hạn:} Trên MKG-W và MKG-Y nhóm đã quét \emph{trọn} lưới $\mu$ mà bài báo
+công bố, và đóng góp MAT cao nhất chỉ đạt $+0{,}06$. Riêng DB15K, do mỗi run cần bốn phiên GPU, nhóm
+mới thử được $\mu=0{,}01$ với một seed. Bản thân bài báo cho thấy mức tăng của MAT khác nhau nhiều
+giữa các tập ($+2{,}63$, $+1{,}58$, $+0{,}51$), và DB15K còn khác về đặc trưng ảnh (VGG 4096 chiều) lẫn
+\texttt{dim=250}, nên kết quả MKG-W, MKG-Y không đủ để suy ra DB15K. Trên DB15K nhóm chỉ có một seed
+và một giá trị $\mu$, nên đây là bằng chứng yếu nhất trong ba tập; nhóm \emph{không} tuyên bố đã bác
+bỏ MAT trên DB15K. Nói gọn, \textbf{trong phạm vi các
+cấu hình nhóm đã thử, MAT chưa tái hiện được mức đóng góp đã công bố}; riêng DB15K, kết luận chỉ
+áp dụng cho $\mu=0{,}01$. Hình~\ref{fig:mat-summary} gom kết quả của ba tập vào một hình.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig_mat_summary.pdf}
+\caption{Tóm tắt tái lập AdaMF-MAT trên ba tập. (a) MRR: hai hàng của bài báo (cam) và đường cơ sở
+không MAT của nhóm (xanh, thanh sai số là độ lệch chuẩn qua các seed). (b) Mức tăng MRR do MAT: bài
+báo công bố so với nhóm đo ở cấu hình MAT tốt nhất của nhóm ($\mu=0{,}001$ trên MKG-W, $0{,}01$ trên
+MKG-Y và DB15K), tính bằng chênh lệch ghép cặp theo seed; dấu * là một seed. Nhóm vẽ từ số đo
+trong Bảng~\ref{tab:mkgw} đến~\ref{tab:db15k}.}
+\label{fig:mat-summary}
+\end{figure}
 
 %==============================================================================
-\section{Phân tích phê phán}
+\section{Phân tích và đối chiếu với mã nguồn}
 \label{sec:adamf-critique}
 %==============================================================================
 
-\subsection{Trọng số mô thức: hợp nhất thích nghi học cách bỏ ảnh}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-ablation-m-th-c-v-tr-ng-s-attention--VmlldzoxODE3OTk3Ng}.
+\subsection{Trọng số mô thức: hợp nhất thích nghi gán trọng số rất thấp cho ảnh}
+\noindent Log và biểu đồ của phần này nằm trong báo cáo W\&B công khai\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/reports/AdaMF-MAT-ablation-m-th-c-v-tr-ng-s-attention--VmlldzoxODE3OTk3Ng}}.
 
 Nhóm nạp checkpoint MKG-W ($\mu=0$) của ba seed (42, 1, 2) và gọi thẳng hàm
 \texttt{get\_attention} của model (không xấp xỉ lại). Bảng~\ref{tab:attn} là trung bình
 trên toàn bộ 15000 thực thể; với checkpoint seed 42, nhóm còn tách theo 98 quan hệ trên
-tập test để so với Figure~5.
+tập test để so với Hình~5~\cite{adamfmat}.
 
 \begin{table}[t]
-\caption{Trọng số hợp nhất trung bình trên MKG-W (15000 thực thể, checkpoint $\mu=0$; trung bình $\pm$ độ lệch chuẩn trên 3 seed).}
+\caption{Trọng số hợp nhất trung bình trên MKG-W (15.000 thực thể, checkpoint $\mu=0$; trung bình $\pm$ độ lệch chuẩn qua
+3 seed). Ảnh chỉ nhận 1,7\% trọng số, và thứ tự cấu trúc $>$ văn bản $>$ ảnh giữ nguyên ở cả 3 seed.}
 \label{tab:attn}
-\centering
-\footnotesize
+\centering\footnotesize
 \begin{tabular}{lr}
 \toprule
 Mô thức & Trọng số trung bình \\
 \midrule
 cấu trúc & $0{,}5658 \pm 0{,}0014$ \\
 văn bản  & $0{,}4173 \pm 0{,}0015$ \\
-ảnh      & $\mathbf{0{,}0170 \pm 0{,}0004}$ \\
+ảnh      & $0{,}0170 \pm 0{,}0004$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Mô hình gần như \emph{vứt bỏ} mô thức ảnh (1,7\% trọng số) trong khi văn bản được
+Mô hình gán trọng số \emph{rất thấp} cho mô thức ảnh (1,7\%) trong khi văn bản được
 41,7\%, và thứ tự này giữ nguyên ở cả ba seed. Với một bài mang tên ``giải phóng sức mạnh của mô thức mất cân bằng'', đây
-là quan sát đáng nói: cơ chế thích nghi học được cách \emph{bỏ qua} ảnh chứ không
-phải cân bằng nó.
+là quan sát đáng nói: trên MKG-W, cơ chế thích nghi gần như \emph{bỏ qua} ảnh chứ không
+cân bằng nó.
 
 Hình~\ref{fig:attn-rel} tách trọng số theo quan hệ (15 quan hệ có nhiều bộ ba test nhất, mã
 thuộc tính Wikidata). Các thanh gần như giống hệt nhau: cấu trúc 0,53 đến 0,59, ảnh không quá
@@ -591,22 +655,24 @@ thuộc tính Wikidata). Các thanh gần như giống hệt nhau: cấu trúc 0
 trung bình trên các thực thể xuất hiện trong quan hệ đó, khác nhau chủ yếu do thành phần thực thể
 chứ không do mô hình thích nghi theo ngữ cảnh. Trên cả 98 quan hệ có trong tập test, thứ tự
 $s>t>v$ đúng ở 97 quan hệ; quan hệ còn lại chỉ có 2 bộ ba test và ở đó văn bản nhỉnh hơn cấu
-trúc 0,0014.
+trúc 0,0013.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_attn_relation.pdf}
 \caption{Trọng số hợp nhất trung bình theo quan hệ (MKG-W, checkpoint $\mu=0$, seed 42; 15 quan
-hệ có nhiều bộ ba test nhất, $n$ là số bộ ba). Nhóm vẽ từ checkpoint đã huấn luyện.}
+hệ có nhiều bộ ba test nhất, ghi tên quan hệ Wikidata kèm mã, $n$ là số bộ ba). Nhóm vẽ từ checkpoint đã huấn luyện.}
 \label{fig:attn-rel}
 \end{figure}
 
-Thực nghiệm ablation xác nhận điều này. Khi bỏ từng mô thức khỏi tầng hợp nhất (MKG-W,
-$\mu=0$, Bảng~\ref{tab:abl}), bỏ ảnh không những không hại mà còn làm tăng MRR
-($+0{,}26$), đúng với trọng số $0{,}017$ ở trên: ảnh là mô thức nhiễu, gần như vô
-ích trên MKG-W. Quan trọng nhất là văn bản (bỏ đi rớt $-1{,}15$ MRR), rồi mới đến
-cấu trúc ($-0{,}94$). Table~3 của bài báo làm ablation trên DB15K, còn nhóm làm trên
-MKG-W (DB15K tốn $\sim$32 giờ mỗi run), nên hai bảng không so trực tiếp được: bài báo
+Nhóm bỏ từng mô thức khỏi tầng hợp nhất rồi \emph{huấn luyện lại từ đầu} (MKG-W, $\mu=0$,
+Bảng~\ref{tab:abl}). Theo MRR và Hit@10, bỏ văn bản giảm nhiều nhất ($-1{,}15$ MRR); theo Hit@1, bỏ
+cấu trúc giảm nhiều nhất (27,34 so với 28,61 khi bỏ văn bản). Thứ hạng quan trọng vì vậy phụ thuộc
+chỉ số, và trọng số attention (cấu trúc $0{,}57 >$ văn bản $0{,}42$) không trùng với mức quan trọng đo
+bằng ablation. Bỏ ảnh lại làm \emph{tăng} MRR $+0{,}26$, lớn hơn mức kỳ vọng của một mô thức chỉ nhận
+trọng số $0{,}017$; điều này gợi ý nhánh ảnh khả huấn luyện còn gây nhiễu cho quá trình tối ưu (chưa
+kiểm chứng). Bảng~3~\cite{adamfmat} của bài báo làm ablation trên DB15K, còn nhóm làm trên MKG-W (vì chi phí DB15K),
+nên hai bảng không so trực tiếp được: bài báo
 thấy bỏ cấu trúc rớt mạnh nhất, gợi ý thứ tự này phụ thuộc tập dữ liệu. Nhóm cũng chưa
 chạy hai ablation khác của bài báo (hợp nhất thích nghi so với trung bình, và bỏ từng
 loại bộ ba tổng hợp của MAT). Mỗi cấu hình một seed; mức $+0{,}26$ và $-0{,}94$ lớn hơn
@@ -614,107 +680,116 @@ nhiều độ lệch chuẩn giữa seed của MKG-W ($0{,}06$) nên hướng th
 lớn chính xác thì chưa.
 
 \begin{table}[t]
-\caption{Ablation mô thức (MKG-W, $\mu=0$, seed 42). $\Delta$ so với full.}
+\caption{Ablation mô thức (MKG-W, $\mu=0$, seed 42, huấn luyện lại từ đầu). $\Delta$ so với mô hình đầy đủ. Số in đậm:
+cao nhất trong cột. Bỏ ảnh cho kết quả cao nhất ở mọi chỉ số; bỏ văn bản giảm MRR và Hit@10 nhiều nhất, bỏ cấu trúc giảm
+Hit@1 nhiều nhất. Độ lệch chuẩn MRR giữa seed khoảng 0,06.}
 \label{tab:abl}
 \centering\footnotesize
-\begin{tabular}{lrr}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrr}
 \toprule
-Cấu hình & MRR & $\Delta$ \\
+Cấu hình & MRR & Hit@1 & Hit@3 & Hit@10 & $\Delta$MRR \\
 \midrule
-Full (3 mô thức) & 35,68 & \\
-Bỏ cấu trúc & 34,74 & $-0{,}94$ \\
-Bỏ ảnh & \textbf{35,94} & $\mathbf{+0{,}26}$ \\
-Bỏ văn bản & 34,53 & $-1{,}15$ \\
+Đầy đủ (3 mô thức) & 35,68 & 28,98 & 38,68 & 48,13 & \\
+Bỏ cấu trúc & 34,74 & 27,34 & 38,22 & 47,95 & $-0{,}94$ \\
+Bỏ ảnh & \textbf{35,94} & \textbf{28,99} & \textbf{39,02} & \textbf{48,41} & $+0{,}26$ \\
+Bỏ văn bản & 34,53 & 28,61 & 36,83 & 45,43 & $-1{,}15$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Ở đây có một mâu thuẫn nội tại của bài báo. Mục 4.5 viết thứ tự quan trọng thường là
-$s > v > t$, nhưng chính Figure~5 của họ (cả 7/7 quan hệ) lại cho $s > t > v$ với dải
+$s > v > t$, nhưng chính Hình~5~\cite{adamfmat} của họ (cả 7/7 quan hệ) lại cho $s > t > v$ với dải
 ảnh luôn mỏng nhất. Số nhóm đo trên MKG-W ($s > t > v$ ở 97/98 quan hệ, $s>v>t$ ở
 $0/98$ quan hệ) \emph{khớp với hình} của họ, chỉ lệch với câu văn. (Lưu ý: bài
-không nói Figure~5 vẽ trên tập nào; nhóm đo trên MKG-W nên phát biểu đúng là ``trên
+không nói Hình~5~\cite{adamfmat} vẽ trên tập nào; nhóm đo trên MKG-W nên phát biểu đúng là ``trên
 MKG-W thứ tự $s>v>t$ không đúng ở bất kỳ quan hệ nào''.)
 
-\subsection{Độ bền khi thiếu mô thức (tái lập Figure 3)}
-\noindent Run W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/runs/ipdub3kv}.
+\subsection{Độ bền khi thiếu mô thức (thí nghiệm tương tự Hình~3~\cite{adamfmat})}
+\noindent Ba run W\&B của phần này (3 seed) được ghi trực tiếp trong lúc chạy\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/runs/gvsjht9x}, \url{https://wandb.ai/K35/gml-adamf-mat/runs/4gyft23s}, \url{https://wandb.ai/K35/gml-adamf-mat/runs/90cvpets}}.
 
-Figure~3 của bài báo khảo sát độ bền khi một phần thực thể bị thiếu mô thức. Mã nguồn
-\emph{không} kèm thí nghiệm này, nên nhóm tự viết: nạp checkpoint MKG-W ($\mu=0$), rồi tại
-thời điểm kiểm thử, \emph{zero-hóa} đặc trưng ảnh và văn bản cho một tỉ lệ $p$ thực thể chọn
-ngẫu nhiên (seed 42), đo lại link prediction. Hình~\ref{fig:missing} là kết quả. Tại $p=0$,
-MRR $=0{,}3568$ trùng khớp đường cơ sở của nhóm (kiểm tra checkpoint nạp đúng).
+Hình~3~\cite{adamfmat} của bài báo khảo sát độ bền khi một phần thực thể bị thiếu mô thức. Mã nguồn
+\emph{không} kèm thí nghiệm này, nên nhóm tự viết: nạp checkpoint MKG-W ($\mu=0$) của ba seed
+(42, 1, 2), rồi tại thời điểm kiểm thử, \emph{zero-hóa} đặc trưng ảnh và văn bản cho một tỉ lệ $p$
+thực thể chọn ngẫu nhiên (mặt nạ dùng cùng seed với checkpoint), đo lại link prediction. Đây là
+can thiệp lúc suy luận, không huấn luyện lại. Hình~\ref{fig:missing} là kết quả. Tại $p=0$, MRR
+trùng khớp đường cơ sở của từng seed (kiểm tra checkpoint nạp đúng). Thí nghiệm này khác bài báo ở
+ba điểm: tập MKG-W thay vì DB15K; chỉ có $\mu=0$ nên không kiểm được phát biểu ``MAT thêm khoảng
+2 MRR''; và thiếu mô thức chỉ xảy ra lúc suy luận, nên đầu vào 0 nằm ngoài phân phối huấn luyện. Mức
+giảm đo được vì vậy là cận trên của độ phụ thuộc vào mô thức bổ trợ.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.92\columnwidth]{figures/fig3_missing.pdf}
-\caption{Độ bền của AdaMF khi thiếu mô thức (MKG-W, checkpoint $\mu=0$): hiệu năng theo
-tỉ lệ thực thể bị bỏ ảnh$+$văn bản. $p=0$ tái hiện đúng đường cơ sở (MRR $0{,}3568$).}
+\caption{Độ bền của AdaMF khi thiếu mô thức (MKG-W, checkpoint $\mu=0$, 3 seed): trung bình
+$\pm$ độ lệch chuẩn của hiệu năng theo tỉ lệ thực thể bị bỏ đồng thời ảnh và văn bản.}
 \label{fig:missing}
 \end{figure}
 
-Đường cong này nói hai điều. Thứ nhất, hiệu năng tụt đơn điệu và mạnh khi $p$ tăng từ
-$0$ đến $0{,}8$ (MRR $0{,}3568 \to 0{,}0779$), cho thấy mô hình phụ thuộc thực vào mô
-thức bổ trợ dù attention gán cho ảnh trọng số rất nhỏ; ảnh không vô dụng mà đóng vai
-trò khi riêng cấu trúc chưa đủ. Thứ hai, và bất ngờ hơn, tại $p=1{,}0$ khi mọi thực
-thể đều thiếu, MRR lại hồi lên $0{,}1107$, cao hơn mức $0{,}0779$ ở $p=0{,}8$. Lý do
-là khi tất cả cùng mất mô thức, không gian biểu diễn trở lại nhất quán ở dạng thuần
-cấu trúc, trong khi thiếu một phần tạo ra hỗn hợp không đồng nhất khó khớp hơn. Đây là
-một quan sát từ \emph{một} seed và sáu điểm đo (chưa lặp lại nên không kèm thanh sai số),
-nên chỉ nên xem là \emph{gợi ý}: chính tính không đồng nhất của dữ liệu thiếu có thể gây
-hại hơn cả lượng thiếu, một góc nhìn mà biểu đồ gốc của bài báo không nêu.
+Đường cong này nói hai điều. Thứ nhất, hiệu năng tụt mạnh khi $p$ tăng từ $0$ đến $0{,}8$
+(MRR trung bình $0{,}357 \to 0{,}107$): mô hình phụ thuộc vào thông tin bổ trợ ngoài cấu trúc,
+nhưng thiết kế bỏ đồng thời ảnh và văn bản chưa cho phép tách đóng góp của từng mô thức (theo
+ablation ở trên, phần lớn mức giảm nhiều khả năng đến từ văn bản). Thứ hai, độ phân tán giữa
+seed tăng theo $p$ (độ lệch chuẩn MRR $0{,}0006$ ở $p=0$ nhưng $0{,}025$ ở $p=0{,}8$), nên ở tỉ lệ
+thiếu cao một lần chạy không đủ tin cậy. Ví dụ cụ thể: với riêng seed 42, MRR ở $p=1$ ($0{,}111$)
+cao hơn ở $p=0{,}8$ ($0{,}078$), trông như mô hình ``hồi phục'' khi mọi thực thể cùng thiếu; nhưng
+seed 1 và 2 không lặp lại hiện tượng này ($0{,}121$ và $0{,}122$ ở $p=0{,}8$, so với $0{,}119$ và
+$0{,}111$ ở $p=1$), nên đó là nhiễu: từ $p=0{,}8$ đến $p=1$ đường cong chỉ đi ngang
+($0{,}107 \pm 0{,}025$ so với $0{,}114 \pm 0{,}005$).
 
 \subsection{Các điểm không nhất quán bài báo $\leftrightarrow$ mã nguồn}
-Tổng hợp từ đọc mã từng dòng và kiểm chứng số:
+Tổng hợp từ đọc mã nguồn và kiểm chứng số (vị trí mã của các điểm chính ở Phụ lục~\ref{app:code}):
 \begin{enumerate}
   \item Script chính thức \texttt{mu=0} $\Rightarrow$ chạy nguyên bản không ra
-  AdaMF-MAT; $\lambda$ thắng không công bố. \emph{(nghiêm trọng)}
-  \item Eq.~4 nói trọng số riêng từng mô thức; mã dùng \emph{một} vector chung.
+  AdaMF-MAT; $\mu$ được chọn không công bố. \emph{(ảnh hưởng lớn tới tái lập)}
+  \item phương trình~4~\cite{adamfmat} nói trọng số riêng từng mô thức; mã dùng \emph{một} vector chung.
   \item \texttt{dim}: bài báo ``200'', script DB15K dùng 250.
-  \item \texttt{lr=2e-5} nằm ngoài lưới bài báo khai.
+  \item \texttt{lr=2e-5} nằm ngoài lưới bài báo công bố.
   \item Bảng đặc trưng ảnh/văn bản là \emph{khả huấn luyện} (\texttt{requires\_grad
   =True}); riêng bảng ảnh DB15K chiếm 52,6M/71,4M tham số, không phải ``$\sim$10M''.
-  \item Thí nghiệm modality-missing (Figure~3, RQ2) \emph{không có} trong mã phát
+  \item Thí nghiệm modality-missing (Hình~3~\cite{adamfmat}, RQ2) \emph{không có} trong mã phát
   hành: \texttt{-missing\_rate}, \texttt{-visual} được khai trong \texttt{args.py}
-  nhưng không nơi nào đọc. Muốn tái lập phải tự viết phần bỏ mô thức. \emph{(nghiêm trọng)}
-  \item Table~1 ghi DB15K valid/test là 9902/9904, file thật đảo ngược 9904/9902, bằng chứng bài báo và artifact không được đối soát.
-  \item Eq.~8 ngược dấu so với định nghĩa $\mathcal{F}$ là khoảng cách ở Eq.~6; mã đúng chiều.
-  \item Eq.~12--13 cộng thứ hạng dự đoán đầu và đuôi mà thiếu hệ số $1/2$, nên MRR và Hit@$K$ theo công thức có thể vượt 1.
-  \item Cùng cấu hình AdaMF không MAT trên DB15K, Table~2 ghi 32,51 MRR còn Table~3 ghi 33,19.
-  \item Mục cài đặt và mã đặt $L=1$, trong khi Figure~4 cho $L=8$ tốt nhất.
-  \item Câu văn Mục 4.5 nói thứ tự $s>v>t$, trái với chính Figure~5 ($s>t>v$).
-  \item Table~2 đặt chung số baseline trích từ bài MMRNS với số tác giả tự chạy lại, hai nguồn khác cấu hình.
+  nhưng không nơi nào đọc. Muốn tái lập phải tự viết phần bỏ mô thức. \emph{(ảnh hưởng lớn tới tái lập)}
+  \item Bảng~1~\cite{adamfmat} ghi DB15K valid/test là 9902/9904, file thật đảo ngược 9904/9902, một chỗ chưa khớp nhỏ giữa bảng thống kê và file.
+  \item phương trình~8~\cite{adamfmat} dường như lệch dấu so với định nghĩa $\mathcal{F}$ là khoảng cách ở phương trình~6~\cite{adamfmat} (nhiều khả năng là lỗi in); mã đúng chiều.
+  \item phương trình~12--13~\cite{adamfmat} cộng thứ hạng dự đoán đầu và đuôi mà thiếu hệ số $1/2$, nên MRR và Hit@$K$ theo công thức in có thể vượt 1; mã lấy trung bình hai chiều (log: đầu $0{,}186$, đuôi $0{,}528$, trung bình $0{,}357$) nên số thực tế vẫn trong $[0,1]$.
+  \item Cùng cấu hình AdaMF không MAT trên DB15K, Bảng~2~\cite{adamfmat} ghi 32,51 MRR còn Bảng~3~\cite{adamfmat} ghi 33,19.
+  \item Mục cài đặt và mã đặt $L=1$, trong khi Hình~4~\cite{adamfmat} cho $L=8$ tốt nhất.
+  \item Câu văn Mục 4.5 nói thứ tự $s>v>t$, trái với chính Hình~5~\cite{adamfmat} ($s>t>v$).
+  \item Bảng~2~\cite{adamfmat} đặt chung số baseline trích từ bài MMRNS với số tác giả tự chạy lại, hai nguồn khác cấu hình.
 \end{enumerate}
 Các phần khớp hoàn toàn: các phương trình RotatE, tập ba bộ ba giả, $K=128$,
 $\beta=2$, $\gamma=12$, batch 1024, đánh giá filtered.
 
-Tóm lại phần A, đóng góp thứ hai là MAT không tái lập được từ artifact công bố nếu
-không tự dò lại $\lambda$, và hai phương trình lõi (Eq.~4, Eq.~8) mô tả sai chính mã
-của tác giả. Cái model thực sự học được là \emph{một} vector attention
+Tóm lại phần A, đóng góp thứ hai là MAT không tái lập được từ mã và dữ liệu công bố, kể cả khi
+nhóm quét lại trọn lưới $\mu$ trên MKG-W và MKG-Y; hai phương trình lõi (phương trình~4~\cite{adamfmat}, phương trình~8~\cite{adamfmat}) lệch với mã
+của chính tác giả. Cái model thực sự học được là \emph{một} vector attention
 dùng chung, không phải trọng số riêng từng mô thức như bài viết.
 
 \subsection{Đánh giá tổng hợp AdaMF-MAT}
 \label{sec:adamf-eval}
-\textit{Cái gì hoạt động.} Bài đặt đúng vấn đề: mỗi thực thể có lượng thông tin mô thức khác nhau, nên
-trọng số hợp nhất phải theo thực thể. Lời giải cho phần này rất rẻ, chỉ một vector attention và
-một softmax trên ba mô thức, lại cho đường cơ sở mạnh: chạy bằng chính script tác giả, AdaMF đã
-vượt số AdaMF-MAT mà bài công bố ở cả ba tập. Ý tưởng sinh thẳng embedding mô thức giả bằng một
-mạng nhỏ, thay vì chọn âm bằng học tăng cường như KBGAN, cũng gọn và dễ huấn luyện.
+\textit{Điểm hiệu quả:} Bài đặt đúng vấn đề: mỗi thực thể có lượng thông tin mô thức khác nhau, nên
+trọng số hợp nhất phải theo thực thể. Lời giải cho phần này rất rẻ, chỉ một vector attention và một
+softmax trên ba mô thức. Đường cơ sở AdaMF (RotatE, đặc trưng khả huấn luyện, hợp nhất thích nghi) chạy
+bằng chính script tác giả rất mạnh: vượt số AdaMF-MAT công bố trên MKG-Y và DB15K, tiến sát trên MKG-W;
+nhóm chưa tách được phần nào đến từ hợp nhất thích nghi vì chưa so với trung bình cộng. Ý tưởng sinh
+thẳng embedding mô thức giả bằng một mạng nhỏ cũng gọn, không cần học tăng cường như KBGAN, dù kết quả
+nhạy với $\mu$.
 
-\textit{Cái gì không hoạt động, và vì sao.} Phần đóng góp mới thứ hai, MAT, không đứng vững khi đường cơ sở được chạy
+\textit{Hạn chế và nguyên nhân:} Phần đóng góp mới thứ hai, MAT, không đứng vững khi đường cơ sở được chạy
 đúng. Nhóm thấy ba lý do có thể giải thích (chưa kiểm định riêng từng cái). Một, đường cơ sở trong
-bài yếu hơn hẳn đường cơ sở chạy lại, nên phần chênh mà bài gán cho MAT có thể chỉ là chênh tinh
-chỉnh. Hai, bộ sinh chỉ nhìn embedding cấu trúc cộng nhiễu, nên embedding giả mang rất ít thông
-tin về ảnh và văn bản thật; âm ``khó'' khi đó là khó giả tạo. Ba, $\lambda$ cực nhạy (lệch một bậc
-mất tới 3,7 MRR) mà giá trị thắng không được công bố. Ngoài ra, cái gọi là cân bằng mô thức trên
-thực tế là \emph{bỏ ảnh}, và phần mô tả trên giấy (Eq.~4, Eq.~8, Eq.~12--13) lệch với mã ở chỗ
+bài thấp hơn hẳn đường cơ sở chạy lại, có thể do mã phát hành khác cấu hình dùng cho bài
+(Mục~\ref{sec:db15k}). Hai, bộ sinh chỉ nhìn embedding cấu trúc cộng nhiễu, nên embedding giả mang rất ít thông
+tin về ảnh và văn bản thật; âm ``khó'' khi đó là khó giả tạo. Ba, kết quả nhạy với $\mu$ (lệch một bậc mất
+0,7 MRR, lệch hai bậc mất 3,7) mà giá trị được chọn không được công bố. Ngoài ra, cái gọi là cân bằng mô thức trên
+thực tế là gán trọng số rất thấp cho ảnh, và phần mô tả trên giấy (phương trình~4~\cite{adamfmat}, phương trình~8~\cite{adamfmat}, phương trình~12--13~\cite{adamfmat}) lệch với mã ở chỗ
 quan trọng.
 
-\textit{Takeaway.} Một ablation kiểu ``tắt thành phần X'' chỉ chứng minh được X khi đường cơ sở được
+\textit{Bài học rút ra:} Một ablation kiểu ``tắt thành phần X'' chỉ chứng minh được X khi đường cơ sở được
 tinh chỉnh ngang bằng; nên báo cáo nhiều seed và công bố đúng cấu hình đã dùng. Công thức trên giấy
 có thể lệch mã ở đúng chỗ quyết định kết quả, nên phải đọc mã trước khi tin mô tả.
 
-\textit{Hướng mở.} Tác giả nêu hai hướng: kết hợp mô hình ngôn ngữ lớn với đồ thị tri thức đa mô thức,
+\textit{Hướng mở:} Tác giả nêu hai hướng: kết hợp mô hình ngôn ngữ lớn với đồ thị tri thức đa mô thức,
 và dựng kịch bản thiếu mô thức sát thực tế hơn (chính tác giả nhận đây là giới hạn của bài). Nhóm
 thêm ba việc: cho bộ sinh dùng cả mô thức đang có (không chỉ cấu trúc) để embedding giả mang thông tin
 thật, cho attention phụ thuộc quan hệ đúng như bài mô tả, và đánh giá mọi so sánh bằng nhiều seed.
@@ -730,26 +805,26 @@ Bảng~\ref{tab:frame-fenn} là cùng khung bảy câu hỏi cho bài thứ hai.
 \label{tab:frame-fenn}
 \centering\footnotesize
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.55cm} >{\raggedright\arraybackslash}p{6.35cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.95cm} >{\raggedright\arraybackslash}p{5.95cm}}
 \toprule
 Tóm tắt & Phân loại 65 loại sự kiện tương tác cho một cặp thuốc: bốn đồ thị tri thức, mỗi đồ thị một
-nhánh GNN kiểu KGNN, ghép đặc trưng hai thuốc rồi qua MLP, học đầu-cuối
-(Mục~\ref{sec:fenn-arch}). \\
-Research gap & Phương pháp dựa đặc trưng thuốc bỏ qua cấu trúc quan hệ; phương pháp đồ thị chỉ xét
-một phần quan hệ; mô hình lai trích và hợp nhất tách rời, không đầu-cuối
-(Mục~\ref{sec:fenn-problem}). \\
+nhánh GNN kiểu KGNN, ghép đặc trưng hai thuốc rồi qua MLP, học end-to-end
+(Mục~\ref{sec:fenn-arch}). \\ \addlinespace[2pt]
+Khoảng trống nghiên cứu & Phương pháp dựa đặc trưng thuốc bỏ qua cấu trúc quan hệ; phương pháp đồ thị chỉ xét
+một phần quan hệ; mô hình lai trích và hợp nhất tách rời, không end-to-end
+(Mục~\ref{sec:fenn-problem}). \\ \addlinespace[2pt]
 Giải pháp & Lấy mẫu 6 láng giềng mỗi đồ thị, chấm điểm ngữ nghĩa thuốc--quan hệ để tổng hợp; ghép
-8 vector của cặp thuốc vào MLP; cross-entropy, Adam (Mục~\ref{sec:fenn-arch}). \\
+8 vector của cặp thuốc vào MLP; cross-entropy, Adam (Mục~\ref{sec:fenn-arch}). \\ \addlinespace[2pt]
 Kết quả (bài báo) & 572 thuốc, 37.264 cặp, 65 lớp; ACC, AUPR, AUC, F1, Precision, Recall; so 11 mô
 hình. Task~1 ACC 0,9409 (64 thắng, 2 hòa, 0 thua); Task~2 và 3 ACC 0,6805 và 0,4552 (31 thắng, 5
-thua) (Mục~\ref{sec:fenn-paper}). \\
-Work / không work & Số chính tái lập được \emph{theo giao thức của mã}. Bỏ một đồ thị không giảm
-Task~1; cold-start vẫn rất khó và chỉ dùng ba đồ thị; chọn epoch theo tập test làm F1 lạc quan
-3--4 điểm (Mục~\ref{sec:fenn-repro}, \ref{sec:fenn-protocol}). \\
-Takeaway & Đọc cả mã đánh giá, không chỉ mã mô hình; ``tái lập được'' chỉ nghĩa là cùng giao thức
-(Mục~\ref{sec:fenn-eval}). \\
+thua) (Mục~\ref{sec:fenn-paper}). \\ \addlinespace[2pt]
+Điểm hiệu quả và hạn chế & Số chính tái lập được \emph{theo giao thức của mã}. Bỏ một đồ thị không giảm
+Task~1; cold-start vẫn rất khó và chỉ dùng ba đồ thị; epoch chọn theo test cho F1 cao hơn epoch
+cuối 2,7--4,1 điểm (Mục~\ref{sec:fenn-repro}, \ref{sec:fenn-protocol}). \\ \addlinespace[2pt]
+Bài học rút ra & Đọc cả mã đánh giá, không chỉ mã mô hình; ``tái lập được'' chỉ nghĩa là cùng giao thức
+(Mục~\ref{sec:fenn-eval}). \\ \addlinespace[2pt]
 Hướng mở & Tác giả: thêm self-attention. Nhóm: tập validation riêng, G3 chỉ từ cặp huấn luyện, biểu
-diễn thuốc mới từ đặc trưng, nhiều lần chạy (Mục~\ref{sec:fenn-eval}). \\
+diễn thuốc mới từ đặc trưng, nhiều lần chạy (Mục~\ref{sec:fenn-eval}). \\ \addlinespace[2pt]
 \bottomrule
 \end{tabular}
 \end{table}
@@ -759,7 +834,7 @@ diễn thuốc mới từ đặc trưng, nhiều lần chạy (Mục~\ref{sec:fe
 \label{sec:fenn-problem}
 %==============================================================================
 
-Tương tác thuốc--thuốc (DDI) xảy ra khi dùng đồng thời hai thuốc làm thay đổi
+Tương tác thuốc (DDI) xảy ra khi dùng đồng thời hai thuốc làm thay đổi
 hiệu quả hoặc gây tác dụng phụ. MKG-FENN~\cite{mkgfenn} giải bài toán
 \emph{phân loại đa lớp}: cho một cặp thuốc $(A, B)$, dự đoán \emph{loại sự kiện}
 tương tác trong 65 loại (\texttt{event\_num=65}), ví dụ ``nguy cơ hoặc mức độ tác
@@ -773,13 +848,13 @@ DDI, thuộc tính phân tử) qua bốn nhánh KGNN, ghép thành tám vector r
 lên'', đúng với nhãn trong \texttt{event.db} (dòng \texttt{Abemaciclib//Amiodarone//The
 risk or severity of adverse effects increase}).
 
-\textit{Research gap.} Bài chia các phương pháp trước thành ba nhóm, mỗi nhóm hụt một chỗ. Nhóm dựa
-trên đặc trưng thuốc (DeepDDI, MDF-SA-DDI, MDDI-SCL) học tốt thuộc tính từng thuốc nhưng bỏ qua cấu
-trúc quan hệ bậc cao giữa thuốc, đích tác dụng, enzyme, chất vận chuyển. Nhóm dựa trên đồ thị (KGNN,
-SumGNN) khai thác được cấu trúc đó nhưng chỉ xét một phần quan hệ. Nhóm mô hình lai (MDNN, MUFFIN)
-kết hợp nhiều nguồn nhưng trích đặc trưng và hợp nhất ở hai bước tách rời, không đầu-cuối, nên đặc
+\textit{Khoảng trống nghiên cứu:} Bài chia các phương pháp trước thành ba nhóm, mỗi nhóm hụt một chỗ. Nhóm dựa
+trên đặc trưng thuốc (DeepDDI~\cite{deepddi}, MDF-SA-DDI~\cite{mdfsaddi}, MDDI-SCL~\cite{mddiscl}) học tốt thuộc tính từng thuốc nhưng bỏ qua cấu
+trúc quan hệ bậc cao giữa thuốc, đích tác dụng, enzyme, chất vận chuyển. Nhóm dựa trên đồ thị (KGNN~\cite{kgnn},
+SumGNN~\cite{sumgnn}) khai thác được cấu trúc đó nhưng chỉ xét một phần quan hệ. Nhóm mô hình lai (MDNN~\cite{mdnn}, MUFFIN~\cite{muffin})
+kết hợp nhiều nguồn nhưng trích đặc trưng và hợp nhất ở hai bước tách rời, không end-to-end, nên đặc
 trưng không được tối ưu cho chính bài toán phân loại. MKG-FENN nhắm cả ba: dựng bốn đồ thị tri thức
-để phủ nhiều loại quan hệ, và học trích đặc trưng cùng hợp nhất \emph{đầu-cuối} trong một mạng.
+để phủ nhiều loại quan hệ, và học trích đặc trưng cùng hợp nhất \emph{end-to-end} trong một mạng.
 
 %==============================================================================
 \section{Kiến trúc MKG-FENN}
@@ -791,18 +866,19 @@ Bốn đồ thị (Bảng~\ref{tab:kg4}), mỗi đồ thị mô tả thuốc the
 khác nhau, định dạng \texttt{head//tail//relation}.
 
 \begin{table}[t]
-\caption{Bốn đồ thị tri thức của MKG-FENN (đọc từ mã).}
+\caption{Bốn đồ thị tri thức của MKG-FENN (đọc từ \texttt{dataset1..4.txt} của mã).}
 \label{tab:kg4}
 \centering
 \footnotesize
-\begin{tabular}{clrr p{2.3cm}}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{l >{\raggedright\arraybackslash}p{3.3cm} rr}
 \toprule
-KG & File & \#dòng & \#quan hệ & Nội dung \\
+Đồ thị & Thuốc nối với & \#cạnh & \#quan hệ \\
 \midrule
-G1 & dataset1 & 6.541  & 235 & thuốc--thực thể hóa học (target/enzyme/\dots) \\
-G2 & dataset2 & 70.350 & 1   & thuốc--cấu trúc con (chỉ ``include'') \\
-G3 & dataset3 & 37.264 & 65  & thuốc--thuốc (DDI chính) \\
-G4 & dataset4 & 11.440 & 13  & thuốc--thuộc tính phân tử (MolWt, MolLogP\dots) \\
+G1 & thực thể hóa học (đích tác dụng, enzyme, \dots) & 6.541  & 235 \\
+G2 & cấu trúc con (một quan hệ ``include'') & 70.350 & 1 \\
+G3 & thuốc khác, quan hệ là loại sự kiện (DDI) & 37.264 & 65 \\
+G4 & thuộc tính phân tử (MolWt, MolLogP, \dots) & 11.440 & 13 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -830,7 +906,7 @@ Với mỗi đồ thị $G_i$ và mỗi thuốc:
   ($2d\!\to\! d$)$+$ReLU$+$BatchNorm, thu $\mathbf{f}_i$.
 \end{enumerate}
 
-So với bài báo có hai khác biệt nhỏ nhưng có thật. Eq.~3 của bài là tổng có trọng số không
+So với bài báo có hai khác biệt nhỏ nhưng có thật. phương trình~3~\cite{mkgfenn} của bài là tổng có trọng số không
 chuẩn hoá, còn mã chuẩn hoá trọng số láng giềng bằng softmax. Bias $b_1, b_2$ có kích thước
 $K\times d$, tức gắn với \emph{vị trí} của láng giềng trong lượt lấy mẫu chứ không gắn với láng
 giềng cụ thể, trong khi các láng giềng được lấy mẫu lại ở mỗi lần forward.
@@ -855,18 +931,28 @@ $(B,A)$ để đối xứng hóa.
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}[font=\scriptsize,
-  g/.style={draw,rounded corners,fill=blue!8,minimum width=9mm,minimum height=5mm},
-  >=Latex,node distance=2mm]
-  \node[g] (g1) {$G_1$}; \node[g,below=of g1] (g2) {$G_2$};
-  \node[g,below=of g2] (g3) {$G_3$}; \node[g,below=of g3] (g4) {$G_4$};
-  \node[draw,rounded corners,fill=green!8,right=8mm of g2,minimum height=16mm,align=center] (fus) {Fusion\\MLP};
-  \node[draw,rounded corners,right=6mm of fus] (out) {65 lớp};
-  \foreach \i in {1,2,3,4} \draw[->] (g\i) -- (fus);
-  \draw[->] (fus) -- (out);
-  \node[align=center,below=1mm of g4,font=\tiny] {8 vector = 4 KG $\times$ 2 thuốc};
+  box/.style={draw,rounded corners,align=center,inner sep=2.5pt},
+  g/.style={box,fill=gray!8,text width=19mm,minimum height=5mm},
+  >=Latex,node distance=1.6mm and 2.5mm]
+  \node[box,minimum height=10mm] (in) {cặp\\thuốc\\$(A,B)$};
+  \node[g,right=6mm of in,yshift=8.4mm] (g1) {G1: hóa học};
+  \node[g,below=of g1] (g2) {G2: cấu trúc con};
+  \node[g,below=of g2] (g3) {G3: tương tác thuốc};
+  \node[g,below=of g3,dashed] (g4) {G4: phân tử$^{*}$};
+  \node[box,fill=gray!10,right=7mm of in-|g1.east,yshift=-8.4mm,minimum height=10mm] (cat) {ghép\\8 vector\\$8d{=}1024$};
+  \node[box,fill=gray!8,right=of cat,minimum height=10mm] (mlp) {MLP\\$1024{\to}512$\\${\to}256{\to}65$};
+  \node[box,right=of mlp,minimum height=10mm] (out) {65 loại\\sự kiện};
+  \coordinate (b) at ([xshift=-3.5mm]cat.west);
+  \coordinate (ib) at ([xshift=3mm]in.east); \draw (in.east) -- (ib); \draw (ib |- g1.west) -- (ib |- g4.west);
+  \foreach \i in {1,2,3,4} {\draw[->] (ib |- g\i.west) -- (g\i.west); \draw (g\i.east) -- (g\i.east -| b);}
+  \draw (g1.east -| b) -- (g4.east -| b); \draw[->] (b) -- (cat.west);
+  \draw[->] (cat) -- (mlp); \draw[->] (mlp) -- (out);
+  \node[font=\scriptsize,anchor=south] at (cat.north) {${\times}2$ thuốc};
 \end{tikzpicture}
-\caption{MKG-FENN: bốn nhánh KGNN sinh đặc trưng thuốc theo từng đồ thị; tầng
-hợp nhất ghép tám vector của cặp thuốc rồi phân loại 65 lớp sự kiện.}
+\caption{MKG-FENN: mỗi thuốc của cặp đi qua bốn nhánh KGNN, mỗi nhánh trên một đồ thị, cho
+đặc trưng $\mathbf f_i^A, \mathbf f_i^B$ ($d=128$); tám vector được ghép rồi qua MLP để phân loại
+65 loại sự kiện. Mỗi nhánh KGNN lấy mẫu 6 láng giềng, tổng hợp có trọng số rồi qua Linear, ReLU, BatchNorm.
+$^{*}$Ở cold-start (Task~2, 3), mã chỉ dùng ba nhánh G1 đến G3, bỏ G4.}
 \label{fig:fenn}
 \end{figure}
 
@@ -897,221 +983,204 @@ cục theo file supplementary.
 \label{sec:fenn-paper}
 Trên kịch bản thuốc đã biết (Task~1, DrugBank v5.1.7, 572 thuốc, 65 sự kiện), bài báo
 báo cáo MKG-FENN không thua mô hình nào ở chỉ số nào (Bảng~\ref{tab:fenn-res}, số trích trực tiếp
-từ Table~2 của bài báo): 64 thắng, 2 hòa, 0 thua trên 66 cặp chỉ số $\times$ mô hình, F-rank cao nhất
-$11{,}83$. Hai trận hòa là AUC: 0,9989 bằng đúng MDF-SA-DDI và GNN. Bài còn đưa một ví dụ cụ thể:
+từ Bảng~2~\cite{mkgfenn} của bài báo): 64 thắng, 2 hòa, 0 thua trên 66 cặp chỉ số $\times$ mô hình, F-rank cao nhất
+$11{,}83$ (F-rank là thứ hạng trung bình theo kiểm định Friedman, càng cao càng tốt). Hai trận hòa là AUC: 0,9989 bằng đúng MDF-SA-DDI và GNN. Bài còn đưa một ví dụ cụ thể:
 sự kiện số 62, một loại tương tác rất ít mẫu, chỉ MKG-FENN dự đoán đúng còn các mô hình so sánh đều
 bỏ sót; tác giả dùng ví dụ này để cho thấy đồ thị tri thức giúp ích nhất ở các lớp hiếm.
 
 \begin{table}[t]
-\caption{Kết quả Task~1 (số bài báo, trích Table~2 của~\cite{mkgfenn}): MKG-FENN so với các mô hình mạnh.}
+\caption{Kết quả Task~1 theo bài báo (trích Bảng~2~\cite{mkgfenn}): MKG-FENN và bốn mô hình có ACC cao nhất trong 11 mô
+hình so sánh. ACC, AUPR, AUC tính theo micro; F1, Precision, Recall theo macro. Số in đậm: cao nhất trong cột (AUC hòa
+giữa MKG-FENN và MDF-SA-DDI).}
 \label{tab:fenn-res}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\resizebox{\columnwidth}{!}{%
+\centering\footnotesize
+\setlength{\tabcolsep}{2pt}
 \begin{tabular}{lrrrrrr}
 \toprule
-Mô hình & ACC & AUPR & AUC & F1 & Pre & Rec \\
+Mô hình & ACC & AUPR & AUC & F1 & Precision & Recall \\
 \midrule
-\textbf{MKG-FENN} & \textbf{0,9409} & \textbf{0,9786} & \textbf{0,9989} & \textbf{0,8958} & \textbf{0,9132} & \textbf{0,8876} \\
+MKG-FENN & \textbf{0,9409} & \textbf{0,9786} & \textbf{0,9989} & \textbf{0,8958} & \textbf{0,9132} & \textbf{0,8876} \\
 MDDI-SCL     & 0,9378 & 0,9782 & 0,9983 & 0,8755 & 0,8804 & 0,8767 \\
-MDF-SA-DDI   & 0,9301 & 0,9737 & 0,9989 & 0,8878 & 0,9085 & 0,8760 \\
+MDF-SA-DDI   & 0,9301 & 0,9737 & \textbf{0,9989} & 0,8878 & 0,9085 & 0,8760 \\
 MDNN         & 0,9175 & 0,9668 & 0,9984 & 0,8301 & 0,8622 & 0,8202 \\
 DDIMDL       & 0,8852 & 0,9208 & 0,9976 & 0,7585 & 0,8471 & 0,7182 \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 Một điều lộ rõ qua ba kịch bản là cold-start rất khó. Cùng một mô hình, ACC tụt mạnh
 theo độ khó: $0{,}9409$ ở Task~1 (cả hai thuốc đã thấy), xuống $0{,}6805$ ở Task~2
 (một thuốc mới), rồi chỉ còn $0{,}4552$ ở Task~3 (cả hai đều mới). Khoảng cách đó cho
 thấy phần lớn thành công nằm ở kịch bản dễ, còn dự đoán cho thuốc hoàn toàn mới vẫn là
-bài toán mở. Ở hai kịch bản cold-start, bài báo cũng không thắng toàn diện: tổng 31 thắng, 5 thua;
+bài toán mở. Ở hai kịch bản cold-start, bài báo cũng không thắng toàn diện: mỗi kịch bản 31 thắng,
+5 thua trên 36 cặp (6 chỉ số $\times$ 6 mô hình);
 chẳng hạn ACC Task~3 của MDDI-SCL (0,4589) cao hơn MKG-FENN (0,4552), còn F1 và Precision Task~2
 thua MDF-SA-DDI. Còn các giá trị $p=0{,}0156$ của kiểm định Wilcoxon cần đọc thận trọng: đó là giá
 trị nhỏ nhất có thể khi so 6 cặp ($1/2^6$, một phía), và 6 cặp ở đây là 6 chỉ số tương quan của
 \emph{cùng một} lần chạy, không phải nhiều lần chạy độc lập.
 
-Ba yếu tố bài báo coi là quan trọng nhất (phân tích độ nhạy): số láng giềng lấy mẫu tốt nhất
+Về giao thức, ba yếu tố bài báo coi là quan trọng nhất (phân tích độ nhạy): số láng giềng lấy mẫu tốt nhất
 $=6$, ``trọng số mất mát phân loại'' (CLW) tốt nhất $=10^{-8}$, số chiều embedding $=128$. Trong mã,
 CLW thực chất là \texttt{weight\_decay} của Adam, tức hệ số điều chuẩn $\ell_2$, không phải trọng số
 của một thành phần loss. Supplementary quét số láng giềng trong $\{4,5,6,7\}$ và cho biết mọi thí
 nghiệm chạy trên CPU (Windows, i5, 8GB RAM), khớp với việc mã gốc không hỗ trợ GPU. Bài dùng $120$
 epoch, lr $=0{,}01$, batch $1024$: các giá trị này khớp mã (dù nằm ngoài tập \texttt{choices}
-khai trong argparse, nên đây là lỗi khai báo chứ không phải lệch paper$\leftrightarrow$mã).
+khai trong argparse, nên đây là lỗi khai báo chứ không phải lệch bài báo$\leftrightarrow$mã).
 
 \subsection{Nhóm tái lập (GPU T4, 3 seed)}
 \label{sec:fenn-repro}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-Task-1-3-seed---VmlldzoxODE3OTk3Nw}.
-Mã nguồn tái lập: \url{https://github.com/lqhung93/graphML-midterm-project}.
+\noindent Log và biểu đồ của phần này nằm trong báo cáo W\&B công khai\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-Task-1-3-seed---VmlldzoxODE3OTk3Nw}}. Mã nguồn tái lập nằm cùng repo GitHub ở Mục~\ref{sec:repro-setup}.
 
 Nhóm GPU-hóa mã (thêm \texttt{.to(device)}, mã gốc chỉ chạy CPU) và chạy lại Task~1 (120 epoch,
 5-fold) với \textbf{3 seed} (0, 1, 2), mỗi lần $\sim$1 giờ. Trung bình $\pm$ độ lệch chuẩn
-\textbf{khớp bài báo ở mọi chỉ số, số bài báo nằm trong khoảng $\pm$std} (Bảng~\ref{tab:fenn-repro})
-$\Rightarrow$ MKG-FENN \emph{tái lập được}. Đây là tương phản rõ với
-Phần~A, nơi đóng góp MAT của AdaMF-MAT \emph{không} tái lập được: cùng một thái độ kiểm chứng
-nghiêm túc cho hai kết luận trái ngược, tùy công trình.
+\textbf{khớp bài báo ở mọi chỉ số, số bài báo nằm trong khoảng $\pm$ độ lệch chuẩn}
+(Bảng~\ref{tab:fenn-repro}), nên Task~1 của MKG-FENN \emph{tái lập được}. Đây là tương phản rõ với
+Phần~A: cùng một cách kiểm chứng cho hai kết luận trái ngược, tùy công trình.
 
-\begin{table}[t]
-\caption{MKG-FENN Task~1: nhóm tái lập (3 seed, trung bình $\pm$ độ lệch chuẩn) vs bài báo.}
-\label{tab:fenn-repro}
+\begin{table*}[t]
+\caption{MKG-FENN: nhóm tái lập ba kịch bản so với bài báo (trích Bảng~2, 3, 4~\cite{mkgfenn}). Nhóm: trung bình $\pm$ độ
+lệch chuẩn qua 3 seed (Task~1: seed 0, 1, 2; Task~2, 3: seed 1, 2, 3; Task~2 chạy 100 epoch theo mặc định của mã). ACC,
+AUPR, AUC tính theo micro; F1, Precision, Recall theo macro. \dag: số bài báo nằm ngoài khoảng trung bình $\pm$ 1 độ lệch
+chuẩn của nhóm. Task~1 khớp cả sáu chỉ số; ở cold-start, ACC khớp còn một số chỉ số macro thấp hơn.}
+\label{tab:fenn-repro}\label{tab:fenn-t2}\label{tab:fenn-t3}
 \centering\footnotesize
-\begin{tabular}{lrr}
+\begin{tabular}{lr@{\,}lr r@{\,}lr r@{\,}lr}
 \toprule
-Chỉ số & Nhóm (3 seed) & Bài báo \\
+& \multicolumn{3}{c}{Task 1: thuốc đã biết} & \multicolumn{3}{c}{Task 2: một thuốc mới} & \multicolumn{3}{c}{Task 3: hai thuốc mới} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+Chỉ số & \multicolumn{2}{c}{Nhóm} & Bài báo & \multicolumn{2}{c}{Nhóm} & Bài báo & \multicolumn{2}{c}{Nhóm} & Bài báo \\
 \midrule
-ACC & $0{,}9403 \pm 0{,}0012$ & 0,9409 \\
-AUPR (micro) & $0{,}9783 \pm 0{,}0007$ & 0,9786 \\
-AUC (micro) & $0{,}9989 \pm 0{,}0001$ & 0,9989 \\
-F1 (macro) & $0{,}8932 \pm 0{,}0041$ & 0,8958 \\
-Precision (macro) & $0{,}9202 \pm 0{,}0090$ & 0,9132 \\
-Recall (macro) & $0{,}8813 \pm 0{,}0055$ & 0,8876 \\
+ACC & 0,9403 & ${\pm}0{,}0012$ & 0,9409 & 0,6772 & ${\pm}0{,}0039$ & 0,6805 & 0,4598 & ${\pm}0{,}0175$ & 0,4552 \\
+AUPR & 0,9782 & ${\pm}0{,}0007$ & 0,9786 & 0,7010 & ${\pm}0{,}0015$ & 0,7049\textsuperscript{\dag} & 0,4140 & ${\pm}0{,}0165$ & 0,4162 \\
+AUC & 0,9990 & ${\pm}0{,}0001$ & 0,9989 & 0,9663 & ${\pm}0{,}0008$ & 0,9673\textsuperscript{\dag} & 0,9153 & ${\pm}0{,}0014$ & 0,9149 \\
+F1 & 0,8932 & ${\pm}0{,}0041$ & 0,8958 & 0,5294 & ${\pm}0{,}0045$ & 0,5394\textsuperscript{\dag} & 0,2162 & ${\pm}0{,}0076$ & 0,2186 \\
+Precision & 0,9202 & ${\pm}0{,}0090$ & 0,9132 & 0,5862 & ${\pm}0{,}0075$ & 0,6063\textsuperscript{\dag} & 0,2618 & ${\pm}0{,}0092$ & 0,2754\textsuperscript{\dag} \\
+Recall & 0,8813 & ${\pm}0{,}0055$ & 0,8876 & 0,5045 & ${\pm}0{,}0071$ & 0,5106 & 0,2097 & ${\pm}0{,}0107$ & 0,2131 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
 Nhóm dùng một tiêu chí tái lập thực dụng xuyên suốt báo cáo: xem là \emph{nhất quán với
 bài báo} khi con số công bố nằm trong một độ lệch chuẩn mẫu của nhóm qua ba lần chạy độc
-lập. Đây là kiểm tra khoảng tin cậy, không phải kiểm định giả thuyết hình thức, nên phát
+lập. Đây là quy tắc so khớp thực dụng, không phải khoảng tin cậy hay kiểm định giả thuyết, nên phát
 biểu đúng là ``không phân biệt được với số công bố ở mức nhiễu ba seed'', chứ không khẳng
 định bằng chứng mạnh hơn thế. Theo tiêu chí này, số bài báo nằm trong khoảng ở cả 6 chỉ
-số. Link W\&B (3 seed): \url{https://wandb.ai/K35/gml-adamf-mat/runs/r628r0ym},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/o01zi2q5},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/3x8y37ey}.
+số. Ba run tương ứng trên W\&B ở chú thích\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/runs/r628r0ym}, \url{https://wandb.ai/K35/gml-adamf-mat/runs/o01zi2q5}, \url{https://wandb.ai/K35/gml-adamf-mat/runs/3x8y37ey}}.
 
 \subsection{Nhóm tái lập cold-start (Task 2 và Task 3)}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-cold-start-Task-2-v-Task-3--VmlldzoxODE3OTk3OA}.
+\noindent Log và biểu đồ của phần này nằm trong báo cáo W\&B công khai\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-cold-start-Task-2-v-Task-3--VmlldzoxODE3OTk3OA}}.
 
-Nhóm chạy lại luôn kịch bản khó Task~2 (cold-start, một thuốc mới) với \textbf{3 lần}
-độc lập (GPU T4, seed 1, 2, 3, 100 epoch theo mặc định của mã, mỗi lần $\sim$1 giờ). ACC trung bình $0{,}6772 \pm 0{,}0039$,
-\textbf{số bài báo $0{,}6805$ nằm trong khoảng $\pm$ độ lệch chuẩn} (Bảng~\ref{tab:fenn-t2})
-$\Rightarrow$ tái lập được cả ở kịch bản cold-start, không chỉ Task~1 dễ. Lưu ý mã Task~2
+Nhóm chạy lại luôn kịch bản khó Task~2 (cold-start, một thuốc mới) với \textbf{3 seed}
+độc lập (GPU T4, seed 1, 2, 3, mỗi lần $\sim$1 giờ; 100 epoch theo mặc định của mã Task~2, trong
+khi bài báo dùng 120 epoch). Nhóm giữ mặc định của mã Task~2 để tái lập đúng điều kiện mã công bố;
+chỉnh lên 120 epoch sẽ là một giao thức khác. ACC trung bình
+$0{,}6772 \pm 0{,}0039$, \textbf{số bài báo $0{,}6805$ nằm trong khoảng $\pm$ độ lệch chuẩn}, Recall
+cũng vậy; nhưng AUPR, AUC, F1 và Precision của nhóm thấp hơn số bài báo khoảng 1 đến 3 độ lệch chuẩn
+(Bảng~\ref{tab:fenn-t2}), có thể một phần do ít epoch hơn. Lưu ý mã Task~2
 chỉ tính AUPR/AUC theo micro và F1/Precision/Recall theo macro (các ô còn lại gán cứng
-bằng $0$, nhóm không ghi các ô này lên W\&B), nên AUPR mà bài báo báo ở Table~3/4 thực
+bằng $0$, nhóm không ghi các ô này lên W\&B), nên AUPR mà bài báo báo ở Bảng~3/4~\cite{mkgfenn} thực
 chất là AUPR micro; cách
 trung bình macro trên nhiều lớp sự kiện hiếm khiến F1/Precision/Recall thấp hơn hẳn Task~1,
 phản ánh đúng độ khó của dự đoán cho thuốc chưa từng thấy.
 
-\begin{table}[t]
-\caption{MKG-FENN Task~2 (cold-start, một thuốc mới): nhóm tái lập (3 lần, trung bình $\pm$ độ lệch chuẩn).}
-\label{tab:fenn-t2}
-\centering\footnotesize
-\begin{tabular}{lrr}
-\toprule
-Chỉ số & Nhóm (3 lần) & Bài báo \\
-\midrule
-ACC & $0{,}6772 \pm 0{,}0039$ & 0,6805 \\
-AUPR (micro) & $0{,}7010 \pm 0{,}0015$ & -- \\
-AUC (micro) & $0{,}9663 \pm 0{,}0008$ & -- \\
-F1 (macro) & $0{,}5294 \pm 0{,}0045$ & -- \\
-Precision (macro) & $0{,}5862 \pm 0{,}0075$ & -- \\
-Recall (macro) & $0{,}5045 \pm 0{,}0071$ & -- \\
-\bottomrule
-\end{tabular}
-\end{table}
 
-Link W\&B (3 lần): \url{https://wandb.ai/K35/gml-adamf-mat/runs/7xspj9x8},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/hloy7vw3},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/86w5hqon}.
 
-Nhóm chạy tiếp \textbf{Task~3} (cold-start, \emph{cả hai} thuốc mới: khó nhất), cũng 3 lần
+Ba run tương ứng trên W\&B ở chú thích\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/runs/7xspj9x8}, \url{https://wandb.ai/K35/gml-adamf-mat/runs/hloy7vw3}, \url{https://wandb.ai/K35/gml-adamf-mat/runs/86w5hqon}}.
+
+Nhóm chạy tiếp \textbf{Task~3} (cold-start, \emph{cả hai} thuốc mới: khó nhất), cũng 3 seed
 (seed 1, 2, 3, 120 epoch; Bảng~\ref{tab:fenn-t3}). ACC trung bình $0{,}4598 \pm 0{,}0175$, \textbf{số bài báo $0{,}4552$
-nằm trong $\pm$ độ lệch chuẩn} $\Rightarrow$ tái lập được ở cả ba kịch bản. Chỉ số F1/Precision/
-Recall (macro) tụt sâu ($\sim$0,21--0,26) đúng như kỳ vọng khi mọi cặp thuốc đều chưa từng thấy.
+nằm trong $\pm$ độ lệch chuẩn}, cùng AUPR, AUC, F1 và Recall; riêng Precision thấp hơn bài báo
+(0,2618 so với 0,2754). Chỉ số F1/Precision/Recall (macro) tụt sâu ($\sim$0,21--0,26) đúng như kỳ vọng
+khi mọi cặp thuốc đều chưa từng thấy. Độ lệch chuẩn ACC $0{,}0175$ rộng tới mức cả MKG-FENN ($0{,}4552$)
+lẫn MDDI-SCL ($0{,}4589$) đều nằm trong khoảng; tái lập không đủ để xác nhận thứ hạng giữa hai mô hình.
 Nhóm phải tự GPU-hóa mã Task~3 (giống Task~2) vì bản gốc chỉ chạy CPU.
 
-\begin{table}[t]
-\caption{MKG-FENN Task~3 (cold-start, cả hai thuốc mới): nhóm tái lập (3 lần, trung bình $\pm$ độ lệch chuẩn).}
-\label{tab:fenn-t3}
-\centering\footnotesize
-\begin{tabular}{lrr}
-\toprule
-Chỉ số & Nhóm (3 lần) & Bài báo \\
-\midrule
-ACC & $0{,}4598 \pm 0{,}0175$ & 0,4552 \\
-AUPR (micro) & $0{,}4140 \pm 0{,}0165$ & -- \\
-AUC (micro) & $0{,}9153 \pm 0{,}0014$ & -- \\
-F1 (macro) & $0{,}2162 \pm 0{,}0076$ & -- \\
-Precision (macro) & $0{,}2618 \pm 0{,}0092$ & -- \\
-Recall (macro) & $0{,}2097 \pm 0{,}0107$ & -- \\
-\bottomrule
-\end{tabular}
-\end{table}
 
-Link W\&B (3 lần): \url{https://wandb.ai/K35/gml-adamf-mat/runs/6n59pyvb},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/swvbyr32},
-\url{https://wandb.ai/K35/gml-adamf-mat/runs/wqablhkc}. Cả ba kịch bản cold-start đều tái lập
-được (số bài báo nằm trong 1 độ lệch chuẩn), nghĩa là các con số chính của MKG-FENN
-\emph{đáng tin}, tương phản với MAT của AdaMF-MAT (Phần~A). Đây là nhận định về
-\emph{tính tái lập}, không phải về giá trị kiến trúc: ngược lại, ablation ở dưới cho thấy
-tiền đề ``cần đủ bốn đồ thị'' của chính bài không tái lập được ở Task~1.
+
+Ba run tương ứng trên W\&B ở chú thích\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/runs/6n59pyvb}, \url{https://wandb.ai/K35/gml-adamf-mat/runs/swvbyr32}, \url{https://wandb.ai/K35/gml-adamf-mat/runs/wqablhkc}}. Tóm lại, ACC của cả hai kịch bản cold-start
+tái lập được (số bài báo nằm trong 1 độ lệch chuẩn), còn một số chỉ số macro thấp hơn nhẹ; các con
+số chính của MKG-FENN tái lập được \emph{dưới cùng giao thức của mã}. Đây là nhận định về \emph{tính
+tái lập}, không phải về giá trị kiến trúc: ablation 3 seed dưới đây chưa quan sát được mức giảm
+khi bỏ một đồ thị mà Bảng~5~\cite{mkgfenn} báo cáo.
 
 \subsection{Ablation KG: bỏ một đồ thị không làm giảm ACC Task 1}
-\noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-ablation-th-v-nh-y-si-u-tham-s---VmlldzoxODE3OTk3OQ}.
+\noindent Log và biểu đồ của phần này nằm trong báo cáo W\&B công khai\footnote{\url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-ablation-th-v-nh-y-si-u-tham-s---VmlldzoxODE3OTk3OQ}}.
 
-Nhóm bỏ từng đồ thị khỏi FusionLayer (Task~1, seed 0, Bảng~\ref{tab:fenn-abl}) bằng cách
-gán embedding của nhánh đó bằng $0$. Kích thước đầu vào MLP giữ nguyên, nhưng các trọng số
-nhận đầu vào $0$ không còn tác dụng, nên tương đương bỏ hẳn nhánh. \textbf{Bỏ bất kỳ KG nào,
-kể cả đồ thị DDI (G3), đều không làm giảm ACC}: cả bốn cấu hình (0,9398 đến 0,9411) nằm
-trong dải của ba seed mô hình đầy đủ (0,9389 đến 0,9410). Vì mỗi cấu hình chỉ một seed,
-nhóm không kết luận cấu hình nào tốt hơn full; điều đọc được là \emph{không thấy} mức giảm
-vượt nhiễu giữa seed. Điều này lệch với Table~5 của bài báo: ở đó cả bốn tổ hợp ba đồ thị
-chỉ đạt 0,9344 đến 0,9355, thấp hơn full $\sim$0,6 điểm, tức gấp khoảng năm lần độ lệch
-chuẩn giữa seed của nhóm ($0{,}0012$), xem Hình~\ref{fig:seeds}b. Bài báo không nói cách bỏ kênh, nên khác biệt có thể
-một phần do cách cài đặt. \emph{Phạm vi:} nhóm chỉ chạy bốn cấu hình bỏ một đồ thị trong
-15 tổ hợp của Table~5, chỉ trên Task~1; cold-start (Task~2/3) có thể khác.
+Nhóm bỏ từng đồ thị khỏi FusionLayer (Task~1, 3 seed: 0, 1, 2, Bảng~\ref{tab:fenn-abl}) bằng cách
+gán embedding của nhánh đó bằng $0$ suốt quá trình huấn luyện và kiểm thử (huấn luyện lại từ đầu). Kích thước đầu vào MLP giữ nguyên, nhưng các trọng số
+nhận đầu vào $0$ không còn tác dụng, nên tương đương bỏ hẳn nhánh. \textbf{Qua 3 seed, bỏ bất kỳ đồ
+thị nào, kể cả đồ thị tương tác thuốc (G3), đều không làm giảm ACC}: trung bình của bốn cấu hình là
+0,9397 đến 0,9409, chênh lệch ghép cặp theo seed so với mô hình đầy đủ chỉ từ $-0{,}0006$ đến
+$+0{,}0006$, nhỏ hơn độ lệch chuẩn giữa seed của mô hình đầy đủ ($0{,}0012$). Macro-F1 cũng không giảm.
+Điều này lệch với Bảng~5~\cite{mkgfenn} của bài báo: ở đó cả bốn tổ hợp ba đồ thị chỉ đạt 0,9344 đến
+0,9355, thấp hơn đủ bốn đồ thị 0,54 đến 0,65 điểm, tức khoảng năm lần độ lệch chuẩn giữa seed của nhóm,
+xem Hình~\ref{fig:seeds}b. Bài báo không nói cách bỏ kênh, nên khác biệt có thể một phần do cách cài
+đặt; nhóm không kết luận các đồ thị là thừa, chỉ ghi nhận rằng với cách bỏ kênh này, mức giảm ở
+Bảng~5~\cite{mkgfenn} không tái hiện được. \emph{Phạm vi:} nhóm chỉ chạy bốn cấu hình bỏ một đồ thị trong
+15 tổ hợp của Bảng~5~\cite{mkgfenn}, chỉ trên Task~1; cold-start (Task~2/3) có thể khác.
 
 \begin{table}[t]
-\caption{MKG-FENN KG-ablation (Task~1, seed 0): bỏ 1 đồ thị.}
+\caption{MKG-FENN, ablation đồ thị (Task~1, 3 seed): bỏ một đồ thị không làm giảm ACC. Số của nhóm là
+trung bình qua seed 0, 1, 2 (ACC kèm độ lệch chuẩn); $\Delta$ là chênh lệch ACC ghép cặp theo seed so với
+mô hình đầy đủ (điểm phần trăm). Cột cuối là ACC của tổ hợp ba đồ thị tương ứng trong
+Bảng~5~\cite{mkgfenn} (P1 đến P4 ứng với G1 đến G4). Không in đậm vì mọi chênh lệch của nhóm đều nhỏ hơn
+độ lệch chuẩn giữa seed.}
 \label{tab:fenn-abl}
 \centering\footnotesize
-\begin{tabular}{llrr}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lr@{}lrrr}
 \toprule
-Bỏ & Nội dung & ACC & F1 (macro) \\
+Bỏ & \multicolumn{2}{c}{ACC} & $\Delta$ACC & F1 (macro) & Bài báo \\
 \midrule
-(full) & 4 đồ thị & 0,9389 & 0,8944 \\
-G1 & hóa học & 0,9409 & 0,8943 \\
-G2 & cấu trúc con & 0,9399 & 0,8956 \\
-G3 & DDI & 0,9411 & 0,9000 \\
-G4 & phân tử & 0,9398 & 0,8982 \\
+không (đủ 4) & 0,9403 & ${\pm}0{,}0012$ & & 0,8932 & 0,9409 \\
+\addlinespace[2pt]
+G1 hóa học & 0,9397 & ${\pm}0{,}0012$ & $-0{,}06$ & 0,8926 & 0,9351 \\
+G2 cấu trúc con & 0,9405 & ${\pm}0{,}0005$ & $+0{,}02$ & 0,8957 & 0,9349 \\
+G3 tương tác thuốc & 0,9406 & ${\pm}0{,}0014$ & $+0{,}03$ & 0,8981 & 0,9355 \\
+G4 phân tử & 0,9409 & ${\pm}0{,}0011$ & $+0{,}06$ & 0,9000 & 0,9344 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Phân tích độ nhạy siêu tham số (Task 1, seed 0)}
+\subsection{Phân tích độ nhạy siêu tham số (Task 1, 3 seed)}
 Nhóm quét lại hai siêu tham số bài báo nhấn mạnh: số láng giềng lấy mẫu
 (\texttt{neighbor\_sample\_size}) và số chiều embedding (\texttt{embedding\_num}),
-mỗi giá trị một lần (seed 0) trên GPU T4 (Bảng~\ref{tab:fenn-sens}). Với
-\texttt{neighbor\_sample\_size}, ACC dao động 0,9389 đến 0,9410, đúng bằng dải của ba seed
-mô hình gốc, nên nhóm không phân biệt được các giá trị với nhau và cũng không xác nhận được
-``số láng giềng $=6$ tốt nhất'' như bài báo. Với \texttt{embedding\_num}, $32$ chiều kém rõ
-($-1{,}4$ điểm, khoảng mười hai lần độ lệch chuẩn giữa seed), nên ảnh hưởng của dung lượng mô hình ở
-đầu thấp là thật; còn chênh giữa $64$, $128$ và $256$ (tối đa $+0{,}36$ điểm) cần thêm seed
-mới kết luận được, trong khi $256$ tốn gấp $2{,}5$ lần thời gian. Nhóm chưa quét tham số
-thứ ba bài báo nêu là trọng số loss phân loại (CLW).
+mỗi giá trị 3 seed (0, 1, 2) trên GPU T4 (Bảng~\ref{tab:fenn-sens}). Với
+\texttt{neighbor\_sample\_size}, ACC trung bình gần như trùng nhau (0,9402 đến 0,9403 cho cả bốn giá trị
+4, 6, 10, 16), nên trong khoảng này số láng giềng không ảnh hưởng tới ACC và nhóm không xác nhận được
+``số láng giềng $=6$ tốt nhất'' như bài báo; macro-F1 nhích lên theo số láng giềng nhưng vẫn trong độ
+lệch chuẩn. Với \texttt{embedding\_num}, $32$ chiều kém rõ ($-1{,}70$ điểm ACC và $-4{,}1$ điểm
+macro-F1, gấp khoảng mười bốn lần độ lệch chuẩn giữa seed), $64$ chiều kém nhẹ ($-0{,}34$ điểm), còn
+$256$ chiều chỉ hơn $128$ chiều $+0{,}15$ điểm, chưa vượt nhiễu, trong khi tốn gấp $2{,}5$ lần thời
+gian. Như vậy, trong hai tham số, chỉ dung lượng mô hình có tác động đo được, và $128$ chiều đã gần
+mức bão hòa. Nhóm chưa quét tham số thứ ba bài báo nêu là trọng số loss phân loại (CLW).
 
 \begin{table}[t]
-\caption{MKG-FENN độ nhạy siêu tham số (Task~1, seed 0). ACC $=$ micro.}
+\caption{MKG-FENN, độ nhạy siêu tham số (Task~1, 3 seed): chỉ số chiều embedding nhỏ làm giảm rõ ACC.
+Trung bình ${\pm}$ độ lệch chuẩn qua seed 0, 1, 2; dòng ``gốc'' là mô hình đầy đủ; $\Delta$ là chênh lệch
+ACC ghép cặp theo seed so với cấu hình gốc (điểm phần trăm). In đậm: chênh lệch vượt rõ độ lệch chuẩn
+giữa seed.}
 \label{tab:fenn-sens}
 \centering\footnotesize
-\begin{tabular}{lrrr}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{lrr@{}lrr@{}l}
 \toprule
-Siêu tham số & Giá trị & ACC & F1 (macro) \\
+Siêu tham số & Giá trị & \multicolumn{2}{c}{ACC} & $\Delta$ACC & \multicolumn{2}{c}{F1 (macro)} \\
 \midrule
-\texttt{neighbor\_sample\_size} & 4 & 0,9409 & 0,8939 \\
- & 6 (gốc) & 0,9389 & 0,8944 \\
- & 10 & 0,9410 & 0,8979 \\
- & 16 & 0,9390 & 0,8940 \\
+\texttt{neighbor\_} & 4 & 0,9403 & ${\pm}0{,}0013$ & $-0{,}00$ & 0,8935 & ${\pm}0{,}0021$ \\
+\texttt{sample\_size} & 6 (gốc) & 0,9403 & ${\pm}0{,}0012$ & & 0,8932 & ${\pm}0{,}0041$ \\
+ & 10 & 0,9402 & ${\pm}0{,}0008$ & $-0{,}00$ & 0,8957 & ${\pm}0{,}0020$ \\
+ & 16 & 0,9403 & ${\pm}0{,}0012$ & $+0{,}00$ & 0,8968 & ${\pm}0{,}0025$ \\
 \midrule
-\texttt{embedding\_num} & 32 & 0,9246 & 0,8466 \\
- & 64 & 0,9384 & 0,8867 \\
- & 128 (gốc) & 0,9389 & 0,8944 \\
- & 256 & 0,9425 & 0,8965 \\
+\texttt{embedding\_num} & 32 & 0,9233 & ${\pm}0{,}0012$ & $\mathbf{-1{,}70}$ & 0,8523 & ${\pm}0{,}0059$ \\
+ & 64 & 0,9369 & ${\pm}0{,}0015$ & $-0{,}34$ & 0,8837 & ${\pm}0{,}0033$ \\
+ & 128 (gốc) & 0,9403 & ${\pm}0{,}0012$ & & 0,8932 & ${\pm}0{,}0041$ \\
+ & 256 & 0,9418 & ${\pm}0{,}0006$ & $+0{,}15$ & 0,8975 & ${\pm}0{,}0023$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Sáu run này nằm cùng báo cáo W\&B với ablation đồ thị: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-ablation-th-v-nh-y-si-u-tham-s---VmlldzoxODE3OTk3OQ}.
+Mười tám run này nằm cùng báo cáo W\&B với ablation đồ thị ở mục trên.
 
 \subsection{Bẫy tái lập của MKG-FENN}
 Ngoài số tái lập trên, đọc mã còn lộ vài điểm cần lưu
@@ -1132,62 +1201,75 @@ nếu ai muốn tái lập:
 \label{sec:fenn-protocol}
 Đọc kỹ hàm huấn luyện còn lộ một vấn đề phương pháp quan trọng hơn mọi điểm lệch ở trên.
 Trong mỗi fold, mã đánh giá trên \emph{tập test} sau từng epoch và giữ lại đầu ra của epoch có
-macro-F1 trên test cao nhất; không có tập validation riêng. Số báo cáo vì thế là số tốt nhất
-trên test qua toàn bộ quá trình huấn luyện, tức lạc quan. Vì log huấn luyện ghi chỉ số test sau
-mỗi epoch, nhóm tính lại được mức lạc quan này mà không cần chạy thêm GPU: so epoch được chọn với
-epoch cuối cùng (cách làm hợp lệ khi không có validation), Bảng~\ref{tab:fenn-sel}.
+macro-F1 trên test cao nhất (vị trí mã ở Phụ lục~\ref{app:code}); không có tập validation riêng.
+Số báo cáo vì thế là số tốt nhất trên test qua toàn bộ quá trình huấn luyện. Vì log huấn luyện ghi
+chỉ số test sau mỗi epoch, nhóm so được epoch được chọn với epoch cuối cùng mà không cần chạy thêm
+GPU (Bảng~\ref{tab:fenn-sel}).
 
 \begin{table}[t]
-\caption{MKG-FENN: chỉ số ở epoch được chọn theo test so với epoch cuối (nhóm tính từ log; trung
-bình theo fold rồi trung bình 3 lần chạy, nên hơi khác số gộp ở các bảng trên).}
+\caption{MKG-FENN: chỉ số ở epoch được chọn theo macro-F1 trên tập test so với epoch cuối ($\Delta$ = chọn $-$ cuối; nhóm
+tính từ log, trung bình theo fold rồi trung bình 3 seed, nên hơi khác số gộp ở Bảng~\ref{tab:fenn-repro}). Chọn epoch
+theo test nâng macro-F1 thêm 2,7 đến 4,1 điểm phần trăm; ACC không tăng đều.}
 \label{tab:fenn-sel}
 \centering\footnotesize
-\begin{tabular}{lrrrr}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrrrr}
 \toprule
-& \multicolumn{2}{c}{ACC} & \multicolumn{2}{c}{F1 (macro)} \\
-Kịch bản & chọn & cuối & chọn & cuối \\
+& \multicolumn{3}{c}{ACC} & \multicolumn{3}{c}{F1 (macro)} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Task & chọn & cuối & $\Delta$ & chọn & cuối & $\Delta$ \\
 \midrule
-Task 1 & 0,9403 & 0,9420 & 0,8859 & 0,8585 \\
-Task 2 & 0,6781 & 0,6741 & 0,5432 & 0,5142 \\
-Task 3 & 0,4670 & 0,4505 & 0,2365 & 0,1959 \\
+Task 1 & 0,9403 & 0,9420 & $-0{,}0017$ & 0,8859 & 0,8585 & $\mathbf{+0{,}0274}$ \\
+Task 2 & 0,6781 & 0,6741 & $+0{,}0040$ & 0,5432 & 0,5142 & $\mathbf{+0{,}0290}$ \\
+Task 3 & 0,4670 & 0,4505 & $+0{,}0165$ & 0,2365 & 0,1959 & $\mathbf{+0{,}0406}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Vì tiêu chí chọn là macro-F1, F1 bị đẩy lên rõ nhất: $+0{,}027$ ở Task~1, $+0{,}029$ ở Task~2 và
-$+0{,}041$ ở Task~3, tức cỡ 20\% giá trị F1 của Task~3. ACC Task~1 không tăng, nhưng ACC Task~3
-tăng $+0{,}017$, gần bằng một độ lệch chuẩn giữa các lần chạy. Hệ quả cho chính phần tái lập của
-nhóm: ``tái lập được'' ở các mục trên nghĩa là tái lập \emph{cùng giao thức}; nếu đánh giá đúng
-cách, các số F1 và số cold-start của MKG-FENN sẽ thấp hơn số công bố.
+Vì tiêu chí chọn là macro-F1, chênh lệch rõ nhất ở F1: so với epoch cuối, epoch được chọn cho
+macro-F1 cao hơn $0{,}027$ ở Task~1, $0{,}029$ ở Task~2 và $0{,}041$ ở Task~3 (tức 2,7 đến 4,1 điểm
+phần trăm). ACC Task~1 ở epoch cuối còn cao hơn epoch được chọn ($0{,}9420$ so với $0{,}9403$), nhưng ACC Task~3 tăng $0{,}017$, gần bằng một độ lệch chuẩn
+giữa các lần chạy. Về hướng, chọn epoch có macro-F1 trên test cao nhất chỉ có thể làm macro-F1 báo cáo
+\emph{tăng hoặc bằng} so với một quy trình chọn không nhìn test, nên số macro-F1 công bố là cận trên
+lạc quan (với ACC thì không chắc, như Task~1 cho thấy); mọi so sánh với mô hình khác dùng cùng giao
+thức cần đọc dưới trần đó. Chênh lệch này cho thấy kết quả nhạy với cách chọn epoch, nhưng chưa định lượng
+trực tiếp độ chệch so với quy trình chọn mô hình bằng validation độc lập; cần đánh giá lại bằng
+validation độc lập để xác định mức ảnh hưởng. Vì vậy ``tái lập được'' ở các mục trên nghĩa là tái
+lập \emph{cùng giao thức}.
 
 Một rủi ro khác nằm ở đồ thị G3: nó được dựng từ \emph{toàn bộ} 37.264 sự kiện DDI, gồm cả các
 cặp thuộc fold test, với quan hệ chính là loại sự kiện, tức nhãn cần dự đoán. Khi lấy mẫu láng
 giềng, mô hình có thể gặp đúng cặp test cùng nhãn của nó. Xác suất này thấp (6 láng giềng trên
-khoảng 130 láng giềng trung bình mỗi thuốc), và thí nghiệm bỏ G3 không làm giảm ACC Task~1, nên
-nhóm cho rằng rò rỉ qua G3 không phải nguồn chính của số Task~1; với cold-start thì nhóm chưa kiểm.
+khoảng 130 láng giềng trung bình mỗi thuốc), và thí nghiệm bỏ G3 không làm giảm ACC Task~1
+(Bảng~\ref{tab:fenn-abl}: bỏ G3 cho $0{,}9406\pm0{,}0014$ qua 3 seed, không thấp hơn mô hình đầy đủ), nên
+nhóm cho rằng rò rỉ qua G3 không phải nguồn chính của số Task~1. Ở cold-start, G3 vẫn chứa các cặp
+test của thuốc mới cùng nhãn của chúng, nên rò rỉ có thể ảnh hưởng mạnh hơn Task~1; số Task~2, 3 cần
+đọc với giả định này, nhóm chưa loại trừ được.
 
 \subsection{Đánh giá tổng hợp MKG-FENN}
 \label{sec:fenn-eval}
-\textit{Cái gì hoạt động.} Bài nhìn thuốc qua nhiều đồ thị tri thức cùng lúc và học hợp nhất đầu-cuối,
+\textit{Điểm hiệu quả:} Bài nhìn thuốc qua nhiều đồ thị tri thức cùng lúc và học hợp nhất end-to-end,
 một thiết kế dễ hiểu, chạy được cả trên CPU, và số Task~1 tái lập sát bài báo ở cả 6 chỉ số. Việc
 đánh giá ba mức độ khó, từ thuốc đã biết tới cả hai thuốc mới, cho thấy trung thực rằng cold-start
 vẫn rất khó.
 
-\textit{Cái gì không hoạt động, và vì sao.} Lợi ích của bốn đồ thị chưa được chứng minh thuyết phục: bỏ một đồ thị không làm
+\textit{Hạn chế và nguyên nhân:} Lợi ích của bốn đồ thị chưa được chứng minh thuyết phục: bỏ một đồ thị không làm
 giảm Task~1, và cold-start, nơi thông tin ngoài nhãn cần nhất, lại chỉ dùng ba đồ thị. Thiết kế
 $W_1, W_2$ riêng cho từng thuốc tốn khoảng 75 triệu tham số cho 572 thuốc và không áp được cho thuốc
 mới, nên cold-start phải mượn embedding của thuốc giống nhất. Giao thức chọn epoch theo test và kiểm
 định Wilcoxon trên 6 chỉ số làm các khẳng định vượt trội yếu hơn vẻ ngoài của bảng kết quả.
 
-\textit{Takeaway.} Muốn tin một con số, phải đọc cả mã đánh giá chứ không chỉ mã mô hình; ``tái lập
+\textit{Bài học rút ra:} Muốn tin một con số, phải đọc cả mã đánh giá chứ không chỉ mã mô hình; ``tái lập
 được'' chỉ có nghĩa là ra cùng số dưới cùng giao thức. Ablation nên làm cả ở cold-start, nơi thông
 tin ngoài nhãn thực sự cần.
 
-\textit{Hướng mở.} Tác giả chỉ nêu một hướng: thêm cơ chế self-attention. Nhóm đề xuất: tách tập
+\textit{Hướng mở:} Tác giả chỉ nêu một hướng: thêm cơ chế self-attention. Nhóm đề xuất: tách tập
 validation, dựng G3 chỉ từ cặp huấn luyện, biểu diễn thuốc mới từ đặc trưng của nó thay vì tra bảng,
 và báo cáo nhiều lần chạy kèm kiểm định giữa các lần chạy.
 
-\subsection{So sánh hai công trình}
+%==============================================================================
+\section{So sánh hai công trình}
+%==============================================================================
 Bảng~\ref{tab:compare} đặt cạnh hai cách ``hợp nhất trên đồ thị''.
 
 \begin{table}[t]
@@ -1195,15 +1277,17 @@ Bảng~\ref{tab:compare} đặt cạnh hai cách ``hợp nhất trên đồ th�
 \label{tab:compare}
 \centering
 \footnotesize
-\begin{tabular}{p{2.1cm} p{2.4cm} p{2.4cm}}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.5cm} >{\raggedright\arraybackslash}p{2.95cm} >{\raggedright\arraybackslash}p{2.95cm}}
 \toprule
 & AdaMF-MAT & MKG-FENN \\
 \midrule
-Tác vụ & hoàn thiện KG (link prediction) & phân loại sự kiện DDI (65 lớp) \\
-Hợp nhất & các \emph{mô thức} (cấu trúc/ảnh/văn bản) & các \emph{loại quan hệ} (4 đồ thị) \\
-Xương sống & RotatE $+$ đối kháng & KGNN 4 nhánh $+$ MLP \\
-Đầu-cuối & có & có \\
-Nhóm chạy lại & có (MKG-W, MKG-Y, DB15K) & có (Task 1/2/3, ablation, quét siêu tham số) \\
+Tác vụ & hoàn thiện đồ thị (dự đoán liên kết) & phân loại 65 loại sự kiện tương tác thuốc \\ \addlinespace[2pt]
+Hợp nhất cái gì & các \emph{mô thức} của một thực thể (cấu trúc, ảnh, văn bản) & các \emph{loại quan hệ} của một thuốc (4 đồ thị) \\ \addlinespace[2pt]
+Xương sống & RotatE, thêm pha đối kháng MAT & 4 nhánh KGNN, MLP \\ \addlinespace[2pt]
+Nhóm chạy lại & MKG-W, MKG-Y (3 seed), DB15K & Task 1/2/3 (3 seed), ablation, độ nhạy \\ \addlinespace[2pt]
+Số chính & đường cơ sở tái lập; mức tăng của MAT \emph{chưa} tái hiện & Task~1 tái lập ở 6 chỉ số; cold-start khớp ACC, một số chỉ số macro thấp hơn nhẹ \\ \addlinespace[2pt]
+Phát hiện chính & script đặt \texttt{mu=0}; phương trình~4~\cite{adamfmat}, phương trình~8~\cite{adamfmat} lệch mã; ảnh nhận trọng số rất thấp & chọn epoch theo test; cold-start dùng 3 đồ thị; qua 3 seed, bỏ 1 đồ thị không giảm ACC \\ \addlinespace[2pt]
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1215,10 +1299,10 @@ Nhóm chạy lại & có (MKG-W, MKG-Y, DB15K) & có (Task 1/2/3, ablation, qué
 Đặt hai công trình cạnh nhau, nhóm rút ra mấy bài học áp dụng được cho việc đọc bất kỳ bài báo
 học máy nào.
 
-\textit{Nhiễu giữa các lần chạy phải được đo trước khi so sánh.} Hình~\ref{fig:seeds} đặt độ phân
+\textit{Nhiễu giữa các lần chạy phải được đo trước khi so sánh:} Hình~\ref{fig:seeds} đặt độ phân
 tán giữa seed của nhóm cạnh chênh lệch mà bài báo dùng để kết luận. Ở AdaMF-MAT, khoảng cách giữa
-$\mu=0$ và $\mu=0{,}001$ nhỏ hơn cả độ phân tán giữa seed, trong khi bài báo khai $+1{,}58$. Ở
-MKG-FENN, bốn cấu hình bỏ một đồ thị nằm gọn trong dải ba seed của mô hình đầy đủ. Một con số một
+$\mu=0$ và $\mu=0{,}001$ cùng cỡ độ phân tán giữa seed, trong khi bài báo công bố $+1{,}58$. Ở
+MKG-FENN, trung bình 3 seed của bốn cấu hình bỏ một đồ thị đều nằm trong dải ba seed của mô hình đầy đủ. Một con số một
 lần chạy không đủ để nói thành phần nào có ích.
 
 \begin{figure}[t]
@@ -1226,26 +1310,26 @@ lần chạy không đủ để nói thành phần nào có ích.
 \includegraphics[width=\columnwidth]{figures/fig_seed_spread.pdf}
 \caption{Độ phân tán giữa các lần chạy của nhóm so với chênh lệch mà bài báo báo cáo. (a) AdaMF-MAT
 trên MKG-W: 3 seed cho $\mu=0$ và $\mu=0{,}001$; nét đứt là số bài báo. (b) MKG-FENN Task~1: dải
-3 seed của mô hình đầy đủ (vùng tô), bốn cấu hình bỏ một đồ thị của nhóm, và bốn cấu hình tương
-ứng trong Table~5 của bài báo (hình thoi). Nhóm vẽ từ số đo trong báo cáo.}
+3 seed của mô hình đầy đủ (vùng tô), bốn cấu hình bỏ một đồ thị của nhóm (trung bình ${\pm}$ độ lệch chuẩn qua 3 seed), và bốn cấu hình tương
+ứng trong Bảng~5~\cite{mkgfenn} của bài báo (hình thoi). Nhóm vẽ từ số đo trong báo cáo.}
 \label{fig:seeds}
 \end{figure}
 
-\textit{Đường cơ sở quyết định đóng góp.} Đóng góp của MAT biến mất khi AdaMF được chạy bằng chính
-script của tác giả, vì đường cơ sở chạy lại cao hơn hẳn số bài báo ghi cho nó. Muốn chứng minh một
+\textit{Đường cơ sở quyết định đóng góp:} Đóng góp của MAT gần như không còn khi AdaMF được chạy
+bằng chính script của tác giả, và đường cơ sở chạy lại cao hơn hẳn số bài báo ghi cho nó. Muốn chứng minh một
 thành phần, đường cơ sở phải được tinh chỉnh ngang bằng.
 
-\textit{Đọc mã đánh giá, không chỉ mã mô hình.} Lỗi có ảnh hưởng lớn nhất nhóm tìm thấy ở MKG-FENN
+\textit{Đọc mã đánh giá, không chỉ mã mô hình:} Vấn đề phương pháp đáng lưu ý nhất nhóm tìm thấy ở MKG-FENN
 không nằm trong kiến trúc mà trong vòng huấn luyện: chọn epoch theo tập test. Ở AdaMF-MAT, cấu hình
 quan trọng nhất ($\mu$) nằm trong script chạy chứ không trong bài.
 
-\textit{Công thức trên giấy có thể khác mã.} Cả hai bài đều có công thức lệch mã ở chỗ then chốt
+\textit{Công thức trên giấy có thể khác mã:} Cả hai bài đều có công thức lệch mã ở chỗ then chốt
 (trọng số attention, dấu của trọng số âm, chuẩn hoá láng giềng, số đồ thị ở cold-start). Khi hai
 nguồn mâu thuẫn, mã là thứ thực sự tạo ra số.
 
-\textit{Ghi lại quá trình ngay từ đầu.} Nhóm phải dựng lại sổ thí nghiệm sau khi đã huấn luyện xong
-vì lúc chạy chưa kết nối được công cụ ghi log; giữ nguyên log gốc là điều giúp nhóm vẫn kiểm chứng
-được mọi con số, kể cả mức lạc quan ở Bảng~\ref{tab:fenn-sel}.
+\textit{Ghi lại quá trình ngay từ đầu:} Với đợt chạy đầu, nhóm phải dựng lại sổ thí nghiệm sau khi
+đã huấn luyện xong vì lúc chạy chưa kết nối được công cụ ghi log (đợt bổ sung đã ghi trực tiếp); giữ nguyên log gốc là điều giúp nhóm vẫn kiểm chứng
+được mọi con số, kể cả mức chênh ở Bảng~\ref{tab:fenn-sel}.
 
 %==============================================================================
 \section{Kết luận}
@@ -1254,24 +1338,22 @@ vì lúc chạy chưa kết nối được công cụ ghi log; giữ nguyên log
 Hai công trình cùng theo đuổi hợp nhất có học trên đồ thị tri thức đa mô thức
 nhưng cho hai bài học trái ngược về tính tái lập.
 
-Với AdaMF-MAT, nhóm quét trọn lưới hệ số MAT trên \emph{ba} tập dữ liệu (MKG-W có
-thêm ba seed, MKG-Y, và DB15K chạy đủ 1000 epoch bằng cơ chế resume tự thêm). Trên
-cả ba, đóng góp cốt lõi thứ hai là MAT không tái lập được mức đã công bố: ở MKG-W
-chỉ $+0{,}06 \pm 0{,}07$ MRR so với $+1{,}58$, và ngay tại DB15K nơi bài báo khai MAT
-mạnh nhất ($+2{,}63$) thì cấu hình đã thử lại \emph{giảm} $0{,}41$, trong khi đường cơ
-sở không MAT của nhóm còn vượt chính hàng AdaMF-MAT của bài báo. Phần hợp nhất thích
-nghi hoá ra học cách loại bỏ mô thức ảnh, và thí nghiệm thiếu mô thức mà nhóm tự viết
-(tái lập Figure~3) còn gợi ý rằng tính không đồng nhất của dữ liệu thiếu gây hại hơn
-cả lượng thiếu.
+Với AdaMF-MAT, nhóm quét toàn bộ lưới hệ số MAT được công bố trên MKG-W (thêm ba seed) và
+MKG-Y; trên DB15K, nhóm đánh giá hai cấu hình $\mu=0$ và $\mu=0{,}01$ trong 1.000 epoch bằng cơ
+chế resume tự thêm. Trong phạm vi các cấu hình đã thử, MAT chưa tái hiện được mức cải thiện công bố: ở
+MKG-W chỉ $+0{,}06 \pm 0{,}05$ MRR và ở MKG-Y $-0{,}01 \pm 0{,}12$ (chênh lệch ghép cặp qua 3 seed) so với $+1{,}58$ và $+0{,}51$, và tại DB15K
+nơi bài báo công bố MAT mạnh nhất ($+2{,}63$) thì cấu hình đã thử lại \emph{giảm} $0{,}41$. Đường cơ
+sở không MAT của nhóm vượt kết quả AdaMF-MAT công bố trên MKG-Y và DB15K, đồng thời tiến sát kết
+quả công bố trên MKG-W. Trên MKG-W, phần hợp nhất thích nghi gán trọng số rất thấp cho ảnh; thí nghiệm thiếu mô thức tương
+tự Hình~3~\cite{adamfmat} (ba seed) cho thấy hiệu năng giảm mạnh khi thiếu đồng thời ảnh và văn bản lúc suy luận.
 
 Với MKG-FENN, cả ba kịch bản (biết thuốc và hai mức cold-start) đều tái lập trong một
-độ lệch chuẩn \emph{theo đúng giao thức của mã}. Nhưng giao thức đó chọn epoch theo tập test, làm
-F1 lạc quan khoảng 3 đến 4 điểm; ablation của nhóm không tái lập được mức giảm khi bỏ một đồ thị mà
-Table~5 báo cáo; cold-start thực tế chỉ dùng ba đồ thị và mượn embedding của thuốc giống nhất; và
+độ lệch chuẩn \emph{theo đúng giao thức của mã}. Nhưng giao thức đó chọn epoch theo macro-F1 trên
+tập test, và epoch được chọn cho F1 cao hơn epoch cuối 2,7 đến 4,1 điểm phần trăm (chưa phải độ chệch so với chọn bằng validation); ablation của nhóm không tái lập được mức giảm khi bỏ một đồ thị mà
+Bảng~5~\cite{mkgfenn} báo cáo; cold-start thực tế chỉ dùng ba đồ thị và mượn embedding của thuốc giống nhất; và
 kiến trúc tuy gọn về ý tưởng lại nặng về tham số ($W_1,W_2$ riêng từng thuốc). Cả hai trường hợp củng cố nguyên tắc làm việc
 của nhóm: không tin một phát biểu trong bài báo cho đến khi chỉ được dòng mã thực thi nó.
-Hướng tiếp theo nhóm muốn làm là chạy lại các thí nghiệm ablation với nhiều seed và ghi log trong
-lúc huấn luyện, đánh giá lại MKG-FENN với tập validation riêng, và thử bộ sinh có điều kiện mạnh hơn
+Hướng tiếp theo nhóm muốn làm là chạy ablation mô thức của AdaMF-MAT với nhiều seed, đánh giá lại MKG-FENN với tập validation riêng, và thử bộ sinh có điều kiện mạnh hơn
 cho MAT.
 
 %==============================================================================
@@ -1280,12 +1362,44 @@ cho MAT.
 \label{app:wandb}
 %==============================================================================
 
-Toàn bộ \textbf{40 run} đều ở chế độ xem công khai trong project
+Toàn bộ \textbf{\NRUNS{} run} đều ở chế độ xem công khai trong project
 \url{https://wandb.ai/K35/gml-adamf-mat}. Danh sách đầy đủ liên kết từng thí nghiệm:
 
 \input{wandb_links_full}
 
-\begin{thebibliography}{9}
+\section{Vị trí mã của các phát hiện chính}
+\label{app:code}
+Đường dẫn tính từ gốc repo GitHub của nhóm; tên hàm thay cho số dòng để không lệch khi mã đổi.
+
+\begin{table}[h]
+\caption{Phát hiện $\to$ vị trí mã.}
+\label{tab:codeloc}
+\centering\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{5.3cm}}
+\toprule
+Phát hiện & Vị trí \\
+\midrule
+phương trình~4~\cite{adamfmat}: một vector attention chung &
+\nolinkurl{AdaMF-MAT/mmkgc/module/model/AdvMixRotatE.py}, \texttt{self.ent\_attn} trong
+\texttt{\_\_init\_\_} và hàm \texttt{get\_joint\_embeddings} \\ \addlinespace[2pt]
+Bảng đặc trưng ảnh, văn bản khả huấn luyện &
+\nolinkurl{AdvMixRotatE.py}, \texttt{requires\_grad\_(True)} trên \texttt{img\_embeddings}, \texttt{text\_embeddings} \\ \addlinespace[2pt]
+Script chính thức đặt \texttt{mu=0} & \texttt{AdaMF-MAT/scripts/run\_*.sh} \\ \addlinespace[2pt]
+\texttt{-missing\_rate}, \texttt{-visual} không được dùng & \texttt{AdaMF-MAT/args.py} khai báo, không file nào đọc \\ \addlinespace[2pt]
+Ablation mô thức của nhóm & \texttt{get\_joint\_embeddings}, nhánh \texttt{ablation} (\texttt{no\_s}, \texttt{no\_v}, \texttt{no\_t}) \\ \addlinespace[2pt]
+MKG-FENN chọn epoch theo F1 trên test &
+\nolinkurl{MKG-FENN/code/MKG-FENN-task1.py}, hàm \texttt{train}: \texttt{if test\_score == max(test\_list)} giữ \texttt{max\_test\_output} \\ \addlinespace[2pt]
+G3 dựng từ toàn bộ 37.264 sự kiện & \nolinkurl{MKG-FENN-task1.py}, khối \texttt{\_\_main\_\_}: \texttt{read\_dataset(dict1, 3)} trên bảng \texttt{extraction} của \texttt{event.db} \\ \addlinespace[2pt]
+CLW thực chất là \texttt{weight\_decay} & \nolinkurl{MKG-FENN-task1.py}, hàm \texttt{train}: \texttt{torch.optim.Adam(..., weight\_decay=args.weigh\_decay)} \\ \addlinespace[2pt]
+$W_1, W_2$ riêng từng thuốc & \nolinkurl{MKG-FENN/code/modeltask1.py}: \texttt{nn.Parameter(torch.randn(size=(572, d, d)))} \\ \addlinespace[2pt]
+Cold-start mượn embedding thuốc giống nhất & \nolinkurl{MKG-FENN/code/MKG-FENN-task2.py}, hàm \texttt{Jaccard} \\ \addlinespace[2pt]
+Ablation đồ thị của nhóm & \texttt{modeltask1.py}, cờ \texttt{drop\_kg}: gán \texttt{zeros\_like} cho nhánh bị bỏ \\ \addlinespace[2pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{thebibliography}{99}
 \bibitem{adamfmat}
 Y. Zhang, Z. Chen, L. Liang, H. Chen, and W. Zhang,
 ``Unleashing the Power of Imbalanced Modality Information for Multi-modal
@@ -1322,6 +1436,85 @@ in \emph{Proc. EMNLP (System Demonstrations)}, 2018, pp.~139--144.
 L. Biewald,
 ``Experiment Tracking with Weights and Biases,'' 2020. [Online].
 Available: \url{https://www.wandb.com/}
+
+\bibitem{transe}
+A. Bordes, N. Usunier, A. Garcia-Duran, J. Weston, and O. Yakhnenko, ``Translating Embeddings for
+Modeling Multi-relational Data,'' in \emph{Proc. NeurIPS}, 2013.
+
+\bibitem{distmult}
+B. Yang, W. Yih, X. He, J. Gao, and L. Deng, ``Embedding Entities and Relations for Learning and
+Inference in Knowledge Bases,'' in \emph{Proc. ICLR}, 2015.
+
+\bibitem{complex}
+T. Trouillon, C. R. Dance, É. Gaussier, J. Welbl, S. Riedel, and G. Bouchard, ``Knowledge Graph
+Completion via Complex Tensor Factorization,'' \emph{J. Mach. Learn. Res.}, 2017.
+
+\bibitem{ikrl}
+R. Xie, Z. Liu, H. Luan, and M. Sun, ``Image-embodied Knowledge Representation Learning,'' in
+\emph{Proc. IJCAI}, 2017.
+
+\bibitem{tbkgc}
+H. Mousselly Sergieh, T. Botschen, I. Gurevych, and S. Roth, ``A Multimodal Translation-based
+Approach for Knowledge Graph Representation Learning,'' in \emph{Proc. *SEM}, 2018.
+
+\bibitem{rsme}
+M. Wang, S. Wang, H. Yang, Z. Zhang, X. Chen, and G. Qi, ``Is Visual Context Really Helpful for
+Knowledge Graph? A Representation Learning Perspective,'' in \emph{Proc. ACM MM}, 2021.
+
+\bibitem{otkge}
+Z. Cao, Q. Xu, Z. Yang, Y. He, X. Cao, and Q. Huang, ``OTKGE: Multi-modal Knowledge Graph Embeddings
+via Optimal Transport,'' in \emph{Proc. NeurIPS}, 2022.
+
+\bibitem{kbgan}
+L. Cai and W. Y. Wang, ``KBGAN: Adversarial Learning for Knowledge Graph Embeddings,'' in
+\emph{Proc. NAACL}, 2018.
+
+\bibitem{mmrns}
+D. Xu, T. Xu, S. Wu, J. Zhou, and E. Chen, ``Relation-enhanced Negative Sampling for Multimodal
+Knowledge Graph Completion,'' in \emph{Proc. ACM MM}, 2022.
+
+\bibitem{mans}
+Y. Zhang, M. Chen, and W. Zhang, ``Modality-aware Negative Sampling for Multi-modal Knowledge Graph
+Embedding,'' \emph{CoRR}, 2023.
+
+\bibitem{vgg}
+K. Simonyan and A. Zisserman, ``Very Deep Convolutional Networks for Large-scale Image
+Recognition,'' in \emph{Proc. ICLR}, 2015.
+
+\bibitem{beit}
+H. Bao, L. Dong, S. Piao, and F. Wei, ``BEiT: BERT Pre-training of Image Transformers,'' in
+\emph{Proc. ICLR}, 2022.
+
+\bibitem{sbert}
+N. Reimers and I. Gurevych, ``Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks,'' in
+\emph{Proc. EMNLP}, 2019.
+
+\bibitem{deepddi}
+J. Y. Ryu, H. U. Kim, and S. Y. Lee, ``Deep Learning Improves Prediction of Drug--Drug and
+Drug--Food Interactions,'' \emph{Proc. Natl. Acad. Sci.}, vol.~115, no.~18, pp.~E4304--E4311, 2018.
+
+\bibitem{mdfsaddi}
+S. Lin \emph{et al.}, ``MDF-SA-DDI: Predicting Drug--Drug Interaction Events Based on Multi-source
+Drug Fusion, Multi-source Feature Fusion and Transformer Self-attention Mechanism,''
+\emph{Briefings in Bioinformatics}, vol.~23, no.~1, bbab421, 2022.
+
+\bibitem{mddiscl}
+S. Lin, W. Chen, G. Chen, S. Zhou, D.-Q. Wei, and Y. Xiong, ``MDDI-SCL: Predicting Multi-type
+Drug--Drug Interactions via Supervised Contrastive Learning,'' \emph{J. Cheminformatics}, vol.~14,
+no.~1, 2022.
+
+\bibitem{sumgnn}
+Y. Yu, K. Huang, C. Zhang, L. M. Glass, J. Sun, and C. Xiao, ``SumGNN: Multi-typed Drug Interaction
+Prediction via Efficient Knowledge Graph Summarization,'' \emph{Bioinformatics}, vol.~37, no.~18,
+pp.~2988--2995, 2021.
+
+\bibitem{muffin}
+Y. Chen, T. Ma, X. Yang, J. Wang, B. Song, and X. Zeng, ``MUFFIN: Multi-scale Feature Fusion for
+Drug--Drug Interaction Prediction,'' \emph{Bioinformatics}, vol.~37, no.~17, pp.~2651--2658, 2021.
+
+\bibitem{mdnn}
+T. Lyu, J. Gao, L. Tian, Z. Li, P. Zhang, and J. Zhang, ``MDNN: A Multimodal Deep Neural Network
+for Predicting Drug--Drug Interaction Events,'' in \emph{Proc. IJCAI}, 2021, pp.~3536--3542.
 
 \end{thebibliography}
 
