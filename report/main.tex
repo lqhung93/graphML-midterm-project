@@ -139,8 +139,42 @@ và Phụ lục~\ref{app:wandb}.
 \section*{PHẦN A: AdaMF-MAT}
 %##############################################################################
 
+Bảng~\ref{tab:frame-adamf} tóm tắt cách nhóm hiểu bài báo theo bảy câu hỏi; các mục phía sau đi
+vào chi tiết và bằng chứng cho từng dòng.
+
+\begin{table}[t]
+\caption{AdaMF-MAT theo khung phân tích của nhóm (chi tiết ở mục ghi trong ngoặc).}
+\label{tab:frame-adamf}
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.55cm} >{\raggedright\arraybackslash}p{6.35cm}}
+\toprule
+Tóm tắt & Hoàn thiện đồ thị tri thức đa mô thức: hợp nhất cấu trúc, ảnh, văn bản bằng trọng số học
+theo thực thể (AdaMF), thêm bộ sinh embedding mô thức giả làm âm khó (MAT), chấm điểm bằng RotatE
+(Mục~\ref{sec:adamf-method}). \\
+Research gap & Cách hợp nhất cũ như nhau cho mọi thực thể dù lượng thông tin mô thức chênh lệch;
+ảnh và văn bản ít, khó trích, hay thiếu; lấy mẫu âm cũ chỉ \emph{chọn} âm có sẵn
+(Mục~\ref{sec:adamf-problem}). \\
+Giải pháp & Softmax trên ba mô thức cho mỗi thực thể; bộ sinh hai lớp từ embedding cấu trúc cộng
+nhiễu tạo ba bộ ba giả; tối ưu min-max với hệ số $\lambda$ (Mục~\ref{sec:adamf-method}). \\
+Kết quả (bài báo) & DB15K, MKG-W, MKG-Y; MRR và Hit@1/3/10 lọc; vượt 19 baseline ở cả ba tập,
+MRR DB15K 35,14 so với 32,68 của MMRNS (Mục~\ref{sec:adamf-paper}). \\
+Work / không work & AdaMF với RotatE là đường cơ sở mạnh: nhóm chạy ra số vượt cả số AdaMF-MAT công
+bố. MAT không tái lập trên ba tập, ảnh gần như bị bỏ; nguyên nhân khả dĩ: đường cơ sở trong bài yếu,
+bộ sinh thiếu thông tin, $\lambda$ nhạy mà không công bố (Mục~\ref{sec:repro-setup},
+\ref{sec:adamf-critique}). \\
+Takeaway & Ablation ``tắt thành phần'' chỉ có nghĩa khi đường cơ sở tinh chỉnh ngang bằng; công
+thức trên giấy lệch mã ở chỗ then chốt nên phải đọc mã (Mục~\ref{sec:adamf-eval}). \\
+Hướng mở & Tác giả: kết hợp LLM với đồ thị đa mô thức, kịch bản thiếu mô thức sát thực tế hơn.
+Nhóm: bộ sinh dùng cả mô thức đang có, attention theo quan hệ, báo cáo nhiều seed
+(Mục~\ref{sec:adamf-eval}). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 %==============================================================================
 \section{Bài toán và động lực}
+\label{sec:adamf-problem}
 %==============================================================================
 
 \subsection{Hoàn thiện đồ thị tri thức đa mô thức}
@@ -178,6 +212,7 @@ tăng chất lượng embedding. AdaMF-MAT đứng ở giao của hai nhánh cu�
 
 %==============================================================================
 \section{Phương pháp AdaMF-MAT}
+\label{sec:adamf-method}
 %==============================================================================
 
 Mô hình xương sống là RotatE~\cite{rotate}: mỗi quan hệ được xem như một phép
@@ -296,6 +331,38 @@ trọng số học được $\alpha_m$, chấm điểm bằng RotatE. Nhánh né
 kháng MAT, chỉ hoạt động khi $\mu>0$.}
 \label{fig:adamf}
 \end{figure}
+
+\subsection{Kết quả bài báo công bố}
+\label{sec:adamf-paper}
+\textit{Dữ liệu và chỉ số.} Ba tập DB15K (từ DBpedia), MKG-W (Wikidata), MKG-Y (YAGO), thống kê ở
+Bảng~\ref{tab:data}. Đánh giá bằng dự đoán liên kết cả đầu và đuôi, xếp hạng có lọc, đo MRR và
+Hit@$\{1,3,10\}$. \textit{So sánh.} 19 baseline chia ba nhóm: 7 mô hình đơn mô thức (TransE đến
+GC-OTE), 7 mô hình đa mô thức (IKRL đến OTKGE) và 5 dòng lấy mẫu âm (KBGAN hai biến thể, MANS, MMRNS
+hai dòng). Một phần số baseline trích từ bài MMRNS, phần còn lại tác giả tự chạy lại.
+\textit{Kết quả.} AdaMF-MAT đứng đầu cả ba tập (Bảng~\ref{tab:adamf-paper}), cải thiện trung bình so
+với 19 baseline $+6{,}0\%$ MRR, $+8{,}0\%$ Hit@1, $+5{,}5\%$ Hit@3, $+2{,}1\%$ Hit@10. Ngoài kết quả
+chính, bài trả lời thêm ba câu hỏi: thiếu mô thức 20--80\% trên DB15K thì MAT thêm khoảng 2 MRR ở
+mọi tỉ lệ (Figure~3); bỏ trọng số thích nghi, bỏ từng mô thức hay từng loại bộ ba giả đều làm giảm
+MRR (Table~3); và trọng số mô thức khác nhau theo quan hệ (Figure~5).
+
+\begin{table}[t]
+\caption{MRR theo bài báo (trích Table~2 của~\cite{adamfmat}): baseline tốt nhất, AdaMF (không MAT) và AdaMF-MAT.}
+\label{tab:adamf-paper}
+\centering\footnotesize
+\begin{tabular}{lrrr}
+\toprule
+Tập & Baseline tốt nhất & AdaMF & AdaMF-MAT \\
+\midrule
+DB15K & 32,68 (MMRNS) & 32,51 & \textbf{35,14} \\
+MKG-W & 35,03 (MMRNS) & 34,27 & \textbf{35,85} \\
+MKG-Y & 37,04 (VBKGC) & 38,06 & \textbf{38,57} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Đọc bảng này trước khi xem phần tái lập sẽ thấy vì sao MAT là trọng tâm kiểm chứng: theo bài báo,
+trên DB15K và MKG-W, AdaMF \emph{chưa có} MAT còn thua baseline tốt nhất, và chỉ nhờ MAT mới vượt.
+Toàn bộ vị trí dẫn đầu ở hai tập này dựa vào đóng góp của MAT.
 
 %==============================================================================
 \section{Tái lập thực nghiệm}
@@ -486,6 +553,7 @@ hình nhóm đã thử, xuyên ba tập dữ liệu, MAT không tái lập đư�
 
 %==============================================================================
 \section{Phân tích phê phán}
+\label{sec:adamf-critique}
 %==============================================================================
 
 \subsection{Trọng số mô thức: hợp nhất thích nghi học cách bỏ ảnh}
@@ -626,13 +694,14 @@ của tác giả. Cái model thực sự học được là \emph{một} vector 
 dùng chung, không phải trọng số riêng từng mô thức như bài viết.
 
 \subsection{Đánh giá tổng hợp AdaMF-MAT}
-\textit{Điểm hay.} Bài đặt đúng vấn đề: mỗi thực thể có lượng thông tin mô thức khác nhau, nên
+\label{sec:adamf-eval}
+\textit{Cái gì hoạt động.} Bài đặt đúng vấn đề: mỗi thực thể có lượng thông tin mô thức khác nhau, nên
 trọng số hợp nhất phải theo thực thể. Lời giải cho phần này rất rẻ, chỉ một vector attention và
 một softmax trên ba mô thức, lại cho đường cơ sở mạnh: chạy bằng chính script tác giả, AdaMF đã
 vượt số AdaMF-MAT mà bài công bố ở cả ba tập. Ý tưởng sinh thẳng embedding mô thức giả bằng một
 mạng nhỏ, thay vì chọn âm bằng học tăng cường như KBGAN, cũng gọn và dễ huấn luyện.
 
-\textit{Điểm dở.} Phần đóng góp mới thứ hai, MAT, không đứng vững khi đường cơ sở được chạy
+\textit{Cái gì không hoạt động, và vì sao.} Phần đóng góp mới thứ hai, MAT, không đứng vững khi đường cơ sở được chạy
 đúng. Nhóm thấy ba lý do có thể giải thích (chưa kiểm định riêng từng cái). Một, đường cơ sở trong
 bài yếu hơn hẳn đường cơ sở chạy lại, nên phần chênh mà bài gán cho MAT có thể chỉ là chênh tinh
 chỉnh. Hai, bộ sinh chỉ nhìn embedding cấu trúc cộng nhiễu, nên embedding giả mang rất ít thông
@@ -641,17 +710,53 @@ mất tới 3,7 MRR) mà giá trị thắng không được công bố. Ngoài r
 thực tế là \emph{bỏ ảnh}, và phần mô tả trên giấy (Eq.~4, Eq.~8, Eq.~12--13) lệch với mã ở chỗ
 quan trọng.
 
-\textit{Rút ra.} Một ablation kiểu ``tắt thành phần X'' chỉ chứng minh được X khi đường cơ sở được
-tinh chỉnh ngang bằng; nên báo cáo nhiều seed và công bố đúng cấu hình đã dùng. Về hướng mở,
-nhóm thấy hai việc đáng làm: cho bộ sinh dùng cả mô thức đang có (không chỉ cấu trúc) để
-embedding giả mang thông tin thật, và cho attention phụ thuộc quan hệ đúng như bài mô tả.
+\textit{Takeaway.} Một ablation kiểu ``tắt thành phần X'' chỉ chứng minh được X khi đường cơ sở được
+tinh chỉnh ngang bằng; nên báo cáo nhiều seed và công bố đúng cấu hình đã dùng. Công thức trên giấy
+có thể lệch mã ở đúng chỗ quyết định kết quả, nên phải đọc mã trước khi tin mô tả.
+
+\textit{Hướng mở.} Tác giả nêu hai hướng: kết hợp mô hình ngôn ngữ lớn với đồ thị tri thức đa mô thức,
+và dựng kịch bản thiếu mô thức sát thực tế hơn (chính tác giả nhận đây là giới hạn của bài). Nhóm
+thêm ba việc: cho bộ sinh dùng cả mô thức đang có (không chỉ cấu trúc) để embedding giả mang thông tin
+thật, cho attention phụ thuộc quan hệ đúng như bài mô tả, và đánh giá mọi so sánh bằng nhiều seed.
 
 %##############################################################################
 \section*{PHẦN B: MKG-FENN}
 %##############################################################################
 
+Bảng~\ref{tab:frame-fenn} là cùng khung bảy câu hỏi cho bài thứ hai.
+
+\begin{table}[t]
+\caption{MKG-FENN theo khung phân tích của nhóm (chi tiết ở mục ghi trong ngoặc).}
+\label{tab:frame-fenn}
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.55cm} >{\raggedright\arraybackslash}p{6.35cm}}
+\toprule
+Tóm tắt & Phân loại 65 loại sự kiện tương tác cho một cặp thuốc: bốn đồ thị tri thức, mỗi đồ thị một
+nhánh GNN kiểu KGNN, ghép đặc trưng hai thuốc rồi qua MLP, học đầu-cuối
+(Mục~\ref{sec:fenn-arch}). \\
+Research gap & Phương pháp dựa đặc trưng thuốc bỏ qua cấu trúc quan hệ; phương pháp đồ thị chỉ xét
+một phần quan hệ; mô hình lai trích và hợp nhất tách rời, không đầu-cuối
+(Mục~\ref{sec:fenn-problem}). \\
+Giải pháp & Lấy mẫu 6 láng giềng mỗi đồ thị, chấm điểm ngữ nghĩa thuốc--quan hệ để tổng hợp; ghép
+8 vector của cặp thuốc vào MLP; cross-entropy, Adam (Mục~\ref{sec:fenn-arch}). \\
+Kết quả (bài báo) & 572 thuốc, 37.264 cặp, 65 lớp; ACC, AUPR, AUC, F1, Precision, Recall; so 11 mô
+hình. Task~1 ACC 0,9409 (64 thắng, 2 hòa, 0 thua); Task~2 và 3 ACC 0,6805 và 0,4552 (31 thắng, 5
+thua) (Mục~\ref{sec:fenn-paper}). \\
+Work / không work & Số chính tái lập được \emph{theo giao thức của mã}. Bỏ một đồ thị không giảm
+Task~1; cold-start vẫn rất khó và chỉ dùng ba đồ thị; chọn epoch theo tập test làm F1 lạc quan
+3--4 điểm (Mục~\ref{sec:fenn-repro}, \ref{sec:fenn-protocol}). \\
+Takeaway & Đọc cả mã đánh giá, không chỉ mã mô hình; ``tái lập được'' chỉ nghĩa là cùng giao thức
+(Mục~\ref{sec:fenn-eval}). \\
+Hướng mở & Tác giả: thêm self-attention. Nhóm: tập validation riêng, G3 chỉ từ cặp huấn luyện, biểu
+diễn thuốc mới từ đặc trưng, nhiều lần chạy (Mục~\ref{sec:fenn-eval}). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 %==============================================================================
 \section{Bài toán dự đoán sự kiện tương tác thuốc}
+\label{sec:fenn-problem}
 %==============================================================================
 
 Tương tác thuốc--thuốc (DDI) xảy ra khi dùng đồng thời hai thuốc làm thay đổi
@@ -668,13 +773,17 @@ DDI, thuộc tính phân tử) qua bốn nhánh KGNN, ghép thành tám vector r
 lên'', đúng với nhãn trong \texttt{event.db} (dòng \texttt{Abemaciclib//Amiodarone//The
 risk or severity of adverse effects increase}).
 
-Điểm mấu chốt của bài báo: các phương pháp trước xét quan hệ/cơ chế DDI \emph{rời
-rạc} (non-end-to-end), nên trích xuất và hợp nhất đặc trưng chưa tối ưu. MKG-FENN
-xây một đồ thị tri thức đa mô thức từ bốn nguồn quan hệ và học hợp nhất
-\emph{đầu-cuối} bằng một mạng nơ-ron.
+\textit{Research gap.} Bài chia các phương pháp trước thành ba nhóm, mỗi nhóm hụt một chỗ. Nhóm dựa
+trên đặc trưng thuốc (DeepDDI, MDF-SA-DDI, MDDI-SCL) học tốt thuộc tính từng thuốc nhưng bỏ qua cấu
+trúc quan hệ bậc cao giữa thuốc, đích tác dụng, enzyme, chất vận chuyển. Nhóm dựa trên đồ thị (KGNN,
+SumGNN) khai thác được cấu trúc đó nhưng chỉ xét một phần quan hệ. Nhóm mô hình lai (MDNN, MUFFIN)
+kết hợp nhiều nguồn nhưng trích đặc trưng và hợp nhất ở hai bước tách rời, không đầu-cuối, nên đặc
+trưng không được tối ưu cho chính bài toán phân loại. MKG-FENN nhắm cả ba: dựng bốn đồ thị tri thức
+để phủ nhiều loại quan hệ, và học trích đặc trưng cùng hợp nhất \emph{đầu-cuối} trong một mạng.
 
 %==============================================================================
 \section{Kiến trúc MKG-FENN}
+\label{sec:fenn-arch}
 %==============================================================================
 
 \subsection{Bốn đồ thị tri thức (``đa mô thức'')}
@@ -732,6 +841,10 @@ giềng cụ thể, trong khi các láng giềng được lấy mẫu lại ở 
 là một chi phí tham số đáng kể mà cách mô tả kiến trúc trong bài báo không làm nổi bật,
 người đọc khó hình dung nếu chỉ nhìn sơ đồ.
 
+Mỗi nhánh chỉ có một lớp tổng hợp ($l=1$). Tác giả giải thích lựa chọn này bằng hiện tượng
+over-smoothing khi xếp nhiều lớp GNN (biểu diễn các nút bị kéo về giống nhau), nhưng không trình bày
+số liệu so sánh các giá trị $l$.
+
 \subsection{Tầng hợp nhất (FusionLayer)}
 Với mỗi cặp $(A, B)$, ghép \emph{tám} vector đặc trưng, $\{\mathbf{f}_1,\dots,
 \mathbf{f}_4\}$ của $A$ và của $B$, thành $8d = 1024$ chiều, rồi qua MLP
@@ -781,10 +894,13 @@ Chỉ số: ACC, AUPR, AUC, F1 (micro/macro), Precision, Recall, bộ 11 chỉ s
 cục theo file supplementary.
 
 \subsection{Kết quả chính (theo bài báo)}
+\label{sec:fenn-paper}
 Trên kịch bản thuốc đã biết (Task~1, DrugBank v5.1.7, 572 thuốc, 65 sự kiện), bài báo
-báo cáo MKG-FENN vượt mọi mô hình so sánh ở toàn bộ 6 chỉ số (Bảng~\ref{tab:fenn-res}, số trích
-trực tiếp từ Table~2 của bài báo); tổng thắng $64/66$ so sánh chỉ số $\times$ mô hình
-(2 hòa, 0 thua), F-rank cao nhất $11{,}83$.
+báo cáo MKG-FENN không thua mô hình nào ở chỉ số nào (Bảng~\ref{tab:fenn-res}, số trích trực tiếp
+từ Table~2 của bài báo): 64 thắng, 2 hòa, 0 thua trên 66 cặp chỉ số $\times$ mô hình, F-rank cao nhất
+$11{,}83$. Hai trận hòa là AUC: 0,9989 bằng đúng MDF-SA-DDI và GNN. Bài còn đưa một ví dụ cụ thể:
+sự kiện số 62, một loại tương tác rất ít mẫu, chỉ MKG-FENN dự đoán đúng còn các mô hình so sánh đều
+bỏ sót; tác giả dùng ví dụ này để cho thấy đồ thị tri thức giúp ích nhất ở các lớp hiếm.
 
 \begin{table}[t]
 \caption{Kết quả Task~1 (số bài báo, trích Table~2 của~\cite{mkgfenn}): MKG-FENN so với các mô hình mạnh.}
@@ -825,6 +941,7 @@ epoch, lr $=0{,}01$, batch $1024$: các giá trị này khớp mã (dù nằm ng
 khai trong argparse, nên đây là lỗi khai báo chứ không phải lệch paper$\leftrightarrow$mã).
 
 \subsection{Nhóm tái lập (GPU T4, 3 seed)}
+\label{sec:fenn-repro}
 \noindent Báo cáo W\&B của phần này: \url{https://wandb.ai/K35/gml-adamf-mat/reports/MKG-FENN-Task-1-3-seed---VmlldzoxODE3OTk3Nw}.
 Mã nguồn tái lập: \url{https://github.com/lqhung93/graphML-midterm-project}.
 
@@ -1012,6 +1129,7 @@ nếu ai muốn tái lập:
 \end{enumerate}
 
 \subsection{Giao thức đánh giá: chọn epoch theo tập test}
+\label{sec:fenn-protocol}
 Đọc kỹ hàm huấn luyện còn lộ một vấn đề phương pháp quan trọng hơn mọi điểm lệch ở trên.
 Trong mỗi fold, mã đánh giá trên \emph{tập test} sau từng epoch và giữ lại đầu ra của epoch có
 macro-F1 trên test cao nhất; không có tập validation riêng. Số báo cáo vì thế là số tốt nhất
@@ -1049,20 +1167,25 @@ khoảng 130 láng giềng trung bình mỗi thuốc), và thí nghiệm bỏ G3
 nhóm cho rằng rò rỉ qua G3 không phải nguồn chính của số Task~1; với cold-start thì nhóm chưa kiểm.
 
 \subsection{Đánh giá tổng hợp MKG-FENN}
-\textit{Điểm hay.} Bài nhìn thuốc qua nhiều đồ thị tri thức cùng lúc và học hợp nhất đầu-cuối,
+\label{sec:fenn-eval}
+\textit{Cái gì hoạt động.} Bài nhìn thuốc qua nhiều đồ thị tri thức cùng lúc và học hợp nhất đầu-cuối,
 một thiết kế dễ hiểu, chạy được cả trên CPU, và số Task~1 tái lập sát bài báo ở cả 6 chỉ số. Việc
 đánh giá ba mức độ khó, từ thuốc đã biết tới cả hai thuốc mới, cho thấy trung thực rằng cold-start
 vẫn rất khó.
 
-\textit{Điểm dở.} Lợi ích của bốn đồ thị chưa được chứng minh thuyết phục: bỏ một đồ thị không làm
+\textit{Cái gì không hoạt động, và vì sao.} Lợi ích của bốn đồ thị chưa được chứng minh thuyết phục: bỏ một đồ thị không làm
 giảm Task~1, và cold-start, nơi thông tin ngoài nhãn cần nhất, lại chỉ dùng ba đồ thị. Thiết kế
 $W_1, W_2$ riêng cho từng thuốc tốn khoảng 75 triệu tham số cho 572 thuốc và không áp được cho thuốc
 mới, nên cold-start phải mượn embedding của thuốc giống nhất. Giao thức chọn epoch theo test và kiểm
 định Wilcoxon trên 6 chỉ số làm các khẳng định vượt trội yếu hơn vẻ ngoài của bảng kết quả.
 
-\textit{Rút ra.} Muốn tin một con số, phải đọc cả mã đánh giá chứ không chỉ mã mô hình. Hướng mở
-nhóm đề xuất: tách tập validation, dựng G3 chỉ từ cặp huấn luyện, biểu diễn thuốc mới từ đặc trưng
-của nó thay vì tra bảng, và báo cáo nhiều lần chạy kèm kiểm định giữa các lần chạy.
+\textit{Takeaway.} Muốn tin một con số, phải đọc cả mã đánh giá chứ không chỉ mã mô hình; ``tái lập
+được'' chỉ có nghĩa là ra cùng số dưới cùng giao thức. Ablation nên làm cả ở cold-start, nơi thông
+tin ngoài nhãn thực sự cần.
+
+\textit{Hướng mở.} Tác giả chỉ nêu một hướng: thêm cơ chế self-attention. Nhóm đề xuất: tách tập
+validation, dựng G3 chỉ từ cặp huấn luyện, biểu diễn thuốc mới từ đặc trưng của nó thay vì tra bảng,
+và báo cáo nhiều lần chạy kèm kiểm định giữa các lần chạy.
 
 \subsection{So sánh hai công trình}
 Bảng~\ref{tab:compare} đặt cạnh hai cách ``hợp nhất trên đồ thị''.
