@@ -48,11 +48,15 @@ parser.add_argument("--drop_kg",type=int,default=0)
 parser.add_argument("--use_wandb",type=int,default=0)
 parser.add_argument("--wandb_project",type=str,default="gml-mkg-fenn")
 parser.add_argument("--wandb_name",type=str,default="")
+parser.add_argument("--wandb_entity",type=str,default="")
+parser.add_argument("--wandb_group",type=str,default="")
+parser.add_argument("--wandb_notes",type=str,default="")
 args = parser.parse_args()
 
-_METRIC_NAMES = ["accuracy","aupr_micro","aupr_macro","auc_micro","auc_macro",
-                 "f1_micro","f1_macro","precision_micro","precision_macro",
-                 "recall_micro","recall_macro"]
+# cùng tên chỉ số với các run W&B đã có của nhóm
+_METRIC_NAMES = ["ACC","AUPR_micro","AUPR_macro","AUC_micro","AUC_macro",
+                 "F1_micro","F1_macro","Pre_micro","Pre_macro",
+                 "Rec_micro","Rec_macro"]
 
 # GPU neu co (code goc chi CPU; them .to(_DEVICE) de chay GPU nhanh hon ~nhieu)
 _DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -184,7 +188,7 @@ def save_result(filepath,result_type,result):
             writer.writerow(i)
     return 0
 
-def train(train_x,train_y,test_x,test_y,net):
+def train(train_x,train_y,test_x,test_y,net,fold=0):
     loss_function=nn.CrossEntropyLoss()
     opti = torch.optim.Adam(net.parameters(), lr=args.lr,weight_decay=args.weigh_decay)
     test_loss, test_acc, train_l = 0, 0, 0
@@ -228,6 +232,14 @@ def train(train_x,train_y,test_x,test_y,net):
             if test_score==max(test_list):
                 max_test_output = test_output.cpu()
             print("test_acc:", test_acc, "train_acc:", sum(train_a) / len(train_a),"test_score:", test_score)
+            if args.use_wandb:
+                import wandb
+                # ghi trong lúc train: loss và chỉ số test sau mỗi epoch của từng fold
+                wandb.log({"fold": fold, "epoch": epoch + 1,
+                           "global_epoch": fold * args.epoches + epoch + 1,
+                           "train_loss": train_l / len(train_y), "test_loss": test_loss,
+                           "train_acc": sum(train_a) / len(train_a),
+                           "test_acc": test_acc, "test_f1_macro": test_score})
         print('epoch [%d] train_loss: %.6f testing_loss: %.6f ' % (
                 epoch + 1, train_l / len(train_y), test_loss / len(test_y)))
     return test_loss / len(test_y), max(test_list), train_l / len(train_y), sum(train_a) / len(
@@ -238,9 +250,15 @@ def train(train_x,train_y,test_x,test_y,net):
 def main():
     if args.use_wandb:
         import wandb
-        wandb.init(project=args.wandb_project,
+        wandb.init(entity=(args.wandb_entity or None), project=args.wandb_project,
+                   group=(args.wandb_group or None), notes=(args.wandb_notes or None),
                    name=(args.wandb_name or ("task1_seed%d" % args.seed)),
-                   config=vars(args))
+                   config={k: v for k, v in vars(args).items() if not k.startswith("wandb")},
+                   # không gửi metadata máy (tên máy, đường dẫn, requirements) lên W&B
+                   settings=wandb.Settings(x_disable_meta=True, x_disable_stats=True,
+                                    x_disable_machine_info=True, x_save_requirements=False,
+                                    disable_git=True, save_code=False, disable_code=True,
+                                    disable_job_creation=True, host="gpu-node"))
     conn = sqlite3.connect("../dataset/event.db")
     df_drug = pd.read_sql('select * from drug;', conn)
     extraction = pd.read_sql('select * from extraction;', conn)
@@ -289,7 +307,7 @@ def main():
         train_y = new_label[train_idx]
         test_x = x_datasets[test_idx]
         test_y = new_label[test_idx]
-        test_loss, test_acc, train_loss, train_acc, test_list,test_output = train(train_x,train_y,test_x,test_y,net)
+        test_loss, test_acc, train_loss, train_acc, test_list,test_output = train(train_x,train_y,test_x,test_y,net,fold=i)
         train_sum += train_acc
         test_sum += test_acc
         pred_type = torch.argmax(test_output, dim=1).numpy()
@@ -299,10 +317,11 @@ def main():
         print('fold %d, test_loss %f, test_acc %f, train_loss %f, train_acc %f' % (
             i, test_loss, test_acc, train_loss, train_acc))
         if args.use_wandb:
-            # NB: theo code gốc, biến 'test_acc' trả về từ train() thực ra là best macro-F1 của fold
-            wandb.log({"fold": i, "fold_best_f1_macro": test_acc,
-                       "fold_train_acc": train_acc, "fold_test_loss": test_loss,
-                       "fold_train_loss": train_loss})
+            # 'test_acc' trả về từ train() thực ra là macro-F1 test cao nhất của fold (giao thức gốc
+            # chọn epoch theo tập test); ghi kèm epoch được chọn và F1 ở epoch cuối để so sánh
+            wandb.log({"fold": i, "fold_selected_f1_macro": test_acc,
+                       "fold_selected_epoch": int(np.argmax(test_list)) + 1,
+                       "fold_last_f1_macro": test_list[-1]})
     result_all, result_eve = evaluate(y_pred, y_score, y_true, args.event_num)
     save_result("../result/", "all", result_all)
     save_result("../result/", "each", result_eve)
