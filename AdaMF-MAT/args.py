@@ -33,6 +33,9 @@ def get_args():
     arg.add_argument('-use_wandb', type=int, default=0)
     arg.add_argument('-wandb_project', type=str, default='gml-adamf-mat')
     arg.add_argument('-wandb_name', type=str, default='')
+    arg.add_argument('-wandb_entity', type=str, default='')
+    arg.add_argument('-wandb_group', type=str, default='')
+    arg.add_argument('-wandb_notes', type=str, default='')
     return arg.parse_args()
 
 
