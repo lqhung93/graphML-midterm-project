@@ -43,6 +43,15 @@ parser.add_argument("--n_drug",type=int,default=572)
 parser.add_argument("--seed",type=int,default=1)
 parser.add_argument("--dropout",type=float,default=0.5)
 parser.add_argument("--embedding_num",type=int,choices=[128,64,256,32],default=256)
+# 1: mỗi fold, G3 (đồ thị DDI) chỉ giữ cạnh giữa hai thuốc huấn luyện. Quan hệ của G3 chính là nhãn DDI,
+# nên cạnh tới thuốc test đưa nhãn của cặp test vào lúc huấn luyện. 0: giữ nguyên như code gốc
+parser.add_argument("--g3_train_only",type=int,default=0)
+parser.add_argument("--use_wandb",type=int,default=0)
+parser.add_argument("--wandb_project",type=str,default="gml-mkg-fenn")
+parser.add_argument("--wandb_name",type=str,default="")
+parser.add_argument("--wandb_entity",type=str,default="")
+parser.add_argument("--wandb_group",type=str,default="")
+parser.add_argument("--wandb_notes",type=str,default="")
 args = parser.parse_args()
 
 # seed = 0
@@ -170,7 +179,7 @@ def save_result(filepath,result_type,result):
             writer.writerow(i)
     return 0
 
-def train(train_x,train_y,test_x,test_y,net,test_adj):
+def train(train_x,train_y,test_x,test_y,net,test_adj,fold=0):
     loss_function=nn.CrossEntropyLoss()
     opti = torch.optim.Adam(net.parameters(), lr=args.lr,weight_decay=args.weigh_decay)
     test_loss, test_acc, train_l = 0, 0, 0
@@ -225,6 +234,11 @@ def train(train_x,train_y,test_x,test_y,net,test_adj):
             if test_score == max(test_list):
                 max_test_output = test_output.cpu()
             print("test_acc:", test_acc, "train_acc:", sum(train_a) / len(train_a),"test_score:",test_score)
+            if args.use_wandb:
+                import wandb
+                wandb.log({"fold": fold, "epoch": epoch + 1, "global_epoch": fold * args.epoches + epoch + 1,
+                           "train_loss": train_l / len(train_y), "test_loss": test_loss,
+                           "train_acc": sum(train_a) / len(train_a), "test_acc": test_acc, "test_f1_macro": test_score})
         print('epoch [%d] train_loss: %.6f testing_loss: %.6f ' % (
                 epoch + 1, train_l / len(train_y), test_loss / len(test_y)))
     return test_loss / len(test_y), max(test_list), train_l / len(train_y), sum(train_a) / len(
@@ -254,6 +268,17 @@ def Jaccard(matrix):
     return numerator / denominator
 
 def main():
+    if args.use_wandb:
+        import wandb
+        wandb.init(entity=(args.wandb_entity or None), project=args.wandb_project,
+                   group=(args.wandb_group or None), notes=(args.wandb_notes or None),
+                   name=(args.wandb_name or ("task%d_seed%d" % (3, args.seed))),
+                   config={k: v for k, v in vars(args).items() if not k.startswith("wandb")},
+                   # không gửi metadata máy (tên máy, đường dẫn, requirements) lên W&B
+                   settings=wandb.Settings(x_disable_meta=True, x_disable_stats=True,
+                                    x_disable_machine_info=True, x_save_requirements=False,
+                                    disable_git=True, save_code=False, disable_code=True,
+                                    disable_job_creation=True, host="gpu-node"))
     conn = sqlite3.connect("../dataset/event.db")
     df_drug = pd.read_sql('select * from drug;', conn)
     extraction = pd.read_sql('select * from extraction;', conn)
@@ -400,9 +425,19 @@ def main():
     y_score = np.zeros((0, 65), dtype=float)
     y_pred = np.array([])
     for cross_ver in range(5):
-        net = nn.Sequential(GNN1(dataset, tail_len, relation_len, args, dict1, drug_name),
-                            GNN2(dataset, tail_len, relation_len, args, dict1,drug_name),
-                            GNN3(dataset, tail_len, relation_len, args, dict1,drug_name),
+        fold_ds = dataset
+        if args.g3_train_only:
+            tr = set(train_drug[cross_ver])
+            g3 = defaultdict(list)
+            for h in tr:
+                nb = [(tl, r) for tl, r in dataset["dataset3"].get(h, []) if tl in tr]
+                if nb:   # thuốc không còn láng giềng nhận láng giềng giả của GNN3 (xem arrge)
+                    g3[h] = nb
+            fold_ds = dict(dataset)
+            fold_ds["dataset3"] = g3
+        net = nn.Sequential(GNN1(fold_ds, tail_len, relation_len, args, dict1, drug_name),
+                            GNN2(fold_ds, tail_len, relation_len, args, dict1,drug_name),
+                            GNN3(fold_ds, tail_len, relation_len, args, dict1,drug_name),
                             FusionLayer(args))
         net = net.to(_DEVICE)
         X_train = []
@@ -423,7 +458,7 @@ def main():
         test_y = new_label[y_test]
 
         test_loss, test_acc, train_loss, train_acc, test_list, test_output = train(train_x, train_y, test_x, test_y,
-                                                                                   net,test_adj[cross_ver])
+                                                                                   net,test_adj[cross_ver],fold=cross_ver)
         train_sum += train_acc
         test_sum += test_acc
         pred_type = torch.argmax(test_output, dim=1).numpy()
@@ -432,10 +467,24 @@ def main():
         y_true = np.hstack((y_true, test_y))
         print('fold %d, test_loss %f, test_acc %f, train_loss %f, train_acc %f' % (
                 cross_ver, test_loss, test_acc, train_loss, train_acc))
+        if args.use_wandb:
+            # 'test_acc' trả về từ train() là macro-F1 test cao nhất của fold (giao thức gốc chọn epoch theo test)
+            wandb.log({"fold": cross_ver, "fold_selected_f1_macro": test_acc,
+                       "fold_selected_epoch": int(np.argmax(test_list)) + 1,
+                       "fold_last_f1_macro": test_list[-1]})
 
     result_all, result_eve = evaluate(y_pred, y_score, y_true, args.event_num)
     save_result("../result/", "all", result_all)
     save_result("../result/", "each", result_eve)
+    if args.use_wandb:
+        # evaluate() của task này chỉ tính các chỉ số dưới, các ô còn lại ghi 0
+        names = {0: "ACC", 1: "AUPR_micro", 3: "AUC_micro", 6: "F1_macro", 8: "Pre_macro", 10: "Rec_macro"}
+        final = {v: float(result_all[k][0]) for k, v in names.items()}
+        final["avg_train_acc"] = train_sum / 5
+        final["avg_test_acc"] = test_sum / 5
+        wandb.log(final)
+        wandb.summary.update(final)
+        wandb.finish()
     print('%d-fold validation: avg train acc  %f, avg test acc %f' % (5, train_sum / 5, test_sum / 5))
     return
 
