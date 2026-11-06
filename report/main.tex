@@ -468,7 +468,7 @@ chênh lệch nhỏ hơn mức này không phân biệt được với nhiễu.}
 \label{tab:mkgw}
 \centering\footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{lr@{}lrrrr}
+\begin{tabular}{lr@{\,}lrrrr}
 \toprule
 Cấu hình & \multicolumn{2}{c}{MRR} & Hit@1 & Hit@3 & Hit@10 & $\Delta$MRR \\
 \midrule
@@ -536,7 +536,7 @@ so với $+0{,}51$ bài báo công bố.}
 \label{tab:mkgy}
 \centering\footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{lr@{}lrrrr}
+\begin{tabular}{lr@{\,}lrrrr}
 \toprule
 Cấu hình & \multicolumn{2}{c}{MRR} & Hit@1 & Hit@3 & Hit@10 & $\Delta$MRR \\
 \midrule
@@ -579,7 +579,7 @@ của bài báo, và bật MAT làm MRR giảm.}
 \label{tab:db15k}
 \centering\footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{lr@{}lrrrr}
+\begin{tabular}{lr@{\,}lrrrr}
 \toprule
 Cấu hình & \multicolumn{2}{c}{MRR} & Hit@1 & Hit@3 & Hit@10 & $\Delta$MRR \\
 \midrule
@@ -990,14 +990,14 @@ bỏ sót; tác giả dùng ví dụ này để cho thấy đồ thị tri thứ
 
 \begin{table}[t]
 \caption{Kết quả Task~1 theo bài báo (trích Bảng~2~\cite{mkgfenn}): MKG-FENN và bốn mô hình có ACC cao nhất trong 11 mô
-hình so sánh. ACC, AUPR, AUC tính theo micro; F1, Precision, Recall theo macro. Số in đậm: cao nhất trong cột (AUC hòa
+hình so sánh. ACC, AUPR, AUC tính theo micro; F1, Precision (Pre.), Recall (Rec.) theo macro. Số in đậm: cao nhất trong cột (AUC hòa
 giữa MKG-FENN và MDF-SA-DDI).}
 \label{tab:fenn-res}
 \centering\footnotesize
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{2.5pt}
 \begin{tabular}{lrrrrrr}
 \toprule
-Mô hình & ACC & AUPR & AUC & F1 & Precision & Recall \\
+Mô hình & ACC & AUPR & AUC & F1 & Pre. & Rec. \\
 \midrule
 MKG-FENN & \textbf{0,9409} & \textbf{0,9786} & \textbf{0,9989} & \textbf{0,8958} & \textbf{0,9132} & \textbf{0,8876} \\
 MDDI-SCL     & 0,9378 & 0,9782 & 0,9983 & 0,8755 & 0,8804 & 0,8767 \\
@@ -1041,7 +1041,7 @@ Phần~A: cùng một cách kiểm chứng cho hai kết luận trái ngược, 
 \caption{MKG-FENN: nhóm tái lập ba kịch bản so với bài báo (trích Bảng~2, 3, 4~\cite{mkgfenn}). Nhóm: trung bình $\pm$ độ
 lệch chuẩn qua 3 seed (Task~1: seed 0, 1, 2; Task~2, 3: seed 1, 2, 3; Task~2 chạy 100 epoch theo mặc định của mã). ACC,
 AUPR, AUC tính theo micro; F1, Precision, Recall theo macro. \dag: số bài báo nằm ngoài khoảng trung bình $\pm$ 1 độ lệch
-chuẩn của nhóm. Task~1 khớp cả sáu chỉ số; ở cold-start, ACC khớp còn một số chỉ số macro thấp hơn.}
+chuẩn của nhóm. In đậm: số cao hơn trong từng cặp nhóm và bài báo. Task~1 khớp cả sáu chỉ số; ở cold-start, ACC khớp còn một số chỉ số macro thấp hơn.}
 \label{tab:fenn-repro}\label{tab:fenn-t2}\label{tab:fenn-t3}
 \centering\footnotesize
 \begin{tabular}{lr@{\,}lr r@{\,}lr r@{\,}lr}
@@ -1050,12 +1050,12 @@ chuẩn của nhóm. Task~1 khớp cả sáu chỉ số; ở cold-start, ACC kh�
 \cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
 Chỉ số & \multicolumn{2}{c}{Nhóm} & Bài báo & \multicolumn{2}{c}{Nhóm} & Bài báo & \multicolumn{2}{c}{Nhóm} & Bài báo \\
 \midrule
-ACC & 0,9403 & ${\pm}0{,}0012$ & 0,9409 & 0,6772 & ${\pm}0{,}0039$ & 0,6805 & 0,4598 & ${\pm}0{,}0175$ & 0,4552 \\
-AUPR & 0,9782 & ${\pm}0{,}0007$ & 0,9786 & 0,7010 & ${\pm}0{,}0015$ & 0,7049\textsuperscript{\dag} & 0,4140 & ${\pm}0{,}0165$ & 0,4162 \\
-AUC & 0,9990 & ${\pm}0{,}0001$ & 0,9989 & 0,9663 & ${\pm}0{,}0008$ & 0,9673\textsuperscript{\dag} & 0,9153 & ${\pm}0{,}0014$ & 0,9149 \\
-F1 & 0,8932 & ${\pm}0{,}0041$ & 0,8958 & 0,5294 & ${\pm}0{,}0045$ & 0,5394\textsuperscript{\dag} & 0,2162 & ${\pm}0{,}0076$ & 0,2186 \\
-Precision & 0,9202 & ${\pm}0{,}0090$ & 0,9132 & 0,5862 & ${\pm}0{,}0075$ & 0,6063\textsuperscript{\dag} & 0,2618 & ${\pm}0{,}0092$ & 0,2754\textsuperscript{\dag} \\
-Recall & 0,8813 & ${\pm}0{,}0055$ & 0,8876 & 0,5045 & ${\pm}0{,}0071$ & 0,5106 & 0,2097 & ${\pm}0{,}0107$ & 0,2131 \\
+ACC & 0,9403 & ${\pm}0{,}0012$ & \textbf{0,9409} & 0,6772 & ${\pm}0{,}0039$ & \textbf{0,6805} & \textbf{0,4598} & ${\pm}0{,}0175$ & 0,4552 \\
+AUPR & 0,9782 & ${\pm}0{,}0007$ & \textbf{0,9786} & 0,7010 & ${\pm}0{,}0015$ & \textbf{0,7049}\textsuperscript{\dag} & 0,4140 & ${\pm}0{,}0165$ & \textbf{0,4162} \\
+AUC & \textbf{0,9990} & ${\pm}0{,}0001$ & 0,9989 & 0,9663 & ${\pm}0{,}0008$ & \textbf{0,9673}\textsuperscript{\dag} & \textbf{0,9153} & ${\pm}0{,}0014$ & 0,9149 \\
+F1 & 0,8932 & ${\pm}0{,}0041$ & \textbf{0,8958} & 0,5294 & ${\pm}0{,}0045$ & \textbf{0,5394}\textsuperscript{\dag} & 0,2162 & ${\pm}0{,}0076$ & \textbf{0,2186} \\
+Precision & \textbf{0,9202} & ${\pm}0{,}0090$ & 0,9132 & 0,5862 & ${\pm}0{,}0075$ & \textbf{0,6063}\textsuperscript{\dag} & 0,2618 & ${\pm}0{,}0092$ & \textbf{0,2754}\textsuperscript{\dag} \\
+Recall & 0,8813 & ${\pm}0{,}0055$ & \textbf{0,8876} & 0,5045 & ${\pm}0{,}0071$ & \textbf{0,5106} & 0,2097 & ${\pm}0{,}0107$ & \textbf{0,2131} \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -1123,21 +1123,21 @@ Bảng~5~\cite{mkgfenn} không tái hiện được. \emph{Phạm vi:} nhóm ch�
 \caption{MKG-FENN, ablation đồ thị (Task~1, 3 seed): bỏ một đồ thị không làm giảm ACC. Số của nhóm là
 trung bình qua seed 0, 1, 2 (ACC kèm độ lệch chuẩn); $\Delta$ là chênh lệch ACC ghép cặp theo seed so với
 mô hình đầy đủ (điểm phần trăm). Cột cuối là ACC của tổ hợp ba đồ thị tương ứng trong
-Bảng~5~\cite{mkgfenn} (P1 đến P4 ứng với G1 đến G4). Không in đậm vì mọi chênh lệch của nhóm đều nhỏ hơn
-độ lệch chuẩn giữa seed.}
+Bảng~5~\cite{mkgfenn} (P1 đến P4 ứng với G1 đến G4). In đậm: cao nhất trong cột; riêng ở nhóm, mọi chênh lệch
+đều nhỏ hơn độ lệch chuẩn giữa seed nên thứ tự giữa các dòng không có ý nghĩa thống kê.}
 \label{tab:fenn-abl}
 \centering\footnotesize
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{lr@{}lrrr}
+\setlength{\tabcolsep}{2.3pt}
+\begin{tabular}{lr@{\,}lrrr}
 \toprule
 Bỏ & \multicolumn{2}{c}{ACC} & $\Delta$ACC & F1 (macro) & Bài báo \\
 \midrule
-không (đủ 4) & 0,9403 & ${\pm}0{,}0012$ & & 0,8932 & 0,9409 \\
+không (đủ 4) & 0,9403 & ${\pm}0{,}0012$ & & 0,8932 & \textbf{0,9409} \\
 \addlinespace[2pt]
 G1 hóa học & 0,9397 & ${\pm}0{,}0012$ & $-0{,}06$ & 0,8926 & 0,9351 \\
 G2 cấu trúc con & 0,9405 & ${\pm}0{,}0005$ & $+0{,}02$ & 0,8957 & 0,9349 \\
 G3 tương tác thuốc & 0,9406 & ${\pm}0{,}0014$ & $+0{,}03$ & 0,8981 & 0,9355 \\
-G4 phân tử & 0,9409 & ${\pm}0{,}0011$ & $+0{,}06$ & 0,9000 & 0,9344 \\
+G4 phân tử & \textbf{0,9409} & ${\pm}0{,}0011$ & $+0{,}06$ & \textbf{0,9000} & 0,9344 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1159,20 +1159,20 @@ mức bão hòa. Nhóm chưa quét tham số thứ ba bài báo nêu là trọng
 \caption{MKG-FENN, độ nhạy siêu tham số (Task~1, 3 seed): chỉ số chiều embedding nhỏ làm giảm rõ ACC.
 Trung bình ${\pm}$ độ lệch chuẩn qua seed 0, 1, 2; dòng ``gốc'' là mô hình đầy đủ; $\Delta$ là chênh lệch
 ACC ghép cặp theo seed so với cấu hình gốc (điểm phần trăm). In đậm: chênh lệch vượt rõ độ lệch chuẩn
-giữa seed.}
+giữa seed. $K$ là \texttt{neighbor\_sample\_size}, $d$ là \texttt{embedding\_num}.}
 \label{tab:fenn-sens}
 \centering\footnotesize
 \setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{lrr@{}lrr@{}l}
+\begin{tabular}{lrr@{\,}lrr@{\,}l}
 \toprule
 Siêu tham số & Giá trị & \multicolumn{2}{c}{ACC} & $\Delta$ACC & \multicolumn{2}{c}{F1 (macro)} \\
 \midrule
-\texttt{neighbor\_} & 4 & 0,9403 & ${\pm}0{,}0013$ & $-0{,}00$ & 0,8935 & ${\pm}0{,}0021$ \\
-\texttt{sample\_size} & 6 (gốc) & 0,9403 & ${\pm}0{,}0012$ & & 0,8932 & ${\pm}0{,}0041$ \\
- & 10 & 0,9402 & ${\pm}0{,}0008$ & $-0{,}00$ & 0,8957 & ${\pm}0{,}0020$ \\
- & 16 & 0,9403 & ${\pm}0{,}0012$ & $+0{,}00$ & 0,8968 & ${\pm}0{,}0025$ \\
+láng giềng $K$ & 4 & 0,9403 & ${\pm}0{,}0013$ & $0{,}00$ & 0,8935 & ${\pm}0{,}0021$ \\
+ & 6 (gốc) & 0,9403 & ${\pm}0{,}0012$ & & 0,8932 & ${\pm}0{,}0041$ \\
+ & 10 & 0,9402 & ${\pm}0{,}0008$ & $0{,}00$ & 0,8957 & ${\pm}0{,}0020$ \\
+ & 16 & 0,9403 & ${\pm}0{,}0012$ & $0{,}00$ & 0,8968 & ${\pm}0{,}0025$ \\
 \midrule
-\texttt{embedding\_num} & 32 & 0,9233 & ${\pm}0{,}0012$ & $\mathbf{-1{,}70}$ & 0,8523 & ${\pm}0{,}0059$ \\
+chiều $d$ & 32 & 0,9233 & ${\pm}0{,}0012$ & $\mathbf{-1{,}70}$ & 0,8523 & ${\pm}0{,}0059$ \\
  & 64 & 0,9369 & ${\pm}0{,}0015$ & $-0{,}34$ & 0,8837 & ${\pm}0{,}0033$ \\
  & 128 (gốc) & 0,9403 & ${\pm}0{,}0012$ & & 0,8932 & ${\pm}0{,}0041$ \\
  & 256 & 0,9418 & ${\pm}0{,}0006$ & $+0{,}15$ & 0,8975 & ${\pm}0{,}0023$ \\
@@ -1311,7 +1311,7 @@ lần chạy không đủ để nói thành phần nào có ích.
 \caption{Độ phân tán giữa các lần chạy của nhóm so với chênh lệch mà bài báo báo cáo. (a) AdaMF-MAT
 trên MKG-W: 3 seed cho $\mu=0$ và $\mu=0{,}001$; nét đứt là số bài báo. (b) MKG-FENN Task~1: dải
 3 seed của mô hình đầy đủ (vùng tô), bốn cấu hình bỏ một đồ thị của nhóm (trung bình ${\pm}$ độ lệch chuẩn qua 3 seed), và bốn cấu hình tương
-ứng trong Bảng~5~\cite{mkgfenn} của bài báo (hình thoi). Nhóm vẽ từ số đo trong báo cáo.}
+ứng trong Bảng~5~\cite{mkgfenn} của bài báo (hình thoi); trong mỗi cụm, từ trái sang phải là bỏ G1, G2, G3, G4. Nhóm vẽ từ số đo trong báo cáo.}
 \label{fig:seeds}
 \end{figure}
 
