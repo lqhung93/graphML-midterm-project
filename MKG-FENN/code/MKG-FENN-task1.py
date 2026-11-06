@@ -44,6 +44,8 @@ parser.add_argument("--dropout",type=float,default=0.3)
 parser.add_argument("--embedding_num",type=int,choices=[128,64,256,32],default=128)
 # Ablation: bỏ 1 knowledge graph khỏi fusion (0=đủ, 1..4 = bỏ G1..G4)
 parser.add_argument("--drop_kg",type=int,default=0)
+# Chọn epoch bằng validation: tách val_ratio của tập train mỗi fold (0 = giao thức gốc, chọn theo test)
+parser.add_argument("--val_ratio",type=float,default=0.0)
 # Weights & Biases (optional, off by default so existing runs are unchanged)
 parser.add_argument("--use_wandb",type=int,default=0)
 parser.add_argument("--wandb_project",type=str,default="gml-mkg-fenn")
@@ -188,7 +190,7 @@ def save_result(filepath,result_type,result):
             writer.writerow(i)
     return 0
 
-def train(train_x,train_y,test_x,test_y,net,fold=0):
+def train(train_x,train_y,test_x,test_y,net,fold=0,val_x=None,val_y=None):
     loss_function=nn.CrossEntropyLoss()
     opti = torch.optim.Adam(net.parameters(), lr=args.lr,weight_decay=args.weigh_decay)
     test_loss, test_acc, train_l = 0, 0, 0
@@ -201,6 +203,7 @@ def train(train_x,train_y,test_x,test_y,net,fold=0):
     train_iter = DataLoader(train_data, args.batch_size, shuffle=True)
     test_list = []
     max_test_output = torch.zeros((0,65),dtype=torch.float)
+    val_list, val_sel_output, last_test_output = [], None, None
     for epoch in range(args.epoches):
         test_loss, test_score, train_l = 0, 0, 0
         train_a = []
@@ -231,6 +234,15 @@ def train(train_x,train_y,test_x,test_y,net,fold=0):
             test_list.append(test_score)
             if test_score==max(test_list):
                 max_test_output = test_output.cpu()
+            last_test_output = test_output.cpu()
+            val_score = None
+            if val_x is not None:
+                # chọn epoch theo macro-F1 trên validation, giữ đầu ra test của epoch đó
+                val_out = F.softmax(net(torch.LongTensor(val_x).to(_DEVICE)),dim=1)
+                val_score = f1_score(torch.argmax(val_out,dim=1).cpu(), torch.LongTensor(val_y), average='macro')
+                val_list.append(val_score)
+                if val_score == max(val_list):
+                    val_sel_output = test_output.cpu()
             print("test_acc:", test_acc, "train_acc:", sum(train_a) / len(train_a),"test_score:", test_score)
             if args.use_wandb:
                 import wandb
@@ -239,11 +251,12 @@ def train(train_x,train_y,test_x,test_y,net,fold=0):
                            "global_epoch": fold * args.epoches + epoch + 1,
                            "train_loss": train_l / len(train_y), "test_loss": test_loss,
                            "train_acc": sum(train_a) / len(train_a),
-                           "test_acc": test_acc, "test_f1_macro": test_score})
+                           "test_acc": test_acc, "test_f1_macro": test_score,
+                           **({"val_f1_macro": val_score} if val_score is not None else {})})
         print('epoch [%d] train_loss: %.6f testing_loss: %.6f ' % (
                 epoch + 1, train_l / len(train_y), test_loss / len(test_y)))
     return test_loss / len(test_y), max(test_list), train_l / len(train_y), sum(train_a) / len(
-        train_a), test_list, max_test_output
+        train_a), test_list, max_test_output, val_list, val_sel_output, last_test_output
 
 
 
@@ -292,6 +305,7 @@ def main():
     y_true = np.array([])
     y_score = np.zeros((0, 65), dtype=float)
     y_pred = np.array([])
+    extra = {"testsel": [], "last": []}   # chỉ dùng khi val_ratio > 0
 
     kf = StratifiedKFold(n_splits=5, shuffle=True, random_state=1)
 
@@ -303,11 +317,24 @@ def main():
                             GNN4(dataset, tail_len, relation_len, args, dict1, drug_name),
                             FusionLayer(args))
         net = net.to(_DEVICE)
+        val_x = val_y = None
+        if args.val_ratio > 0:
+            from sklearn.model_selection import train_test_split
+            try:
+                train_idx, val_idx = train_test_split(train_idx, test_size=args.val_ratio, random_state=args.seed,
+                                                      stratify=new_label[train_idx])
+            except ValueError:   # lớp quá hiếm để chia phân tầng
+                train_idx, val_idx = train_test_split(train_idx, test_size=args.val_ratio, random_state=args.seed)
+            val_x, val_y = x_datasets[val_idx], new_label[val_idx]
         train_x = x_datasets[train_idx]
         train_y = new_label[train_idx]
         test_x = x_datasets[test_idx]
         test_y = new_label[test_idx]
-        test_loss, test_acc, train_loss, train_acc, test_list,test_output = train(train_x,train_y,test_x,test_y,net,fold=i)
+        test_loss, test_acc, train_loss, train_acc, test_list, test_output, val_list, val_output, last_output = train(
+            train_x, train_y, test_x, test_y, net, fold=i, val_x=val_x, val_y=val_y)
+        if val_x is not None:
+            extra["testsel"].append(test_output); extra["last"].append(last_output)
+            test_output = val_output   # kết quả chính: epoch chọn theo validation
         train_sum += train_acc
         test_sum += test_acc
         pred_type = torch.argmax(test_output, dim=1).numpy()
@@ -321,15 +348,24 @@ def main():
             # chọn epoch theo tập test); ghi kèm epoch được chọn và F1 ở epoch cuối để so sánh
             wandb.log({"fold": i, "fold_selected_f1_macro": test_acc,
                        "fold_selected_epoch": int(np.argmax(test_list)) + 1,
-                       "fold_last_f1_macro": test_list[-1]})
+                       "fold_last_f1_macro": test_list[-1],
+                       **({"fold_val_selected_epoch": int(np.argmax(val_list)) + 1} if val_list else {})})
     result_all, result_eve = evaluate(y_pred, y_score, y_true, args.event_num)
     save_result("../result/", "all", result_all)
     save_result("../result/", "each", result_eve)
+    extra_final = {}
+    for tag, outs in extra.items():
+        if outs:   # cùng lần huấn luyện, chọn epoch theo test (giao thức gốc) hoặc lấy epoch cuối
+            sc = np.vstack([o.numpy() for o in outs])
+            r_all, _ = evaluate(np.argmax(sc, axis=1), sc, y_true, args.event_num)
+            save_result("../result/", "all_" + tag, r_all)
+            extra_final.update({tag + "/" + _METRIC_NAMES[k]: float(r_all[k][0]) for k in range(len(_METRIC_NAMES))})
     print('%d-fold validation: avg train acc  %f, avg test acc %f' % (i, train_sum / 5, test_sum / 5))
     if args.use_wandb:
         final = {_METRIC_NAMES[k]: float(result_all[k][0]) for k in range(len(_METRIC_NAMES))}
         final["avg_train_acc"] = train_sum / 5
         final["avg_test_acc"] = test_sum / 5
+        final.update(extra_final)
         wandb.log(final)
         wandb.summary.update(final)
         wandb.finish()
