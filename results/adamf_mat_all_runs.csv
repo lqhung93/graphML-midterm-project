@@ -1,6 +1,12 @@
 run,group,MR,MRR,hit@1,hit@3,hit@10,structural,textual,visual,ablation,adv_num,adv_temp,analysis,batch_size,checkpoint,con_temp,dataset,dim,epoch,epoch_per_session,img_dim,lamda,learning_rate,lrg,margin,missing_rate,mu,neg_num,paper,postfix,seed,total_epoch,use_wandb
+adamf_mkgw_abl_no_structural_seed1,adamf/ablation,590.3994140625,34.65597331523895,27.058961987495422,38.640618324279785,48.03462624549866,,,random,no_s,1,2,,1024,,0,MKG-W,200,1000,,4096,0,2e-05,0.0001,12,0.8,0,128,,,1,,1
+adamf_mkgw_abl_no_structural_seed2,adamf/ablation,584.7992553710938,34.90493595600128,27.42161750793457,38.47683668136597,48.069724440574646,,,random,no_s,1,2,,1024,,0,MKG-W,200,1000,,4096,0,2e-05,0.0001,12,0.8,0,128,,,2,,1
 adamf_mkgw_abl_no_structural_seed42,adamf/ablation,,34.74,27.34,38.22,47.95,,,,no_structural,1,2,,1024,,,MKG-W,200,1000,,,,2e-05,0.0001,12,,0,128,AdaMF-MAT,,42,,
+adamf_mkgw_abl_no_textual_seed1,adamf/ablation,1209.707275390625,34.420010447502136,28.42770218849182,36.93261742591858,45.718297362327576,,,random,no_t,1,2,,1024,,0,MKG-W,200,1000,,4096,0,2e-05,0.0001,12,0.8,0,128,,,1,,1
+adamf_mkgw_abl_no_textual_seed2,adamf/ablation,1245.013427734375,34.27538871765137,28.49789261817932,36.499765515327454,45.10996639728546,,,random,no_t,1,2,,1024,,0,MKG-W,200,1000,,4096,0,2e-05,0.0001,12,0.8,0,128,,,2,,1
 adamf_mkgw_abl_no_textual_seed42,adamf/ablation,,34.53,28.61,36.83,45.43,,,,no_textual,1,2,,1024,,,MKG-W,200,1000,,,,2e-05,0.0001,12,,0,128,AdaMF-MAT,,42,,
+adamf_mkgw_abl_no_visual_seed1,adamf/ablation,631.8485107421875,35.76081991195679,28.860551118850708,38.90968859195709,48.128217458724976,,,random,no_v,1,2,,1024,,0,MKG-W,200,1000,,4096,0,2e-05,0.0001,12,0.8,0,128,,,1,,1
+adamf_mkgw_abl_no_visual_seed2,adamf/ablation,637.5369873046875,35.76776683330536,28.720170259475708,39.06176686286926,48.39728474617005,,,random,no_v,1,2,,1024,,0,MKG-W,200,1000,,4096,0,2e-05,0.0001,12,0.8,0,128,,,2,,1
 adamf_mkgw_abl_no_visual_seed42,adamf/ablation,,35.94,28.99,39.02,48.41,,,,no_visual,1,2,,1024,,,MKG-W,200,1000,,,,2e-05,0.0001,12,,0,128,AdaMF-MAT,,42,,
 adamf_mkgw_attention_seed1,adamf/attention,,,,,,0.5673,0.4158,0.017,none,1,2,modality_attention,1024,mkgw_mu0_s1,,MKG-W,200,1000,,,,2e-05,0.0001,12,,0,128,AdaMF-MAT,,1,,
 adamf_mkgw_attention_seed2,adamf/attention,,,,,,0.5646,0.4188,0.0166,none,1,2,modality_attention,1024,mkgw_mu0_s2,,MKG-W,200,1000,,,,2e-05,0.0001,12,,0,128,AdaMF-MAT,,2,,

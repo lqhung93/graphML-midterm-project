@@ -29,7 +29,11 @@ thí nghiệm trong báo cáo:
 - MKG-FENN
   - Chạy được trên GPU cho cả ba task (mã gốc chỉ chạy CPU).
   - Sửa `np.mat` thành `np.asmatrix` để chạy với NumPy 2, bỏ `choices` cố định của `--epoches`.
-  - Task 1: cờ `--drop_kg` (bỏ một đồ thị tri thức) và `--use_wandb`.
+  - Task 1: cờ `--drop_kg` (bỏ một đồ thị tri thức), `--val_ratio` (chọn epoch bằng một phần tập
+    huấn luyện làm validation) và `--use_wandb`; bỏ `choices` cố định của `--weigh_decay` để quét CLW.
+  - Task 2, 3: cờ `--g3_train_only` (mỗi fold, đồ thị G3 chỉ giữ cạnh giữa hai thuốc huấn luyện) và
+    `--use_wandb`.
+  - Mọi cờ mới đều mặc định tắt; khi tắt, kết quả trùng với mã gốc.
 
 ## Cấu trúc
 
@@ -132,15 +136,24 @@ python MKG-FENN-task1.py --epoches 120 --drop_kg 3 --seed 0
 # Độ nhạy siêu tham số, mỗi giá trị 3 seed {0, 1, 2}
 python MKG-FENN-task1.py --epoches 120 --neighbor_sample_size 10 --seed 0   # thuộc {4, 6, 10, 16}
 python MKG-FENN-task1.py --epoches 120 --embedding_num 256 --seed 0         # thuộc {32, 64, 128, 256}
+python MKG-FENN-task1.py --epoches 120 --weigh_decay 1e-6 --seed 0          # CLW thuộc {1e-4, 1e-6, 1e-8, 1e-10}
+
+# Chọn epoch bằng validation (10% tập huấn luyện mỗi fold), 3 seed {0, 1, 2}; ghi thêm kết quả khi
+# chọn theo test (all_testseltask1.csv) và ở epoch cuối (all_lasttask1.csv)
+python MKG-FENN-task1.py --epoches 120 --val_ratio 0.1 --seed 0
 
 # Cold-start: Task 2 (một thuốc mới) và Task 3 (hai thuốc mới), mỗi task 3 seed {1, 2, 3}
 python MKG-FENN-task2.py --epoches 100 --seed 1   # mặc định của mã; lặp với --seed 2, 3
 python MKG-FENN-task3.py --epoches 120 --seed 1
+
+# Cold-start với G3 chỉ dựng từ cặp thuốc huấn luyện, cùng seed và số epoch như trên
+python MKG-FENN-task2.py --epoches 100 --g3_train_only 1 --seed 1
+python MKG-FENN-task3.py --epoches 120 --g3_train_only 1 --seed 1
 ```
 
 ## Ghi log Weights & Biases
 
-`run_adamf_mat.py` và `MKG-FENN-task1.py` có cờ ghi log W&B, mặc định tắt. Đăng nhập bằng
+`run_adamf_mat.py` và `MKG-FENN-task{1,2,3}.py` có cờ ghi log W&B, mặc định tắt. Đăng nhập bằng
 `wandb login`, sau đó thêm cờ:
 
 ```bash
