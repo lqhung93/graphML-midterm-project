@@ -354,7 +354,7 @@ Hình~\ref{fig:adamf} tóm tắt luồng một bộ ba đi qua mô hình.
 trọng số học được $\alpha_m$, chấm điểm bằng RotatE. Nhánh nét đứt là pha đối
 kháng MAT: bộ sinh nhận embedding cấu trúc cộng nhiễu, tạo ảnh và văn bản giả; chúng đi qua cùng tầng hợp nhất để
 tạo bộ ba giả làm mẫu âm khó (hàm \texttt{get\_fake\_score} trong mã). Loss của nhánh này nhân $\mu$, nên chỉ tác động
-khi $\mu>0$.}
+khi $\mu>0$. Nhóm tự vẽ theo mô tả của bài báo~\cite{adamfmat} và mã nguồn.}
 \label{fig:adamf}
 \end{figure}
 
@@ -723,7 +723,7 @@ giảm đo được vì vậy là cận trên của độ phụ thuộc vào mô
 \centering
 \includegraphics[width=0.92\columnwidth]{figures/fig3_missing.pdf}
 \caption{Độ bền của AdaMF khi thiếu mô thức (MKG-W, checkpoint $\mu=0$, 3 seed): trung bình
-$\pm$ độ lệch chuẩn của hiệu năng theo tỉ lệ thực thể bị bỏ đồng thời ảnh và văn bản.}
+$\pm$ độ lệch chuẩn của hiệu năng theo tỉ lệ thực thể bị bỏ đồng thời ảnh và văn bản. Nhóm vẽ từ ba run đánh giá thiếu mô thức của nhóm.}
 \label{fig:missing}
 \end{figure}
 
@@ -953,7 +953,7 @@ $(B,A)$ để đối xứng hóa.
 \caption{MKG-FENN: mỗi thuốc của cặp đi qua bốn nhánh KGNN, mỗi nhánh trên một đồ thị, cho
 đặc trưng $\mathbf f_i^A, \mathbf f_i^B$ ($d=128$); tám vector được ghép rồi qua MLP để phân loại
 65 loại sự kiện. Mỗi nhánh KGNN lấy mẫu 6 láng giềng, tổng hợp có trọng số rồi qua Linear, ReLU, BatchNorm.
-$^{*}$Ở cold-start (Task~2, 3), mã chỉ dùng ba nhánh G1 đến G3, bỏ G4.}
+$^{*}$Ở cold-start (Task~2, 3), mã chỉ dùng ba nhánh G1 đến G3, bỏ G4. Nhóm tự vẽ theo mô tả của bài báo~\cite{mkgfenn} và mã nguồn.}
 \label{fig:fenn}
 \end{figure}
 
