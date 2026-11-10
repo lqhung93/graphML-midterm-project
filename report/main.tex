@@ -51,6 +51,10 @@
 \colorlet{hlgreen}{green!45}
 \newcommand{\hlg}[1]{{\sethlcolor{hlgreen}\hl{#1}}}
 \newcommand{\cbg}[1]{\colorbox{hlgreen}{#1}}
+% Bản nộp: tắt mọi tô màu đánh dấu (xoá 3 dòng dưới để xem lại bản có tô màu)
+\renewcommand{\hl}[1]{#1}
+\renewcommand{\cbg}[1]{#1}
+\renewcommand{\colorbox}[2]{#2}
 \newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\raisebox{0.45ex}{\tikz[baseline=-0.6ex]{\fill[orcidgreen] (0,0) circle (0.42em);\node[white,font=\sffamily\bfseries\fontsize{4}{4}\selectfont,inner sep=0pt] at (0,0) {iD};}}}}
 
 \begin{document}
@@ -976,7 +980,7 @@ khi đảo thứ tự 6 láng giềng sẽ cho kết quả khác nhau.}
 công thức hay sơ đồ của bài báo. Ngoài chi phí tính toán, thiết kế trọng số riêng cho từng thuốc cũng là điểm
 bất lợi trong bài toán cold-start (Task~2, 3). Với thuốc mới, ma trận giữ nguyên giá trị ngẫu nhiên, khiến
 thông tin láng giềng đi qua các trọng số chưa được huấn luyện. Đây có thể là nguyên nhân khiến mô hình suy giảm
-hiệu năng --- cần kiểm chứng lại bằng thực nghiệm với ma trận dùng chung.}
+hiệu năng, nhưng điều này cần kiểm chứng lại bằng thực nghiệm với ma trận dùng chung.}
 
 Mỗi nhánh chỉ có một lớp tổng hợp ($l=1$). Tác giả giải thích lựa chọn này bằng hiện tượng
 over-smoothing khi xếp nhiều lớp GNN (biểu diễn các nút bị kéo về giống nhau), nhưng không trình bày
@@ -1289,13 +1293,13 @@ trùng khớp từng byte với bản gốc.}
 \colorbox{yellow}{$0{,}08$}
 \hl{điểm. So với epoch cuối, chọn theo test vẫn cao hơn}
 \colorbox{yellow}{$2{,}01$}
-\hl{điểm. Như vậy, khoảng 2,0 đến 2,6 điểm macro-F1 trong số công bố đến từ việc nhìn tập test khi chọn epoch,
-không đến từ năng lực của mô hình.}
+\hl{điểm. Kết quả cho thấy cách chọn epoch ảnh hưởng đáng kể tới macro-F1; vì thiết lập này giữ lại 10\% dữ liệu
+huấn luyện, khác thiết lập tạo ra số công bố, mức ảnh hưởng chính xác lên số của bài báo chưa được xác định.}
 
 \hl{Đáng chú ý, chọn epoch bằng 10\% validation lại kém epoch cuối}
 \colorbox{yellow}{$0{,}61$}
-\hl{điểm macro-F1. Tập validation nhỏ làm việc chọn epoch bị nhiễu, nên trong thiết lập này, chỉ cần huấn luyện
-đủ 120 epoch rồi lấy epoch cuối cho macro-F1 trung bình cao hơn. ACC tuyệt đối ở Bảng}\colorbox{yellow}{~\ref{tab:fenn-val}}\hl{
+\hl{điểm macro-F1. Một khả năng là tập validation nhỏ khiến việc chọn epoch kém ổn định (nhóm chưa thay đổi kích thước
+validation để kiểm tra); trong thiết lập này, chỉ cần huấn luyện đủ 120 epoch rồi lấy epoch cuối cho macro-F1 trung bình cao hơn. ACC tuyệt đối ở Bảng}\colorbox{yellow}{~\ref{tab:fenn-val}}\hl{
 cũng thấp hơn Bảng}\colorbox{yellow}{~\ref{tab:fenn-repro}}\hl{khoảng 0,6 điểm, vì mô hình ở đây chỉ học trên 90\%
 tập huấn luyện của mỗi fold.}
 
